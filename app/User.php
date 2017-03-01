@@ -29,4 +29,10 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function team()
+    {
+        return $this->hasOne(Teams::class, 'user_id');
+    }
 }

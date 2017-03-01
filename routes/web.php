@@ -26,31 +26,32 @@ Route::get('/generate_passowrd', function () {
 Route::get('/new_user', function () {
 
 
-/*    $user = User::create([
-        'name' => 'Marius Neacsu',
-        'email' => 'nme.edy2006@gmail.com',
-        'password' => 'marius00'
+    $user = User::create([
+        'firstname' => 'Eduard',
+        'lastname' => 'Neacsu',
+        'email' => 'neacsu.eduard@gmail.com',
+        'phone' => '0737540530',
+        'password' => Hash::make('111111')
     ]);
 
-    $adminRole = Role::create([
-        'name' => 'Admin',
-        'slug' => 'admin',
-        'description' => '', // optional
-        'level' => 1, // optional, set to 1 by default
-    ]);
+    /*$role = Role::create([
+        'name' => 'Team member',
+        'slug' => 'team.member',
+        'description' => 'Team member', // optional
+        'level' => 3, // optional, set to 1 by default
+    ]);*/
+    $role = Role::find(4);
 
-    $user->attachRole($adminRole);*/
-    $user = User::find(1);
-    $adminRole = Role::find(1);
+    /*$prermission = Permission::create([
+        'name' => 'Administer teams',
+        'slug' => 'administer.teams',
+    ])*/;
 
-    $user->attachRole($adminRole);
+    $user->attachRole($role);
 
-    $createUsersPermission = Permission::find(1);
+    //$adminRole->attachPermission($prermission);
 
-    $adminRole->detachAllPermissions();
-    $adminRole->attachPermission($createUsersPermission);
-
-    return $adminRole;
+    return $user;
 });
 
 
@@ -81,3 +82,4 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/teams', 'TeamController@show');
