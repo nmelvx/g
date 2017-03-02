@@ -150,7 +150,7 @@ body{
 	padding: 25px 30px;
 	font-size: 23px;
 	font-family: 'Fira Sans', sans-serif;
-	color: #2bb88a;
+	color: #1a6a44;
 	text-decoration: none;
 	-webkit-border-top-left-radius: 10px;
 	-moz-border-radius-topleft: 10px;
@@ -782,6 +782,44 @@ div.panel {
 	width: 100%;
 	text-align: center;
 	text-decoration: none;
+}
+
+.user-info-logged {
+	float: right;
+	font-size: 18px;
+	color: #ffffff;
+	line-height: 37px;
+	height: 37px;
+	margin-left: 30px;
+}
+
+.ico{
+	display: inline-block;
+	transition: none;
+	margin-right: 10px;
+	width: 25px;
+}
+.ico-work{
+	height: 19px;
+	background: url("../images/ico-work.png") center top no-repeat;
+}
+.ico-clients{
+	width: 42px;
+	height: 18px;
+	background: url("../images/ico-clients.png") center top no-repeat;
+}
+.ico-payments{
+	height: 23px;
+	background: url("../images/ico-payments.png") center top no-repeat;
+}
+.ico-management{
+	width: 36px;
+	height: 23px;
+	background: url("../images/ico-management.png") center top no-repeat;
+}
+
+.menu-account li a:hover .ico, .menu-account li a:active .ico, .menu-account li a:focus .ico, .menu-account li a.selected .ico{
+	background-position: center bottom;
 }
 
 @media (max-width: 767px) {

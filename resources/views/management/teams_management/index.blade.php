@@ -15,9 +15,10 @@
         </div>
         <div class="row">
             <div class="col-lg-3 bg-gray mtb100">
-                <div class="header-box">Echipe pentru contul Catalin Carcu <a href="" class="green-button show-popup" data-popup="member">Adauga membru</a> <a href="" class="green-button show-popup" data-popup="team">Adauga echipa</a></div>
+                <div class="header-box">Echipe pentru contul {{ Auth::user()->lastname }} {{ Auth::user()->firstname}}<a href="" class="green-button show-popup" data-popup="member">Adauga membru</a> <a href="" class="green-button show-popup" data-popup="team">Adauga echipa</a></div>
+                @foreach($teams as $team)
                 <div class="accordion">
-                    <h3>Sef echipa - <span>Adi Ionescu</span></h3>
+                    <h3>Sef echipa - <span>{{ $team->leader->lastname }} {{ $team->leader->firstname }}</span></h3>
                     <div class="ratings">
                         <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
                         <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
@@ -30,16 +31,7 @@
                 <div class="panel">
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 </div>
-
-                <div class="accordion">Section 2</div>
-                <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-
-                <div class="accordion last">Section 3</div>
-                <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -54,8 +46,10 @@
                 <input type="text" name="phone" placeholder="Prenume">
                 <input type="password" name="password" placeholder="Parola acces aplicatie">
                 <select name="team">
-                    <option value="1">Echipa 1</option>
-                    <option value="2">Echipa 2</option>
+                    <option value="">Alege echipa</option>
+                    @foreach($teams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    @endforeach
                 </select>
                 <a href="" class="green-button submit-form">Adauga membru</a>
             </form>
@@ -67,8 +61,9 @@
                 <input type="text" name="name" placeholder="Nume echipa">
                 <select name="team">
                     <option value="">Alege sef echipa</option>
-                    <option value="1">Lead 1</option>
-                    <option value="2">Lead 2</option>
+                    @foreach($leaders as $lead)
+                        <option value="{{ $lead->id }}">{{ $lead->lastname }} {{ $lead->firstname }}</option>
+                    @endforeach
                 </select>
                 <a href="" class="green-button submit-form">Adauga echipa</a>
             </form>

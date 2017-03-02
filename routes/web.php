@@ -82,7 +82,11 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/teams', 'TeamController@show');
 
-Route::resource('account', 'AccountController');
-Route::resource('team-management', 'TeamController');
+
+Route::group(['middleware' => 'role:admin|leader'], function()
+{
+    Route::resource('management-echipe', 'TeamController');
+    Route::resource('contul-meu', 'AccountController');
+});
+

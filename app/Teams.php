@@ -19,4 +19,9 @@ class Teams extends Model
     {
         return $this->belongsToMany(User::class, 'team_members', 'team_id', 'user_id');
     }
+
+    public function leader()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

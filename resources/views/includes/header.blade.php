@@ -7,7 +7,11 @@
                 <li><a href="" title="De ce noi">De ce noi</a></li>
                 <li><a href="" title="Intrebari">Intrebari</a></li>
             </ul>
-            <a href="" title="Login" class="login-btn">Login</a>
+            @if(Auth::user())
+                <div class="user-info-logged">Salut, {{ Auth::user()->firstname }}</div>
+            @else
+                <a href="" title="Login" class="login-btn">Login</a>
+            @endif
             <a href="tel:0745.123.456" class="base-phone">0745.123.456</a>
         </div>
     </div>

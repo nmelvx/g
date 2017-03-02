@@ -29,7 +29,7 @@ class UserRepository
                     $q->where('level', $level);
                 }
             )
-            ->get()->toArray();
+            ->get();
 
     }
 
