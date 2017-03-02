@@ -83,3 +83,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/teams', 'TeamController@show');
+
+Route::resource('account', 'AccountController');
+Route::resource('team-management', 'TeamController');

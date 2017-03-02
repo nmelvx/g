@@ -16,10 +16,10 @@ class TeamController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function show()
+    public function index()
     {
         $members = $this->userRepository->getUsersByLevel(3);
 
-        print_r($members);die;
+        return view('management.teams_management.index');
     }
 }
