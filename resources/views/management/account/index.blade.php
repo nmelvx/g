@@ -15,31 +15,61 @@
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
                 <div class="boxed my-account">
                     <h3 class="box-title">Datele<br>tale</h3>
-                    <form action="" method="post">
+                    <form action="" method="post" autocomplete="off">
                         <div class="form-input-box">
                             <label>Prenume</label>
-                            <input type="text" name="firstname" placeholder="Marius" class="input-custom">
+                            <input type="text" name="firstname" value="{{ Auth::user()->firstname }}" placeholder="Marius" class="input-custom">
                         </div>
+                        @if ($errors->has('firstname'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('firstname') }}</strong>
+                            </span>
+                        @endif
                         <div class="form-input-box">
                             <label>Nume</label>
-                            <input type="text" name="lastname" placeholder="Neacsu" class="input-custom">
+                            <input type="text" name="lastname" value="{{ Auth::user()->lastname }}" placeholder="Neacsu" class="input-custom">
                         </div>
+                        @if ($errors->has('lastname'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('lastname') }}</strong>
+                            </span>
+                        @endif
                         <div class="form-input-box">
                             <label>Telefon</label>
-                            <input type="text" name="phone" placeholder="0722000123" class="input-custom">
+                            <input type="text" name="phone" value="{{ Auth::user()->phone }}" placeholder="0722000123" class="input-custom">
                         </div>
+                        @if ($errors->has('phone'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('phone') }}</strong>
+                            </span>
+                        @endif
                         <div class="form-input-box">
                             <label>Email</label>
-                            <input type="text" name="email" placeholder="myemail@email.com" class="input-custom">
+                            <input type="text" name="email" value="{{ Auth::user()->email }}" placeholder="myemail@email.com" class="input-custom">
                         </div>
+                        @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
                         <div class="form-input-box">
                             <label>Parola</label>
-                            <input type="password" name="password" placeholder="Paroa" class="input-custom">
+                            <input type="password" name="password" autocomplete="off" placeholder="Parola" class="input-custom">
                         </div>
+                        @if ($errors->has('password'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
                         <div class="form-input-box">
                             <label>Confirma parola</label>
-                            <input type="password" name="confirm_password" placeholder="Confirma parola" class="input-custom">
+                            <input type="password" name="confirm_password" autocomplete="off" placeholder="Confirma parola" class="input-custom">
                         </div>
+                        @if ($errors->has('confirm_password'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('confirm_password') }}</strong>
+                            </span>
+                        @endif
                         <button class="button-custom yellow">Actualizeaza cont</button>
                     </form>
                 </div>
@@ -62,8 +92,13 @@
                     <form action="" method="post">
                         <div class="form-input-box">
                             <label>Numar card</label>
-                            <input type="text" placeholder="4200 0000 0000 6000" class="input-custom card">
+                            <input type="text" placeholder="4200 0000 0000 6000" name="card" class="input-custom card">
                         </div>
+                        @if ($errors->has('card'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('card') }}</strong>
+                            </span>
+                        @endif
                         <div class="form-input-box">
                             <label>Data expirare</label>
                             <input type="text" placeholder="08/2017" class="input-custom date-expire">
@@ -106,7 +141,7 @@
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&callback=initMap"></script>
 
-    <script type="text/javscript">
+    <script type="text/javascript">
 
         var geocoder, infoWindow, map, pos;
         function initMap() {
@@ -166,6 +201,20 @@
 
         $(document).ready(function() {
             initMap();
+
+            /** disable inputs autocomplete **/
+            if (document.getElementsByTagName)
+            {
+                var inputElements = document.getElementsByTagName('input');
+
+                for (var i=0; inputElements[i]; i++)
+                {
+                    if (inputElements[i].className && (inputElements[i].className.indexOf('disableAutoComplete') != -1))
+                    {
+                        inputElements[i].setAttribute('autocomplete', 'off');
+                    }
+                }
+            }
         });
     </script>
 
