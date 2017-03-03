@@ -74,7 +74,7 @@ Route::get('/new_user', function () {
 );*/
 
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@showLoginForm']);
+    //Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@showLoginForm']);
     Route::get('/dashboard', ['as' => 'dashboard', 'middleware' => 'role:admin', 'uses' => 'Dashboard@show']);
 
 });
@@ -88,5 +88,6 @@ Route::group(['middleware' => 'role:admin|leader'], function()
 {
     Route::resource('management-echipe', 'TeamController');
     Route::resource('contul-meu', 'AccountController');
+    Route::post('/save-member', ['as' => 'member.store', 'uses' => 'TeamMembersController@store']);
 });
 

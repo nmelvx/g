@@ -51,7 +51,7 @@
                         <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </select>
-                <a href="" class="green-button submit-form">Adauga membru</a>
+                <a href="javascript:void(0);" data-url="{{ route('member.store') }}" class="green-button submit-form">Adauga membru</a>
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
@@ -59,13 +59,13 @@
             <h3>Adaugă echipa</h3>
             <form action="" method="post" class="form-popup">
                 <input type="text" name="name" placeholder="Nume echipa">
-                <select name="team">
+                <select name="user_id">
                     <option value="">Alege sef echipa</option>
                     @foreach($leaders as $lead)
                         <option value="{{ $lead->id }}">{{ $lead->lastname }} {{ $lead->firstname }}</option>
                     @endforeach
                 </select>
-                <a href="" class="green-button submit-form">Adauga echipa</a>
+                <a href="javascript:void(0);" data-url="{{ route('management-echipe.store') }}" class="green-button submit-form">Adauga echipa</a>
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
@@ -77,14 +77,14 @@
 
     <script type="text/javascript">
 
-       $(document).ready(function() {
+        $(document).ready(function () {
 
             /** accordion js **/
             var acc = document.getElementsByClassName("accordion");
             var i;
 
             for (i = 0; i < acc.length; i++) {
-                acc[i].onclick = function(){
+                acc[i].onclick = function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
                     if (panel.style.display === "block") {
@@ -97,22 +97,72 @@
 
             /** popup **/
 
-            $('body').on('click', '.close-popup', function(e){
+            $('body').on('click', '.close-popup', function (e) {
                 e.preventDefault();
                 $(this).parent().parent().hide();
                 $(this).parent().hide();
             });
 
-            $('body').on('click', '.show-popup', function(e){
+            $('body').on('click', '.show-popup', function (e) {
                 e.preventDefault();
 
                 var data = $(this).data('popup');
-                console.log(data)
 
                 $('.content-overlay').show();
-                $('.popup-'+data).show();
+                $('.popup-' + data).show();
 
             });
+
+            $.fn.serializeObject = function () {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = this.value || '';
+                    }
+                });
+                return o;
+            };
+
+            //create new task / update existing task
+            $('body').on('click', '.submit-form', function (e) {
+
+                $.ajaxSetup({
+                    headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
+                });
+
+                e.preventDefault();
+
+                var formData = $(this).parent('form').serializeObject();
+
+                var type = "POST"; //for creating new resource
+                var my_url = $(this).data('url');
+
+                console.log(formData);
+
+                $.ajax({
+
+                    type: type,
+                    url: my_url,
+                    data: formData,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('Saved!');
+                    },
+                    error: function (data) {
+                        console.log(data.responseJSON)
+                        if(data.responseJSON.success == false){
+                            console.log(data.responseJSON.errors);
+                        }
+                    }
+                });
+            });
+
         });
     </script>
 

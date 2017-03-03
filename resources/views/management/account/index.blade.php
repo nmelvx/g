@@ -15,13 +15,13 @@
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
                 <div class="boxed my-account">
                     <h3 class="box-title">Datele<br>tale</h3>
-                    <form action="" method="post" autocomplete="off">
+                    {!! Form::open(array('route' => ['contul-meu.update', Auth::user()->id ], 'method' => 'PUT', 'class' => 'edit-form')) !!}
                         <div class="form-input-box">
                             <label>Prenume</label>
                             <input type="text" name="firstname" value="{{ Auth::user()->firstname }}" placeholder="Marius" class="input-custom">
                         </div>
                         @if ($errors->has('firstname'))
-                            <span class="help-block">
+                            <span class="help-block-error">
                                 <strong>{{ $errors->first('firstname') }}</strong>
                             </span>
                         @endif
@@ -30,7 +30,7 @@
                             <input type="text" name="lastname" value="{{ Auth::user()->lastname }}" placeholder="Neacsu" class="input-custom">
                         </div>
                         @if ($errors->has('lastname'))
-                            <span class="help-block">
+                            <span class="help-block-error">
                                 <strong>{{ $errors->first('lastname') }}</strong>
                             </span>
                         @endif
@@ -39,7 +39,7 @@
                             <input type="text" name="phone" value="{{ Auth::user()->phone }}" placeholder="0722000123" class="input-custom">
                         </div>
                         @if ($errors->has('phone'))
-                            <span class="help-block">
+                            <span class="help-block-error">
                                 <strong>{{ $errors->first('phone') }}</strong>
                             </span>
                         @endif
@@ -48,7 +48,7 @@
                             <input type="text" name="email" value="{{ Auth::user()->email }}" placeholder="myemail@email.com" class="input-custom">
                         </div>
                         @if ($errors->has('email'))
-                            <span class="help-block">
+                            <span class="help-block-error">
                                 <strong>{{ $errors->first('email') }}</strong>
                             </span>
                         @endif
@@ -57,21 +57,21 @@
                             <input type="password" name="password" autocomplete="off" placeholder="Parola" class="input-custom">
                         </div>
                         @if ($errors->has('password'))
-                            <span class="help-block">
+                            <span class="help-block-error">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span>
                         @endif
                         <div class="form-input-box">
                             <label>Confirma parola</label>
-                            <input type="password" name="confirm_password" autocomplete="off" placeholder="Confirma parola" class="input-custom">
+                            <input type="password" name="password_confirmation" autocomplete="off" placeholder="Confirma parola" class="input-custom">
                         </div>
-                        @if ($errors->has('confirm_password'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('confirm_password') }}</strong>
+                        @if ($errors->has('password_confirmation'))
+                            <span class="help-block-error">
+                                <strong>{{ $errors->first('password_confirmation') }}</strong>
                             </span>
                         @endif
                         <button class="button-custom yellow">Actualizeaza cont</button>
-                    </form>
+                    {!! Form::close() !!}
                 </div>
             </div>
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
@@ -79,7 +79,7 @@
                     <h3 class="box-title">Adresa<br>ta</h3>
                     <p>Str. Iancu Nicolae, Nr. 53, Pipera, Ilfov</p>
                     <div class="google-map-address">
-                        <div class="gmap"></div>
+                        <div class="gmap" id="gmap"></div>
                         <button class="button-custom green">Schimba adresa</button>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                             <input type="text" placeholder="4200 0000 0000 6000" name="card" class="input-custom card">
                         </div>
                         @if ($errors->has('card'))
-                            <span class="help-block">
+                            <span class="help-block-error">
                                 <strong>{{ $errors->first('card') }}</strong>
                             </span>
                         @endif
@@ -139,67 +139,66 @@
 
 @section('javascripts')
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0"></script>
 
     <script type="text/javascript">
 
-        var geocoder, infoWindow, map, pos;
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('gmap'), {
-                center: {lat: 44.4268, lng: 26.1025},
-                zoom: 14,
-                styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":20}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]
-            });
-
-            geocoder = new google.maps.Geocoder;
-            infoWindow = new google.maps.InfoWindow;
-
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-
-                    geocoder.geocode({'location': pos}, function (results, status) {
-                        if (status === 'OK') {
-                            if (results[1]) {
-                                new google.maps.Marker({
-                                    position: pos,
-                                    icon: 'assets/images/pin.png',
-                                    map: map
-                                });
-                                $('#geolocation-address').text(results[1].formatted_address);
-                            } else {
-                                window.alert('No results found');
-                            }
-                        } else {
-                            window.alert('Geocoder failed due to: ' + status);
-                        }
-                    });
-
-                    map.setCenter(pos);
-
-                }, function() {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-        }
-
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-        }
-
-
-
         $(document).ready(function() {
+
+            var geocoder, infoWindow, map, pos;
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('gmap'), {
+                    center: {lat: 44.4268, lng: 26.1025},
+                    zoom: 14,
+                    styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":20}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]
+                });
+
+                geocoder = new google.maps.Geocoder;
+                infoWindow = new google.maps.InfoWindow;
+
+                // Try HTML5 geolocation.
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        geocoder.geocode({'location': pos}, function (results, status) {
+                            if (status === 'OK') {
+                                if (results[1]) {
+                                    new google.maps.Marker({
+                                        position: pos,
+                                        icon: 'assets/images/pin.png',
+                                        map: map
+                                    });
+                                    $('#geolocation-address').text(results[1].formatted_address);
+                                } else {
+                                    window.alert('No results found');
+                                }
+                            } else {
+                                window.alert('Geocoder failed due to: ' + status);
+                            }
+                        });
+
+                        map.setCenter(pos);
+
+                    }, function() {
+                        handleLocationError(true, infoWindow, map.getCenter());
+                    });
+                } else {
+                    // Browser doesn't support Geolocation
+                    handleLocationError(false, infoWindow, map.getCenter());
+                }
+            }
+
+            function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                infoWindow.setPosition(pos);
+                infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+            }
+
             initMap();
 
             /** disable inputs autocomplete **/
@@ -212,6 +211,10 @@
                     if (inputElements[i].className && (inputElements[i].className.indexOf('disableAutoComplete') != -1))
                     {
                         inputElements[i].setAttribute('autocomplete', 'off');
+                    }
+
+                    if (inputElements[i].type.toLowerCase() == "password") {
+                        inputElements[i].value = '';
                     }
                 }
             }

@@ -4,35 +4,26 @@ namespace App\Http\Controllers;
 
 
 use App\Repositories\UserRepository;
+use App\TeamMembers;
 use App\Teams;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
-class TeamController extends Controller
+class TeamMembersController extends Controller
 {
 
     protected $userRepository;
-    protected $teamsModel;
+    protected $teamMembersModel;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->teamsModel = new Teams();
-
+        $this->teamMembersModel = new TeamMembers();
     }
 
     public function index()
     {
-        $members = $this->userRepository->getUsersByLevel(3);
-        $leaders = $this->userRepository->getUsersByLevel(2);
-
-        $teams = $this->teamsModel
-            ->with('leader')
-            ->with('members')
-            ->get();
-
-        return view('management.teams_management.index', compact('members', 'leaders', 'teams'));
     }
 
     public function create(){
@@ -42,8 +33,11 @@ class TeamController extends Controller
     public function store(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'user_id' => 'required|numeric'
+            'firstname' => 'required|max:255',
+            'lastname' => 'required|max:255',
+            'email' => 'required|max:255',
+            'phone' => 'required|numeric|max:20',
+            'password' => 'required|min:6'
         ]);
 
         if ($validator->fails())
@@ -55,10 +49,14 @@ class TeamController extends Controller
         }
         else
         {
-            $this->teamsModel->name = $request->input('name');
-            $this->teamsModel->user_id = $request->input('user_id');
+            $this->teamMembersModel->name = $request->input('name');
+            $this->teamMembersModel->user_id = $request->input('user_id');
 
-            $this->teamsModel->save();
+            $member = $this->teamMembersModel->save();
+
+            if($member){
+
+            }
 
             return Response::json(array('success' => true), 200);
 

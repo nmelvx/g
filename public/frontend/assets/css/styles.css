@@ -760,7 +760,7 @@ div.panel {
 }
 
 .popup-content{
-	width: 50%;
+	width: 40%;
 	position: absolute;
 	top: 10%;
 	background: #ffffff;
@@ -820,6 +820,15 @@ div.panel {
 
 .menu-account li a:hover .ico, .menu-account li a:active .ico, .menu-account li a:focus .ico, .menu-account li a.selected .ico{
 	background-position: center bottom;
+}
+
+.help-block-error, .help-block-error span{
+	font-size: 13px;
+	color: #FF4136;
+	float: left;
+	clear: both;
+	width: 100%;
+	margin-top: 5px;
 }
 
 @media (max-width: 767px) {
