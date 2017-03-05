@@ -132,7 +132,6 @@ body{
 
 .border-green-bottom{
 	border-bottom: 7px solid #2bb88a;
-	margin-top: 100px;
 }
 
 .menu-account{
@@ -151,7 +150,7 @@ body{
 	padding: 25px 30px;
 	font-size: 23px;
 	font-family: 'Fira Sans', sans-serif;
-	color: #1a6a44;
+	color: #2bb88a;
 	text-decoration: none;
 	-webkit-border-top-left-radius: 10px;
 	-moz-border-radius-topleft: 10px;
@@ -167,54 +166,6 @@ body{
 }
 
 /** ------------ end header menu ------------ **/
-
-/** ------------ header white menu ------------ **/
-
-.white-bg-menu{
-	background-color: #ffffff;
-	padding-top: 15px;
-	padding-bottom: 12px;
-	margin-top: 100px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 1px 1px 0px 1px rgba(85,85,85,0.4);
-	-moz-box-shadow: 1px 1px 0px 1px rgba(85,85,85,0.4);
-	box-shadow: 1px 1px 0px 1px rgba(85,85,85,0.4);
-}
-
-.menu-account.white{
-	float: left;
-	width: 100%;
-	margin: 0px;
-	padding: 0px;
-}
-.menu-account.white li{
-	float: left;
-	margin-right: 20px;
-}
-.menu-account.white li:last-child{
-	float: right;
-	margin-right: 0px;
-}
-.menu-account.white li a{
-	float: left;
-	padding: 10px 15px;
-	font-size: 23px;
-	font-family: 'Fira Sans', sans-serif;
-	color: #1a6a44;
-	text-decoration: none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-.menu-account.white li a:hover, .menu-account.white li a:active, .menu-account.white li a:focus, .menu-account.white li a.selected{
-	background-color: #2bb88a;
-	color: #ffffff;
-	text-decoration: none;
-}
-
-/** ------------ end header white menu ------------ **/
 
 .gardinero-sign{
 	margin-top: 5%;
@@ -236,7 +187,7 @@ body{
 
 .separator-line{
 	display: inline-block;
-	margin: 1% 0;
+	margin: 2% 0;
 }
 
 .container-form{
@@ -438,54 +389,18 @@ body{
 /** end my account page css **/
 
 
-.breadcrumbs{
-	width: 100%;
-	text-align: center;
-	float: left;
-}
-
-.breadcrumbs, .breadcrumbs li, .breadcrumbs li span, .breadcrumbs li a{
-	display: inline-block;
-	list-style: none;
-	font-family: 'Fira Sans', sans-serif;
-	font-weight: 400;
-	font-size: 15px;
-	color: #8a9b93;
-}
-.breadcrumbs li span{
-	padding: 0 10px;
-}
-.breadcrumbs li a{
-	color: #8a9b93;
-	text-decoration: none;
-	text-transform: uppercase;
-}
-.breadcrumbs li a:active, .breadcrumbs li a:focus, .breadcrumbs li a:hover{
-	color: #8a9b93;
-	text-decoration: underline;
-}
-
-
 /**new css**/
 
 .title-section{
 	font-size: 65px;
 	color: #3ec17f;
 	font-family: 'playfair_displaybold';
-	margin: 50px 0;
+	margin: 60px 0;
 }
 
 .separator-2{
 	display: inline-block;
 	vertical-align: top;
-}
-.separator-line-div{
-	float: left;
-	width: 100%;
-	clear: both;
-	height: 2px;
-	background: url("../images/separator2px.png") center center no-repeat;
-	margin-bottom: 50px;
 }
 
 .register-fb{
@@ -634,269 +549,8 @@ body{
 	margin: 20px 0 30px 0;
 }
 
-.mtb100{
-	margin-top: 90px;
-	margin-bottom: 90px;
-	padding-top: 50px;
-	padding-bottom: 50px;
-}
-
-.bg-gray{
-	background-color: #e3e7e5;
-}
-
 /**end new css**/
 
-/** accordion css **/
-
-.accordion {
-	color: #9eb2a9;
-	cursor: pointer;
-	float: left;
-	width: 100%;
-	border: none;
-	text-align: left;
-	outline: none;
-	transition: 0.2s;
-	padding: 30px;
-	background: #ffffff;
-	margin-bottom: 10px;
-	border-bottom: 1px solid #cccfce;
-	position: relative;
-}
-
-.accordion.active, button.accordion:hover {
-	background-position: bottom center;
-}
-.accordion.active > small, .accordion:hover > small {
-	background-position: bottom center;
-	-moz-transform: rotate(90deg);
-	-webkit-transform: rotate(90deg);
-	-o-transform: rotate(90deg) ;
-	transform: rotate(90deg);
-}
-
-.accordion > small{
-	transition: 0.1s;
-	float: right;
-	width: 42px;
-	height: 42px;
-	background: url("../images/arrows-accordion.png") center top no-repeat;
-	position: absolute;
-	right: 30px;
-	top: 50%;
-	margin-top: -21px;
-}
-
-.accordion h3{
-	margin: 0px;
-	float: left;
-	color: #9eb2a9;
-	font-size: 30px;
-	line-height: 30px;
-	height: 30px;
-	width: 65%;
-}
-.accordion h3 span{
-	color: #377d66;
-	font-weight: 600;
-	line-height: 30px;
-	height: 30px;
-}
-
-div.panel {
-	padding: 0 18px;
-	display: none;
-	background-color: white;
-	float: left;
-	width: 100%;
-	clear: both;
-}
-
-/** rating css **/
-.ratings {
-	border: none;
-	float: left;
-	width: 205px;
-}
-
-.ratings > input { display: none; }
-
-.ratings > label {
-	float: right;
-	margin-right: 6px;
-	margin-bottom: 0px;
-	width: 34px;
-	height: 30px;
-	background: url("../images/stars.png") top center no-repeat;
-}
-
-/***** CSS Magic to Highlight Stars on Hover *****/
-
-.ratings > input:checked ~ label, /* show gold star when clicked */
-.ratings:not(:checked) > label:hover, /* hover current star */
-.ratings:not(:checked) > label:hover ~ label { background-position: bottom center;  } /* hover previous stars in list */
-
-.ratings > input:checked + label:hover, /* hover current star when changing rating */
-.ratings > input:checked ~ label:hover,
-.ratings > label:hover ~ input:checked ~ label, /* lighten current selection */
-.ratings > input:checked ~ label:hover ~ label { background-position: bottom center;  }
-
-/***************/
-
-.header-box{
-	float: left;
-	width: 100%;
-	font-size: 22px;
-	color: #377d66;
-	font-weight: 600;
-	line-height: 48px;
-	margin-bottom: 20px;
-}
-
-.green-button{
-	height: 48px;
-	line-height: 48px;
-	font-size: 14px;
-	font-weight: 400;
-	color: #ffffff;
-	text-decoration: none;
-	background-color: #3ec17f;
-	padding: 0 20px;
-	float: right;
-	margin-left: 20px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	cursor: pointer;
-}
-.green-button:hover, .green-button:active, .green-button:focus {
-	color: #ffffff;
-	text-decoration: none;
-}
-
-/** popups **/
-
-.content-overlay{
-	float: left;
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	background: url("../images/px-overlay.png") top left repeat;
-	z-index: 1000;
-	top: 0px;
-	left: 0px;
-}
-
-.form-popup input[type="password"], .form-popup input[type="text"], .form-popup select{
-	border: 1px solid #9eb2a9;
-	height: 72px;
-	line-height: 72px;
-	padding: 0 20px;
-	font-size: 22px;
-	color: #9eb2a9;
-	font-weight: 400;
-	margin-bottom: 20px;
-	width: 100%;
-}
-
-.popup-content h3{
-	color: #3ec17f;
-	font-size: 50px;
-	font-family: 'playfair_displaybold';
-	margin: 0 0 30px;
-	text-align: center;
-}
-
-.popup-content{
-	width: 40%;
-	position: absolute;
-	top: 10%;
-	background: #ffffff;
-	left: 50%;
-	margin-left: -25%;
-	padding: 50px;
-}
-
-.close-popup{
-	position: absolute;
-	top: 20px;
-	right: 20px;
-	background: url("../images/popup-close.png") center no-repeat;
-	width: 15px;
-	height: 15px;
-}
-
-.submit-form{
-	width: 100%;
-	text-align: center;
-	text-decoration: none;
-}
-
-.user-info-logged {
-	float: right;
-	font-size: 18px;
-	color: #ffffff;
-	line-height: 37px;
-	height: 37px;
-	margin-left: 30px;
-}
-
-.ico{
-	display: inline-block;
-	transition: none;
-	margin-right: 10px;
-	width: 25px;
-}
-.ico-work{
-	height: 19px;
-	background: url("../images/ico-work.png") center top no-repeat;
-}
-.ico-clients{
-	width: 42px;
-	height: 18px;
-	background: url("../images/ico-clients.png") center top no-repeat;
-}
-.ico-payments{
-	height: 23px;
-	background: url("../images/ico-payments.png") center top no-repeat;
-}
-.ico-management{
-	width: 36px;
-	height: 23px;
-	background: url("../images/ico-management.png") center top no-repeat;
-}
-
-.menu-account li a:hover .ico, .menu-account li a:active .ico, .menu-account li a:focus .ico, .menu-account li a.selected .ico{
-	background-position: center bottom;
-}
-
-.help-block-error, .help-block-error span{
-	font-size: 13px;
-	color: #FF4136;
-	float: left;
-	clear: both;
-	width: 100%;
-	margin-top: 5px;
-}
-
-.fp-section{
-	padding-top: 87px;
-}
-
-#google-map{
-	float: left;
-	clear: both;
-	width: 100%;
-	height: 100%;
-}
-
-.fixed-submenu{
-	position: absolute;
-	z-index: 1000;
-	top: 100px;
-	margin: 0 auto;
-}
 
 @media (max-width: 767px) {
 	.header-background{
@@ -953,7 +607,7 @@ div.panel {
 @media (min-width: 1528px) {
 	.gardinero-sign{
 		max-width: 201px;
-		margin-top: 3%;
+		margin-top: 4%;
 	}
 	.header-background h3{
 		font-size: 65px;

@@ -15,9 +15,7 @@ use App\User;
 use Ultraware\Roles\Models\Permission;
 use Ultraware\Roles\Models\Role;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Route::get('/generate_passowrd', function () {
     return Hash::make('marius00');
@@ -73,19 +71,18 @@ Route::get('/new_user', function () {
     }
 );*/
 
+Auth::routes();
+
 Route::group(['prefix' => 'admin'], function () {
     //Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@showLoginForm']);
     Route::get('/dashboard', ['as' => 'dashboard', 'middleware' => 'role:admin', 'uses' => 'Dashboard@show']);
 
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
-
 
 Route::group(['middleware' => 'role:admin|leader'], function()
 {
+    Route::resource('lucrari-disponibile', 'JobsController');
     Route::resource('management-echipe', 'TeamController');
     Route::resource('contul-meu', 'AccountController');
     Route::post('/save-member', ['as' => 'member.store', 'uses' => 'TeamMembersController@store']);

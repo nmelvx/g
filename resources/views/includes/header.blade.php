@@ -1,4 +1,4 @@
-    <div class="container-fluid header-menu green">
+    <div class="container-fluid header-menu green navbar-fixed-top">
         <div class="container">
             <a href="" title="Logo Gardinero" class="logo-header"><img src="frontend/assets/images/logo-gardinero-white.png" alt="Logo Gardinero"></a>
             <ul>

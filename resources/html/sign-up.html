@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gardinero | Homepage</title>
+	
+    <link href="assets/css/reset.css" rel="stylesheet">
+    <link href="assets/components/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/components/jquery.fullpage/jquery.fullpage.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
+
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi">
+	
+</head>
+<body>
+
+
+
+    <div class="container header-menu">
+        <a href="" title="Logo Gardinero" class="logo-header"><img src="assets/images/logo-gardinero.png" alt="Logo Gardinero"></a>
+        <ul>
+            <li><a href="" title="Servicii">Servicii</a></li>
+            <li><a href="" title="Preturi">Preturi</a></li>
+            <li><a href="" title="De ce noi">De ce noi</a></li>
+            <li><a href="" title="Intrebari">Intrebari</a></li>
+        </ul>
+        <a href="" title="Login" class="login-btn">Login</a>
+        <a href="tel:0745.123.456" class="base-phone">0745.123.456</a>
+    </div>
+
+
+    <div class="container">
+        <div class="col-lg-3 text-center">
+            <h3 class="title-section">Creează cont</h3>
+            <img src="assets/images/separator2px.png" alt="" class="separator-2">
+            <div class="clearfix"></div>
+            <a href="" class="register-fb">Înregistrează-te prin Facebook</a>
+            <div class="clearfix"></div>
+            <img src="assets/images/separator2px.png" alt="" class="separator-2">
+            <div class="clearfix"></div>
+            <p class="info-register">sau completează câmpurile de mai jos:</p>
+        </div>
+        <form action="" method="post" class="register-form">
+            <div class="col-50">
+                <h3 class="title-green">1. Datele tale</h3>
+                <input type="text" placeholder="Prenume" name="prenume">
+                <input type="text" placeholder="Nume" name="Nume">
+                <input type="text" placeholder="Email" name="email">
+                <input type="text" placeholder="Telefon" name="telefon">
+                <input type="password" placeholder="Parola" name=password">
+                <input type="password" placeholder="Repeta parola" name=password_repeat">
+            </div>
+            <div class="col-50 address-box">
+                <h3 class="title-green">2. Adresa ta</h3>
+                <p id="geolocation-address"></p>
+                <div id="gmap"></div>
+                <p>sau introdu manual adresa</p>
+                <input type="text" placeholder="Adresa ta" name="address">
+            </div>
+            <div class="col-100 text-center">
+                <a href="" class="creeate-account">Creează cont</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid footer text-center">
+        <div class="container">
+            <img src="assets/images/gardinero.png" alt="Gardinero" class="gardinero-sign">
+            <div class="clear-fix"></div>
+            <div class="col-lg-1 col-md-1">
+                <h1 class="footer-title">Servicii</h1>
+                <ul>
+                    <li><a href="">Intretinere gazon</a></li>
+                    <li><a href="">Ierbicidare gazon</a></li>
+                    <li><a href="">Insecticide benefice</a></li>
+                    <li><a href="">Toalete copaci</a></li>
+                    <li><a href="">Palntare gazon seminte</a></li>
+                    <li><a href="">Palntare gazon rulouri</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-1 col-md-1">
+                <h1 class="footer-title">Despre noi</h1>
+                <ul>
+                    <li><a href="">Blog</a></li>
+                    <li><a href="">Compania noastra</a></li>
+                    <li><a href="">Cariere</a></li>
+                    <li><a href="">Presa</a></li>
+                    <li><a href="">Termeni si conditii</a></li>
+                    <li><a href="">Privacy</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-1 col-md-1">
+                <h1 class="footer-title">Locatii</h1>
+                <ul>
+                    <li>Bucuresti și împrejurimi</li>
+                    <li>București - sector 1</li>
+                    <li>București - sector 2</li>
+                    <li>București - sector 3</li>
+                    <li>București - sector 4</li>
+                    <li>București - sector 5</li>
+                    <li>București - sector 6</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p class="trademark">&copy; Gardinero.ro 2016 - Toate drepturile rezervate</p>
+
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="assets/components/bootstrap/js/bootstrap.min.js"></script>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&callback=initMap"></script>
+
+
+    <script>
+
+        var geocoder, infoWindow, map, pos;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('gmap'), {
+                center: {lat: 44.4268, lng: 26.1025},
+                zoom: 14,
+                styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":20}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]
+            });
+
+            geocoder = new google.maps.Geocoder;
+            infoWindow = new google.maps.InfoWindow;
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    geocoder.geocode({'location': pos}, function (results, status) {
+                        if (status === 'OK') {
+                            if (results[1]) {
+                                new google.maps.Marker({
+                                    position: pos,
+                                    icon: 'assets/images/pin.png',
+                                    map: map
+                                });
+                                $('#geolocation-address').text(results[1].formatted_address);
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+
+                    map.setCenter(pos);
+
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+        }
+
+
+
+        $(document).ready(function() {
+            initMap();
+        });
+    </script>
+
+
+</body>
+</html>
