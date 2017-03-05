@@ -1,4 +1,4 @@
-    <div class="container border-green-bottom jobs-menu">
+    <div class="container border-green-bottom">
         <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
             <ul class="menu-account">
                 <li><a href="/lucrari-disponibile" title="Lucrari disponibile"><span class="ico ico-work"></span>Lucrari disponibile</a></li>

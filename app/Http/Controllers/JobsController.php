@@ -13,7 +13,9 @@ class JobsController extends Controller
 
     public function index()
     {
-        return view('management.jobs.index');
+        $type = 'jobs';
+
+        return view('management.jobs.index', compact('type'));
     }
 
     public function show()

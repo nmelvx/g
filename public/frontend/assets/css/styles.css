@@ -898,6 +898,10 @@ div.panel {
 	margin: 0 auto;
 }
 
+.mt250{
+	margin-top: 210px;
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;
