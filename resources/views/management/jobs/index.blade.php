@@ -6,7 +6,7 @@
 
 @section('javascripts')
 
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyCrLskdAYlCA-OqHcq6e33ytU32PrkzRVs"></script>
 
     <script type="text/javascript">
 
