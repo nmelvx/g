@@ -15,7 +15,8 @@ use App\User;
 use Ultraware\Roles\Models\Permission;
 use Ultraware\Roles\Models\Role;
 
-Route::get('/', 'HomeController@index');
+
+Route::any('/', array( 'as' => 'home', 'uses' => 'HomeController@index' ));
 
 Route::get('/generate_passowrd', function () {
     return Hash::make('marius00');

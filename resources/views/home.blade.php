@@ -18,7 +18,7 @@
                         <span>Zi-ne pe ce stradă stai</span>
                         <input type="text" placeholder="Padurenri nr. 10" class="form-input">
                     </div>
-                    <div class="block-inputs">
+                    <div class="block-inputs" style="display: none;">
                         <div class="input-with-text w50 pull-left text-left">
                             <span>Numele tău</span>
                             <input type="text" placeholder="Neacsu Marius" class="form-input">
@@ -125,6 +125,13 @@
                     navigationTooltips: ['fullPage.js', 'Powerful', 'Amazing', 'Simple']
                 });
             }
+
+            $('body').on('click', '.submit-btn', function(e){
+                e.preventDefault();
+
+                $('.block-inputs').show();
+            });
+
         });
 
 

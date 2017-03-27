@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-    <div class="container pt100">
+    <div class="container mt250">
         <div class="row display-table">
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
                 <div class="boxed my-calendar">

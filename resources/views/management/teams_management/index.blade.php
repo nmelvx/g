@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-    <div class="container mt250">
+    <div class="container mt210">
         <div class="row">
             <div class="col-lg-3 text-center">
                 <h3 class="title-section">Management echipe</h3>

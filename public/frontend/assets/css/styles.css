@@ -133,6 +133,7 @@ body{
 .border-green-bottom{
 	border-bottom: 7px solid #2bb88a;
 	margin-top: 100px;
+	background-color: #ffffff;
 }
 
 .menu-account{
@@ -827,6 +828,15 @@ div.panel {
 	margin-left: 30px;
 }
 
+.user-info-logged a{
+	color: #ffffff;
+	text-decoration: underline;
+}
+.user-info-logged a:hover, .user-info-logged a:focus, .user-info-logged a:active{
+	color: #ffffff;
+	text-decoration: none;
+}
+
 .ico{
 	display: inline-block;
 	transition: none;
@@ -883,8 +893,11 @@ div.panel {
 	margin: 0 auto;
 }
 
-.mt250{
+.mt210{
 	margin-top: 210px;
+}
+.mt250{
+	margin-top: 250px;
 }
 
 /** homepage **/
