@@ -14,7 +14,20 @@
                 <p>Ai grijă de gazonul tău folosind sistemul nostru de rezervări online</p>
                 <div class="container-form">
                     <h4>Afla imediat cat costa:</h4>
-                    <input type="text" placeholder="Zi-ne pe ce strada stai" class="form-input">
+                    <div class="input-with-text text-left">
+                        <span>Zi-ne pe ce stradă stai</span>
+                        <input type="text" placeholder="Padurenri nr. 10" class="form-input">
+                    </div>
+                    <div class="block-inputs">
+                        <div class="input-with-text w50 pull-left text-left">
+                            <span>Numele tău</span>
+                            <input type="text" placeholder="Neacsu Marius" class="form-input">
+                        </div>
+                        <div class="input-with-text w50 pull-right text-left">
+                            <span>Numărul de telefon</span>
+                            <input type="text" placeholder="0722 000 123" class="form-input">
+                        </div>
+                    </div>
                     <button class="submit-btn">Vezi pretul</button>
                 </div>
             </div>
@@ -79,14 +92,27 @@
     {{ HTML::script('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.js') }}
 
     <script type="text/javascript">
-        $(window).on('load resize', function ()
-        {
-            var position = $('.container-form').height()/2;
-            $('.container-form').css({'bottom':'-'+position+'px'});
-        });
-        $(window).trigger('resize');
 
         $(document).ready(function(){
+
+            /*$(window).on('load resize', function ()*/
+            $(window).on('load', function ()
+            {
+                var section = $('.section').offset().top + $('.section').outerHeight(true);
+                var bottom = $('.container-form').offset().top + $('.container-form').outerHeight(true);
+                /*var position = $('.container-form').height()/2;*/
+
+                console.log('section: '+ section);
+                console.log('bottom: '+bottom);
+                console.log(bottom > section)
+                if(bottom > section){
+                    $('.container-form').css({'bottom':'40px', 'position': 'absolute'});
+                }
+
+            });
+
+            /*$(window).trigger('resize');*/
+
             if($(window).width() >= 768)
             {
                 $('#fullpage').fullpage({

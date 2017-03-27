@@ -43,7 +43,7 @@ body{
 	width: 100%;
 	height: 65%;
 	padding: 0 30px;
-	position: relative;
+	/*position: relative;*/
 }
 .header-menu{
 	padding-top: 25px;
@@ -217,7 +217,7 @@ body{
 /** ------------ end header white menu ------------ **/
 
 .gardinero-sign{
-	margin-top: 5%;
+	margin-top: 1%;
 	display: inline-block;
 	max-width: 150px;
 }
@@ -225,7 +225,7 @@ body{
 .header-background h3{
 	font-size: 25px;
 	color: #ffffff;
-	margin: 4.5% 0 0 0;
+	margin: 1% 0 0 0;
 	font-family: 'playfair_displaybold';
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15); 
 }
@@ -237,21 +237,6 @@ body{
 .separator-line{
 	display: inline-block;
 	margin: 1% 0;
-}
-
-.container-form{
-	float: left;
-	position: absolute;
-	left: 50%;
-	width: 34%;
-	margin-left: -17%;
-}
-
-.submit-btn{
-	border: 0px;
-	background-color: #3ec17f;
-	color: #ffffff;
-	cursor: pointer;
 }
 
 /** my account page css **/
@@ -902,6 +887,84 @@ div.panel {
 	margin-top: 210px;
 }
 
+/** homepage **/
+
+.container-form{
+	clear: both;
+	float: left;
+	position: relative;
+	margin-top: 15px;
+	left: 50%;
+	width: 50%;
+	margin-left: -25%;
+	padding: 40px;
+	background-color: #ffffff;
+	-webkit-box-shadow: 0px 0px 70px 0px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow:    0px 0px 70px 0px rgba(0, 0, 0, 0.3);
+	box-shadow:         0px 0px 70px 0px rgba(0, 0, 0, 0.3);
+}
+.input-with-text{
+	border: 1px solid #9eb2a9;
+	padding: 5px 15px;
+	font-size: 22px;
+	color: #9eb2a9;
+	font-family: 'Fira Sans', sans-serif;
+	width: 100%;
+	margin: 0 0 15px 0;
+	float: left;
+	clear: both;
+}
+.input-with-text span{
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 600;
+	color: #1a6a44;
+	font-size: 16px;
+	float: left;
+	width: 100%;
+}
+.input-with-text input{
+	border: 0px;
+	color: #9eb2a9;
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 400;
+	width: 100%;
+	font-size: 22px;
+	line-height: 22px;
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+.input-with-text.w50{
+	width: 48.5%;
+	clear: none;
+}
+
+.submit-btn{
+	border: 0px;
+	background-color: #3ec17f;
+	color: #ffffff;
+	cursor: pointer;
+	width: 100%;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-family: 'Fira Sans', sans-serif;
+	font-size: 22px;
+	padding: 15px;
+}
+
+.container-form h4{
+	font-size: 30px;
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 600;
+	color: #3ec17f;
+	margin: 0 0 20px 0;
+}
+
+/** end homepage **/
+
+
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;
@@ -932,11 +995,11 @@ div.panel {
 @media (min-width: 992px) {
 	.gardinero-sign{
 		max-width: 150px;
-		margin-top: 3%;
+		margin-top: 1%;
 	}
 	.header-background h3{
 		font-size: 45px;
-		margin: 2.5% 0 0 0;
+		margin: 1% 0 0 0;
 	}
 	.header-background p{
 		font-size: 20px;
@@ -957,7 +1020,7 @@ div.panel {
 @media (min-width: 1528px) {
 	.gardinero-sign{
 		max-width: 201px;
-		margin-top: 3%;
+		margin-top: 1%;
 	}
 	.header-background h3{
 		font-size: 65px;
