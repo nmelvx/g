@@ -16,7 +16,7 @@
                     <h4>Afla imediat cat costa:</h4>
                     <div class="input-with-text text-left">
                         <span>Zi-ne pe ce stradă stai</span>
-                        <input type="text" placeholder="Padurenri nr. 10" class="form-input">
+                        <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" class="form-input">
                     </div>
                     <div class="block-inputs" style="display: none;">
                         <div class="input-with-text w50 pull-left text-left">
@@ -89,6 +89,7 @@
 
 @section('javascripts')
 
+    {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&libraries=places') }}
     {{ HTML::script('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.js') }}
 
     <script type="text/javascript">
@@ -102,9 +103,6 @@
                 var bottom = $('.container-form').offset().top + $('.container-form').outerHeight(true);
                 /*var position = $('.container-form').height()/2;*/
 
-                console.log('section: '+ section);
-                console.log('bottom: '+bottom);
-                console.log(bottom > section)
                 if(bottom > section){
                     $('.container-form').css({'bottom':'40px', 'position': 'absolute'});
                 }
@@ -131,6 +129,34 @@
 
                 $('.block-inputs').show();
             });
+
+            var autocomplete;
+
+            function initialize() {
+
+
+                var bounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(44.3342445, 25.9637001),
+                    new google.maps.LatLng(44.5414070, 26.2255750)
+                );
+
+                autocomplete = new google.maps.places.Autocomplete(
+                    (document.getElementById('autocomplete')),
+                    { bounds: bounds, types: ['address'], language: 'ro-RO', strictBounds: true }
+                );
+
+                /** restrict autocomplete to specific country **/
+                autocomplete.setComponentRestrictions({'country': ['ro']});
+
+                google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        console.log("No details available for input: '" + place.name + "'");
+                        return;
+                    }
+                });
+            }
+            initialize();
 
         });
 
