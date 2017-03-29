@@ -2,7 +2,7 @@
         <div class="container">
             <a href="{{ route('home') }}" title="Logo Gardinero" class="logo-header"><img src="frontend/assets/images/logo-gardinero-white.png" alt="Logo Gardinero"></a>
             <ul>
-                <li><a href="" title="Servicii">Servicii</a></li>
+                <li><a href="/servicii" title="Servicii">Servicii</a></li>
                 <li><a href="" title="Preturi">Preturi</a></li>
                 <li><a href="" title="De ce noi">De ce noi</a></li>
                 <li><a href="" title="Intrebari">Intrebari</a></li>

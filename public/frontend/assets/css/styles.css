@@ -976,6 +976,55 @@ div.panel {
 
 /** end homepage **/
 
+/** services **/
+
+.container-title{
+	background-color: #ffffff;
+	padding: 40px;
+}
+
+.header-background.pages-header{
+	margin-top: 87px;
+	padding: 90px 0;
+	height: auto;
+}
+
+.page-title{
+	margin: 0px;
+	font-size: 100px;
+	color: #3ec17f;
+	font-family: 'playfair_displaybold';
+}
+
+.container-title .breadcrumbs{
+	margin: 0px;
+	float: none;
+}
+
+.services h3{
+	font-size: 40px;
+	font-family: 'playfair_displaybold';
+	color: #3ec17f;
+	margin: 20px 0px 20px 0;
+}
+.services ul{
+	margin: 0px;
+	padding: 0px;
+}
+.services ul li, .services ul li a{
+	font-size: 22px;
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 400;
+	color: #9eb2a9;
+	padding: 5px 0;
+	text-decoration: none;
+}
+.services ul li a:hover, .services ul li a:active, .services ul li a:focus{
+	text-decoration: underline;
+}
+
+/** end services **/
+
 
 
 @media (max-width: 767px) {
