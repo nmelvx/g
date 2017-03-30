@@ -1001,6 +1001,8 @@ div.panel {
 	float: none;
 }
 
+.row.last{ margin-bottom: 40px; }
+
 .services h3{
 	font-size: 40px;
 	font-family: 'playfair_displaybold';
@@ -1023,7 +1025,45 @@ div.panel {
 	text-decoration: underline;
 }
 
+.page-info h4{
+	font-family: 'playfair_displaybold';
+	font-size: 35px;
+	color: #8a9b93;
+	margin: 40px 0 0 0;
+}
+.page-info p{
+	font-family: 'Fira Sans', sans-serif;
+	font-size: 23px;
+	color: #8a9b93;
+}
+
+.no-padd{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
 /** end services **/
+
+/** prices **/
+
+.prices-table{
+	width: 100%;
+}
+.prices-table tr td{
+	padding: 10px;
+	font-family: 'Fira Sans', sans-serif;
+	font-size: 22px;
+	color: #8a9b93;
+}
+.prices-table tr td.dotted span{
+	display: inline-block;
+	width: 100%;
+	background: url("../images/dot.png") left bottom repeat-x;
+	height: 2px;
+}
+
+
+/** end prices **/
 
 
 
