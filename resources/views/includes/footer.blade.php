@@ -2,7 +2,7 @@
         <div class="container">
             <img src="frontend/assets/images/gardinero.png" alt="Gardinero" class="gardinero-sign">
             <div class="clear-fix"></div>
-            <div class="col-lg-1 col-md-1">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                 <h1 class="footer-title">Servicii</h1>
                 <ul>
                     <li><a href="">Intretinere gazon</a></li>
@@ -13,7 +13,7 @@
                     <li><a href="">Palntare gazon rulouri</a></li>
                 </ul>
             </div>
-            <div class="col-lg-1 col-md-1">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                 <h1 class="footer-title">Despre noi</h1>
                 <ul>
                     <li><a href="">Blog</a></li>
@@ -24,7 +24,7 @@
                     <li><a href="">Privacy</a></li>
                 </ul>
             </div>
-            <div class="col-lg-1 col-md-1">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                 <h1 class="footer-title">Locatii</h1>
                 <ul>
                     <li>Bucuresti și împrejurimi</li>

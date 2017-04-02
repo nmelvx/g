@@ -9,22 +9,22 @@
         <div class="section" id="section0">
             <div class="header-background text-center">
                 <img src="frontend/assets/images/gardinero.png" alt="Gardinero" class="gardinero-sign">
-                <h3>Servicii de încredere pentru curtea ta.</h3>
+                <h3>Servicii de incredere pentru curtea ta.</h3>
                 <img src="frontend/assets/images/separator.png" alt="" class="separator-line">
-                <p>Ai grijă de gazonul tău folosind sistemul nostru de rezervări online</p>
+                <p>Ai grija de gazonul tau folosind sistemul nostru de rezervari online</p>
                 <div class="container-form">
                     <h4>Afla imediat cat costa:</h4>
                     <div class="input-with-text text-left">
-                        <span>Zi-ne pe ce stradă stai</span>
+                        <span>Zi-ne pe ce strada stai</span>
                         <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" class="form-input">
                     </div>
                     <div class="block-inputs" style="display: none;">
                         <div class="input-with-text w50 pull-left text-left">
-                            <span>Numele tău</span>
+                            <span>Numele tau</span>
                             <input type="text" placeholder="Neacsu Marius" class="form-input">
                         </div>
                         <div class="input-with-text w50 pull-right text-left">
-                            <span>Numărul de telefon</span>
+                            <span>Numarul de telefon</span>
                             <input type="text" placeholder="0722 000 123" class="form-input">
                         </div>
                     </div>
@@ -40,14 +40,41 @@
         <div class="section" id="section1">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                    <div class="col-lg-40 col-xs-100">
+                        <img src="frontend/assets/images/poza0.jpg" class="img-responsive" alt="">
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                    <div class="col-lg-60 col-xs-100">
+                        <h4 class="section-title">Cum<br>Functioneaza?</h4>
+                        <p class="section-text">Vezi care e pretul.<br>Programeaza-te.<br>Bucura-te de un gazon frumos.</p>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                </div>
+                <div class="row">
+                    <div class="bordered-box">
+                        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 steps">
+                            <span>1</span>
+                            <p class="step1 box-text">
+                                Introdu adresa pentru a afla<br>
+                                pretul tau personalizat pentru
+                                tuns gazonul și altele
+                            </p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 steps">
+                            <span>2</span>
+                            <p class="step2 box-text">
+                                Confirma data, frecventa si<br>
+                                detaliile de plata, totul online.
+                            </p>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 steps">
+                            <span>3</span>
+                            <p class="step3 box-text">
+                                O echipa de profesioniști va
+                                ajunge la locatie și va finaliza
+                                treaba. Serviciul standard include
+                                tunsul gazonului și aranjarea
+                                marginilor de gazon.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,14 +83,21 @@
         <div class="section moveDown" id="section2">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                    <div class="col-lg-60 col-xs-100 center-section">
+                        <h4 class="section-title">Relaxeaza-te<br>si da-ne un<br>review</h4>
+                        <p class="section-text">Pentru noi calitatea este<br>foarte importanta!</p>
+                        <div class="ratings" style="margin-left: 130px;">
+                            <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                            <input type="radio" id="star3" name="rating" value="3" checked /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                        </div>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
-                    </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                    <div class="col-lg-40 col-xs-100 center-section">
+                        <img src="frontend/assets/images/poza1.jpg" class="img-responsive" alt="">
+                        <p class="review-text">Remember, a Jedi can feel the Force flowing through him. Don't act so surprised, Your Highness. You weren't on any mercy mission this time. </p>
+                        <p class="review-name">Luke Skywalker</p>
                     </div>
                 </div>
             </div>
@@ -71,14 +105,39 @@
         <div class="section moveDown" id="section3">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                    <div class="col-lg-40 col-xs-100 center-section">
+                        <img src="frontend/assets/images/poza2.jpg" class="img-responsive" alt="">
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                    <div class="col-lg-60 col-xs-100 center-section">
+                        <h4 class="section-title">Urmarește progresul de pe mobil</h4>
+                        <p class="section-text">
+                            Fii la curent cu progresul echipei oricând!
+                            <br>
+                            Nu va fi nevoie niciodata sa
+                            platești cash, vei avea propriul
+                            cont in aplicatie.
+                        </p>
+                        <a href="" class="left-margin download-buttons"><img src="{{asset('frontend/assets/images/download-appstore.png')}}"></a>
+                        <a href="" class="download-buttons"><img src="{{asset('frontend/assets/images/download-googleplay.png')}}"></a>
                     </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel diam arcu. Donec blandit porttitor ante, ultricies aliquet est vehicula at. Cras fringilla elit non malesuada fringilla. Aliquam erat volutpat. Suspendisse non turpis arcu. Nullam sapien ipsum, iaculis sed vehicula non, ultricies et purus. Morbi eget diam elementum, tincidunt nibh quis, pulvinar orci. Nunc lacinia consequat nulla, ut tincidunt nunc dignissim non. Phasellus dictum gravida mi, vitae mollis purus faucibus id. Cras porttitor erat in cursus accumsan. Duis ornare quam maximus tellus eleifend, vel tempus nisi varius.<br><br>
-                        Proin luctus accumsan porta. Suspendisse quis sem condimentum nulla bibendum tincidunt pharetra in mi. Pellentesque vel cursus felis. Quisque sed sem facilisis, ultricies ex at, vehicula felis. Duis hendrerit, metus a convallis rhoncus, erat urna maximus ligula, eu viverra nisl eros quis magna. Nunc lobortis vehicula sapien, a tincidunt elit maximus vitae. Sed mattis ex enim, sit amet convallis elit aliquam nec. Donec porta elit ac tortor ultrices eleifend. Phasellus aliquet velit et nisl blandit, ac faucibus magna ornare. Aenean non nisi interdum, condimentum velit ut, euismod ex. Curabitur maximus odio nec lorem pulvinar semper. Vestibulum erat elit, rhoncus id vulputate lacinia, dictum non diam. Integer auctor, libero sed sollicitudin eleifend, massa nulla consequat enim, nec convallis orci nulla in est. Praesent interdum ex vel ante posuere feugiat. Duis eget sem dapibus, semper felis at, ultrices libero. Cras eget neque vel tellus laoreet euismod quis id lacus.
+                </div>
+            </div>
+        </div>
+        <div class="section moveDown" id="section4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-60 col-xs-100 center-section">
+                        <h4 class="section-title">Cine sunt profesionistii nostri?</h4>
+                        <p class="section-text">Toti profesionistii Gardinero au o vasta experienta in domeniu si suntverificati cu atentie pentru a ne asigura ca vei primi cel mai de calitate serviciu.</p>
+                    </div>
+                    <div class="col-lg-40 col-xs-100 center-section">
+                        <img src="frontend/assets/images/poza3.jpg" class="img-responsive" alt="">
+                        <ul class="testimonial-slider">
+                            <li>
+                                <p class="slide-name">Doru Ionescu</p>
+                                <p class="slide-text">Expert in amenajari exterioare cu gradini premiate la Paris ofera consilierea initiala in ceea ce privește gradina ta!</p>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -104,25 +163,24 @@
                 /*var position = $('.container-form').height()/2;*/
 
                 if(bottom > section){
-                    $('.container-form').css({'bottom':'40px', 'position': 'absolute'});
+                    //$('.container-form').css({'bottom':'40px', 'position': 'absolute'});
                 }
 
             });
 
             /*$(window).trigger('resize');*/
 
-            if($(window).width() >= 768)
-            {
-                $('#fullpage').fullpage({
-                    scrollingSpeed: 1000,
-                    verticalCentered: false,
-                    css3: true,
-                    sectionsColor: ['#ffffff', '#ffffff', '#7BAABE', 'whitesmoke'],
-                    navigation: true,
-                    navigationPosition: 'right',
-                    navigationTooltips: ['fullPage.js', 'Powerful', 'Amazing', 'Simple']
-                });
-            }
+            $('#fullpage').fullpage({
+                scrollingSpeed: 1000,
+                verticalCentered: false,
+                css3: true,
+                sectionsColor: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
+                navigation: true,
+                navigationPosition: 'right',
+                responsiveWidth: 992
+                /*navigationTooltips: ['fullPage.js', 'Powerful', 'Amazing', 'Simple']*/
+            });
+
 
             $('body').on('click', '.submit-btn', function(e){
                 e.preventDefault();

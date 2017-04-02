@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt250">
         <div class="row display-table">
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-calendar">
                     <h3 class="box-title">Calendar<br>Gazon</h3>
                     <p>Urmatoarea programare este pe data de 19 septembrie ora 13:00.</p>
@@ -12,7 +12,7 @@
                     <a href="" title="Intră în calendar" class="button-custom check-calendar">Intră în calendar</a>
                 </div>
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-account">
                     <h3 class="box-title">Datele<br>tale</h3>
                     {!! Form::open(array('route' => ['contul-meu.update', Auth::user()->id ], 'method' => 'PUT', 'class' => 'edit-form')) !!}
@@ -74,7 +74,7 @@
                     {!! Form::close() !!}
                 </div>
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-address">
                     <h3 class="box-title">Adresa<br>ta</h3>
                     <p>Str. Iancu Nicolae, Nr. 53, Pipera, Ilfov</p>
@@ -86,7 +86,7 @@
             </div>
         </div>
         <div class="row display-table">
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-financial">
                     <h3 class="box-title">Datele tale<br>financiare</h3>
                     <form action="" method="post">
@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-win">
                     <h3 class="box-title">Câștigă<br>100 lei</h3>
                     <p>Trimite linkul tau la 2 prieteni si castiga servicii in valoare de 100 de lei</p>
@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3 table-cell">
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-oppinion">
                     <h3 class="box-title">Părerea ta<br>contează</h3>
                     <p>Zi-ne cum ti se par serviciile noastre si ce putem imbunatati:</p>

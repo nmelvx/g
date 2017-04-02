@@ -1770,6 +1770,9 @@ pre code {
   .col-md-offset-1 {
     margin-left: 33.33333333%;
   }
+  .col-md-offset-05 {
+    margin-left: 16.666666665%;
+  }
   .col-md-offset-0 {
     margin-left: 0%;
   }
@@ -1827,6 +1830,9 @@ pre code {
   }
   .col-lg-offset-1 {
     margin-left: 33.33333333%;
+  }
+  .col-lg-offset-05 {
+    margin-left: 16.666666665%;
   }
   .col-lg-offset-0 {
     margin-left: 0%;

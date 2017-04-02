@@ -36,6 +36,23 @@
 
 @yield('javascripts')
 
+<script type="text/javascript">
+
+        $(window).on('load resize', function () {
+            var windowSize = $(window).width();
+
+            $(window).unbind('scroll');
+            if(windowSize > 991)
+            {
+                console.log(111)
+                $(window).scroll(function(){
+                    if($('.border-green-bottom').length > 0)
+                        $('.border-green-bottom').css('opacity', 1 - $(window).scrollTop() / 200);
+                });
+            }
+        });
+
+</script>
 
 </body>
 </html>

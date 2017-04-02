@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt210">
         <div class="row">
-            <div class="col-lg-3 text-center">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
                 <h3 class="title-section">Management echipe</h3>
                 <div class="separator-line-div"></div>
                 <ul class="breadcrumbs">
@@ -14,22 +14,34 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3 bg-gray mtb100">
-                <div class="header-box">Echipe pentru contul {{ Auth::user()->lastname }} {{ Auth::user()->firstname}}<a href="" class="green-button show-popup" data-popup="member">Adauga membru</a> <a href="" class="green-button show-popup" data-popup="team">Adauga echipa</a></div>
-                @foreach($teams as $team)
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bg-gray mtb100">
+                <div class="header-box">Echipe pentru contul {{ Auth::user()->lastname }} {{ Auth::user()->firstname}}<div class="container-buttons"><a href="" class="green-button show-popup" data-popup="member">Adauga membru</a> <a href="" class="green-button show-popup" data-popup="team">Adauga echipa</a></div></div>
+                @foreach($teams as $k => $team)
                 <div class="accordion">
-                    <h3>Sef echipa - <span>{{ $team->leader->lastname }} {{ $team->leader->firstname }}</span></h3>
+                    <h3><small>Sef echipa - </small><span>{{ $team->leader->lastname }} {{ $team->leader->firstname }}</span></h3>
                     <div class="ratings">
-                        <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
-                        <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-                        <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
-                        <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-                        <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                        <input type="radio" id="star{{$k}}5" name="rating{{$k}}" value="5" /><label class="full" for="star{{$k}}5" title="Awesome - 5 stars"></label>
+                        <input type="radio" id="star{{$k}}4" name="rating{{$k}}" value="4" /><label class="full" for="star{{$k}}4" title="Pretty good - 4 stars"></label>
+                        <input type="radio" id="star{{$k}}3" name="rating{{$k}}" value="3" /><label class="full" for="star{{$k}}3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star{{$k}}2" name="rating{{$k}}" value="2" /><label class="full" for="star{{$k}}2" title="Kinda bad - 2 stars"></label>
+                        <input type="radio" id="star{{$k}}1" name="rating{{$k}}" value="1" /><label class="full" for="star{{$k}}1" title="Sucks big time - 1 star"></label>
                     </div>
                     <small></small>
                 </div>
                 <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+                    <div class="col-65">
+                        <div class="members-title">Membri</div>
+                        <ul class="members-list">
+                        @foreach($team->members as $member)
+                            <li>{{ $member->lastname }} {{ $member->firstname }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                    <div class="col-35">
+                        <p>Right</p>
+                    </div>
+
                 </div>
                 @endforeach
             </div>
@@ -70,6 +82,7 @@
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
     </div>
+
 @endsection
 
 @section('javascripts')
@@ -105,7 +118,7 @@
 
             $('body').on('click', '.show-popup', function (e) {
                 e.preventDefault();
-
+                $('.content-overlay').css({'height':$(document).height()+'px'});
                 var data = $(this).data('popup');
 
                 $('.content-overlay').show();
@@ -162,6 +175,12 @@
                     }
                 });
             });
+
+            $(window).on('load resize', function ()
+            {
+                $('.content-overlay').css({'height':$(document).height()+'px'});
+            });
+
 
         });
     </script>
