@@ -89,5 +89,7 @@ Route::group(['middleware' => 'role:admin|leader'], function()
     Route::post('/save-member', ['as' => 'member.store', 'uses' => 'TeamMembersController@store']);
 });
 
+Route::get('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);
 
 Route::get('{slug}', [ 'as' => 'pages.show', 'uses' => 'PagesController@show'])->where('slug', '[A-Za-z-0-9]+');
+
