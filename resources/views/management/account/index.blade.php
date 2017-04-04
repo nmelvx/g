@@ -79,7 +79,7 @@
                     <h3 class="box-title">Adresa<br>ta</h3>
                     <p>Str. Iancu Nicolae, Nr. 53, Pipera, Ilfov</p>
                     <div class="google-map-address">
-                        <div class="gmap" id="gmap"></div>
+                        <div class="gmap no-transition" id="gmap"></div>
                         <button class="button-custom green">Schimba adresa</button>
                     </div>
                 </div>
