@@ -1005,6 +1005,18 @@ div.panel {
 	font-family: 'Fira Sans', sans-serif;
 	font-size: 22px;
 	padding: 15px;
+    text-align: center;
+}
+.submit-btn:hover, .submit-btn:active{
+    color: #ffffff;
+    text-decoration: none;
+}
+.submit-btn.custom-center{
+    display: inline-block;
+    float: none;
+    width: 40%;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .container-form h4{
@@ -1250,6 +1262,78 @@ div.panel {
 }
 
 .mt87{ margin-top: 87px; }
+
+.offer-form h3{
+    color: #1a6a44;
+    font-size: 30px;
+    line-height: 30px;
+    margin: 0 0 30px 0;
+    font-family: 'playfair_displaybold';
+    min-height: 60px;
+    position: relative;
+    padding-left: 30px;
+}
+
+.offer-form h3 span{
+    float: left;
+    width: 30px;
+    position: absolute;
+    left: 0px;
+}
+
+.offer-form input[type="text"]{
+    border: 1px solid #9eb2a9;
+    padding: 20px;
+    font-size: 22px;
+    color: #9eb2a9;
+    font-family: 'Fira Sans', sans-serif;
+    width: 100%;
+    margin: 0 0 15px 0;
+    float: left;
+    clear: both;
+}
+
+.chk-list, .chk-list li{
+    float: left;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+.chk-list li{
+    list-style: none;
+    padding-bottom: 15px;
+}
+.checkbox-custom{
+    float: left;
+    width: 100%;
+    clear: both;
+    font-size: 22px;
+    font-weight: 400;
+    padding-left: 35px;
+    position: relative;
+}
+.checkbox-custom input{ display: none; }
+.checkbox-custom span{
+    float: left;
+    width: 26px;
+    height: 26px;
+    background: url("../images/checkbox.png") top left no-repeat;
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+.checkbox-custom em{
+    font-style: italic;
+}
+
+.checkbox-custom:hover > span,
+.checkbox-custom input:checked + span {
+    background-position: bottom center;
+}
 
 @media (max-width: 767px) {
 	.header-background{

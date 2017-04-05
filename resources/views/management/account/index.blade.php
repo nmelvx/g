@@ -166,18 +166,18 @@
 
                         geocoder.geocode({'location': pos}, function (results, status) {
                             if (status === 'OK') {
-                                if (results[1]) {
+                                if (results[0]) {
                                     new google.maps.Marker({
                                         position: pos,
                                         icon: 'assets/images/pin.png',
                                         map: map
                                     });
-                                    $('#geolocation-address').text(results[1].formatted_address);
+                                    $('#geolocation-address').text(results[0].formatted_address);
                                 } else {
-                                    window.alert('No results found');
+                                    console.log('No results found');
                                 }
                             } else {
-                                window.alert('Geocoder failed due to: ' + status);
+                                console.log('Geocoder failed due to: ' + status);
                             }
                         });
 

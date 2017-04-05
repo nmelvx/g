@@ -11,31 +11,39 @@
             <p class="info-steps"><strong>Ne pare rău, dar n-am putut calcula un preț automat :(</strong></p>
             <p class="info-steps"><small>Nu vă faceți griji, completați formularul de mai jos iar noi vă vom<br>contacta în <strong>maxim 20 minute.</strong></small></p>
         </div>
-        <form action="" method="post" class="register-form">
+        <form action="" method="post" class="offer-form">
             <div class="row">
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
-                    <h3>Ce servicii doriti?</h3>
-                    <ul>
-                        <li><label><input type="checkbox" name="services[]">Tuns regulat al gazonului</label></li>
-                        <li><label><input type="checkbox" name="services[]">Tuns gazon o singura data</label></li>
-                        <li><label><input type="checkbox" name="services[]">Scarificare (aerare)</label></li>
-                        <li><label><input type="checkbox" name="services[]">Toaletare copaci</label></li>
+                    <h3><span>1.</span>Ce servicii doriti?</h3>
+                    <ul class="chk-list">
+                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Tuns regulat al gazonului</label></li>
+                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Tuns gazon o singura data</label></li>
+                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Scarificare <em>(aerare)</em></label></li>
+                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Toaletare copaci</label></li>
                     </ul>
                     <div class="border-top-2px border-bottom-2px">
                         <p><strong>Alte servicii vor fi disponibile în curând</strong></p>
-                        <p>
-                        * Resturile vegetale de iarbă și crengi le vom lua
-                        noi!
-                        <br><br>
-                        * Prima întâlnire va fi cu expertul nostru; vei
-                        primi sfaturi gratuite pentru grădina ta
-                        </p>
+                        <p>* Resturile vegetale de iarbă și crengi le vom luanoi!</p>
+                        <p>* Prima întâlnire va fi cu expertul nostru; vei primi sfaturi gratuite pentru grădina ta</p>
                     </div>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
-                    <h3>Confirmati adresa</h3>
+                    <h3><span>2.</span>Confirmati adresa</h3>
                     <p id="geolocation-address"></p>
                     <div id="google-maps" class="no-transition"></div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
+                    <h3><span>3.</span>Cum te putem contacta?</h3>
+                    <input type="text" placeholder="Prenume" name="prenume">
+                    <input type="text" placeholder="Nume" name="Nume">
+                    <input type="text" placeholder="Email" name="email">
+                    <input type="text" placeholder="Telefon" name="telefon">
+                    <p>* Este posibil să folosim numărul dumneavoastră de telefon pentru a vă contacta</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                    <a href="" class="submit-btn custom-center">Cere oferta</a>
                 </div>
             </div>
         </form>
@@ -59,25 +67,29 @@
             };
             map = new google.maps.Map(document.getElementById('google-maps'), mapOptions);
 
-            google.maps.event.addListener(map,'center_changed', function() {
-                //document.getElementById('default_latitude').value = map.getCenter().lat();
-                //document.getElementById('default_longitude').value = map.getCenter().lng();
+            google.maps.event.addListener(map,'dragend', function() {
+
+                var pos = {
+                    lat: map.getCenter().lat(),
+                    lng: map.getCenter().lng()
+                };
+                var geocoder = new google.maps.Geocoder;
+
+                geocoder.geocode({'location': pos}, function (results, status) {
+                    if (status === 'OK') {
+                        if (results[0]) {
+                            $('#geolocation-address').text(results[0].formatted_address);
+                        } else {
+                            console.log('No results found');
+                        }
+                    } else {
+                        console.log('Geocoder failed due to: ' + status);
+                    }
+                });
             });
 
             $('<div/>').addClass('centerMarker').appendTo(map.getDiv())
-            //do something onclick
-                /*
-                .click(function() {
-                    var that = $(this);
-                    if (!that.data('win')) {
-                        that.data('win', new google.maps.InfoWindow({
-                            content: 'this is the center'
-                        }));
-                        that.data('win').bindTo('position', map, 'center');
-                    }
-                    that.data('win').open(map);
-                });
-                */
+
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
