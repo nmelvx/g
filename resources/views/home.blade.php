@@ -13,22 +13,24 @@
                 <img src="frontend/assets/images/separator.png" alt="" class="separator-line">
                 <p>Ai grija de gazonul tau folosind sistemul nostru de rezervari online</p>
                 <div class="container-form">
-                    <h4>Afla imediat cat costa:</h4>
-                    <div class="input-with-text text-left">
-                        <span>Zi-ne pe ce strada stai</span>
-                        <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" class="form-input">
-                    </div>
-                    <div class="block-inputs" style="display: none;">
-                        <div class="input-with-text w50 pull-left text-left">
-                            <span>Numele tau</span>
-                            <input type="text" placeholder="Neacsu Marius" class="form-input">
+                    <form action="/cere-oferta" class="form-offer">
+                        <h4>Afla imediat cat costa:</h4>
+                        <div class="input-with-text text-left">
+                            <span>Zi-ne pe ce strada stai</span>
+                            <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" class="form-input">
                         </div>
-                        <div class="input-with-text w50 pull-right text-left">
-                            <span>Numarul de telefon</span>
-                            <input type="text" placeholder="0722 000 123" class="form-input">
+                        <div class="block-inputs" style="display: none;">
+                            <div class="input-with-text w50 pull-left text-left">
+                                <span>Numele tau</span>
+                                <input type="text" placeholder="Neacsu Marius" class="form-input">
+                            </div>
+                            <div class="input-with-text w50 pull-right text-left">
+                                <span>Numarul de telefon</span>
+                                <input type="text" placeholder="0722 000 123" class="form-input">
+                            </div>
                         </div>
-                    </div>
-                    <button class="submit-btn">Vezi pretul</button>
+                        <button class="submit-btn">Vezi pretul</button>
+                    </form>
                 </div>
             </div>
             <div class="container">
@@ -142,6 +144,7 @@
                 </div>
             </div>
         </div>
+        <div class="clearfix"></div>
     </div>
 @endsection
 
@@ -149,7 +152,8 @@
 @section('javascripts')
 
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&libraries=places') }}
-    {{ HTML::script('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.fullpage/scrolloverflow.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.fullpage/jquery.fullpage.js') }}
 
     <script type="text/javascript">
 
@@ -170,7 +174,7 @@
 
             /*$(window).trigger('resize');*/
 
-            $('#fullpage').fullpage({
+/*            $('#fullpage').fullpage({
                 scrollingSpeed: 1000,
                 verticalCentered: false,
                 css3: true,
@@ -178,14 +182,24 @@
                 navigation: true,
                 navigationPosition: 'right',
                 responsiveWidth: 992
-                /*navigationTooltips: ['fullPage.js', 'Powerful', 'Amazing', 'Simple']*/
-            });
+            });*/
 
 
             $('body').on('click', '.submit-btn', function(e){
                 e.preventDefault();
 
                 $('.block-inputs').show();
+
+                var err = 0;
+                $('.form-offer').find('.form-input').each(function(){
+                    if($(this).val() == ''){
+                        err++;
+                    }
+                });
+
+                if($('.block-inputs').is(':visible') && err == 0 ){
+                    location.href = '/cere-oferta';
+                }
             });
 
             var autocomplete;

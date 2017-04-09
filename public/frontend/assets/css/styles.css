@@ -42,7 +42,8 @@ body{
 	-o-background-size: cover;
 	background-size: cover;
 	width: 100%;
-	height: 65%;
+	/*height: 65%;*/
+    min-height: 600px;
 	padding: 0 30px;
 	/*position: relative;*/
 }
@@ -282,7 +283,7 @@ body{
 }
 .post-link:hover, .post-link:active, .post-link:focus{
 	color: #ffffff;
-	text-decoration: nonel;
+	text-decoration: none;
 }
 
 .button-custom{
@@ -443,6 +444,19 @@ body{
 	background: url("../images/separator2px.png") center center no-repeat;
 	margin-bottom: 50px;
 }
+.separator-line-div-small{
+	float: left;
+	width: 100%;
+	clear: both;
+	height: 2px;
+	background: url("../images/separator2px.png") center center no-repeat;
+	margin-bottom: 30px;
+}
+
+.info-text{
+    font-size: 23px;
+    font-weight: 600;
+}
 
 .register-fb{
 	background-color: #446bb6;
@@ -576,6 +590,7 @@ body{
 	background: -webkit-linear-gradient(45deg,  #2ee2cf 0%,#49d55f 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(45deg,  #2ee2cf 0%,#49d55f 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ee2cf', endColorstr='#49d55f',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    clear: both;
 }
 
 
@@ -811,6 +826,17 @@ div.panel {
 	left: 0px;
 }
 
+.not-fixed{
+    position: absolute;
+}
+
+.paddr10{
+    padding-right: 15px !important;
+}
+.paddl10{
+    padding-left: 15px !important;
+}
+
 .form-popup input[type="password"], .form-popup input[type="text"], .form-popup select{
 	border: 1px solid #9eb2a9;
 	height: 72px;
@@ -1007,7 +1033,7 @@ div.panel {
 	padding: 15px;
     text-align: center;
 }
-.submit-btn:hover, .submit-btn:active{
+.submit-btn:hover, .submit-btn:active, .submit-btn:focus{
     color: #ffffff;
     text-decoration: none;
 }
@@ -1335,6 +1361,90 @@ div.panel {
     background-position: bottom center;
 }
 
+.offer-form p{
+    font-size: 18px;
+}
+
+.border-top-2px{
+    border-top: 2px solid #9eb2a9;
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+.border-bottom-2px{
+    border-bottom: 2px solid #9eb2a9;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.mb20{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.offer-form #geolocation-address{
+    color: #3ec17f;
+    font-weight: 600;
+}
+
+.section{
+    height: auto;
+    margin-bottom: 100px;
+    float: left;
+    clear: both;
+    width: 100%;
+}
+
+#fullpage{
+    height: 100%;
+}
+
+.form-popup h4{
+    color: #1a6a44;
+    font-size: 25px;
+    line-height: 25px;
+    margin: 0 0 20px 0;
+    font-family: 'playfair_displaybold';
+}
+
+.div-padded{
+    float: left;
+    clear: both;
+    width: 100%;
+    padding-left: 25px;
+}
+
+.checkbox-custom.wauto{
+    width: auto;
+    float: none;
+    display: inline-block;
+    font-size: 18px;
+    color: #1a6a44;
+    line-height: 31px;
+    margin-bottom: 20px;
+}
+.checkbox-custom.wauto a{
+    color: #1a6a44;
+    text-decoration: underline;
+}
+.checkbox-custom.wauto a:hover, .checkbox-custom.wauto a:focus, .checkbox-custom.wauto a:active{
+    text-decoration: none;
+    color: #1a6a44;
+}
+
+.line2px{
+    float: left;
+    clear: both;
+    width: 100%;
+    border-bottom: 2px solid #e0efe6;
+    margin: 15px 0;
+}
+
+.form-popup .submit-form{
+    font-size: 22px;
+    line-height: 74px;
+    height: 74px;
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;
@@ -1392,7 +1502,20 @@ div.panel {
         margin: 0 15px 0 0;
         float: left;
     }
+    .offer-form h3{
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    .mb20{
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    .paddr10{ padding-right: 0px !important; }
+    .paddl10{ padding-left: 0px !important; }
 
+    .div-padded > .row{
+        margin: 0px !important;
+    }
 }
 
 @media (min-width: 768px) {
@@ -1441,6 +1564,14 @@ div.panel {
 
 }
 @media (max-width: 991px) {
+
+    .div-padded > .row{
+        margin: 0px !important;
+    }
+
+    .paddr10{ padding-right: 0px !important; }
+    .paddl10{ padding-left: 0px !important; }
+
 	.fp-section{
 		height: auto !important;
 		padding-bottom: 40px;

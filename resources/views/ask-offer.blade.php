@@ -5,13 +5,13 @@
 
     <div class="container mt87">
         <div class="col-lg-3 text-center">
-            <h3 class="title-section">Cere pret</h3>
+            <h3 class="title-section">Cere oferta</h3>
             <img src="frontend/assets/images/separator2px.png" alt="" class="separator-2">
             <div class="clearfix"></div>
             <p class="info-steps"><strong>Ne pare rău, dar n-am putut calcula un preț automat :(</strong></p>
             <p class="info-steps"><small>Nu vă faceți griji, completați formularul de mai jos iar noi vă vom<br>contacta în <strong>maxim 20 minute.</strong></small></p>
         </div>
-        <form action="" method="post" class="offer-form">
+        <form action="{{ route('calendar.offers') }}" method="post" class="offer-form">
             <div class="row">
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>1.</span>Ce servicii doriti?</h3>
@@ -21,6 +21,7 @@
                         <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Scarificare <em>(aerare)</em></label></li>
                         <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Toaletare copaci</label></li>
                     </ul>
+                    <div class="clearfix"></div>
                     <div class="border-top-2px border-bottom-2px">
                         <p><strong>Alte servicii vor fi disponibile în curând</strong></p>
                         <p>* Resturile vegetale de iarbă și crengi le vom luanoi!</p>
@@ -38,10 +39,13 @@
                     <input type="text" placeholder="Nume" name="Nume">
                     <input type="text" placeholder="Email" name="email">
                     <input type="text" placeholder="Telefon" name="telefon">
-                    <p>* Este posibil să folosim numărul dumneavoastră de telefon pentru a vă contacta</p>
+                    <div class="clearfix"></div>
+                    <div class="border-bottom-2px">
+                        <p>* Este posibil să folosim numărul dumneavoastră de telefon pentru a vă contacta</p>
+                    </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb20">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
                     <a href="" class="submit-btn custom-center">Cere oferta</a>
                 </div>
@@ -93,6 +97,13 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
+
+        $(document).ready(function(){
+            $('.submit-btn').click(function(e){
+                e.preventDefault();
+                window.location = '/calendar'
+            });
+        });
 
     </script>
 

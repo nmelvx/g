@@ -3,7 +3,7 @@
             <ul class="menu-account">
                 <li><a href="/lucrari-disponibile" title="Lucrari disponibile"><span class="ico ico-work"></span>Lucrari disponibile</a></li>
                 <li><a href="" title="Clienti"><span class="ico ico-clients"></span>Clienti</a></li>
-                <li><a href="" title="Palti"><span class="ico ico-payments"></span>Palti</a></li>
+                <li><a href="" title="Palti"><span class="ico ico-payments"></span>Plati</a></li>
                 <li><a href="/management-echipe" title="Contul meu" @if(Request::path() == 'management-echipe') class="selected" @endif><span class="ico ico-management"></span>Management echipa</a></li>
                 <li>
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

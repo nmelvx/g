@@ -90,6 +90,7 @@ Route::group(['middleware' => 'role:admin|leader'], function()
 });
 
 Route::get('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);
+Route::get('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
 
 Route::get('{slug}', [ 'as' => 'pages.show', 'uses' => 'PagesController@show'])->where('slug', '[A-Za-z-0-9]+');
 
