@@ -89,8 +89,16 @@ Route::group(['middleware' => 'role:admin|leader'], function()
     Route::post('/save-member', ['as' => 'member.store', 'uses' => 'TeamMembersController@store']);
 });
 
-Route::get('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);
-Route::get('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
+Route::group(['middleware' => 'web'], function() {
+    Route::post('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);
+    Route::get('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
+    Route::post('save-offer', ['as' => 'save.offer', 'uses' => 'calendarController@saveOffer']);
 
-Route::get('{slug}', [ 'as' => 'pages.show', 'uses' => 'PagesController@show'])->where('slug', '[A-Za-z-0-9]+');
+    Route::get('{slug}', [ 'as' => 'pages.show', 'uses' => 'PagesController@show'])->where('slug', '[A-Za-z-0-9]+');
+});
+
+
+
+
+
 

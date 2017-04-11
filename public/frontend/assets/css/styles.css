@@ -1445,6 +1445,12 @@ div.panel {
     height: 74px;
 }
 
+form label.error{
+    color: #FF4136;
+    font-size: 13px;
+    font-weight: 100;
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class stepsOffer extends Controller
 {
-    public function steps($step = 1)
+    public function steps(Request $request, $step = 1)
     {
         switch ($step)
         {
@@ -20,6 +20,8 @@ class stepsOffer extends Controller
                 break;
         }
 
-        return view('ask-offer');
+        $post = $request->all();
+
+        return view('ask-offer', compact('post'));
     }
 }

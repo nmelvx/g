@@ -2,7 +2,6 @@
 
 @section('content')
 
-
     <div class="container mt87">
         <div class="col-lg-3 text-center">
             <h3 class="title-section">Cere oferta</h3>
@@ -35,10 +34,10 @@
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>3.</span>Cum te putem contacta?</h3>
-                    <input type="text" placeholder="Prenume" name="prenume">
-                    <input type="text" placeholder="Nume" name="Nume">
+                    {{ Form::text('firstname', explode(' ', Input::get('fullname'))[0], array('placeholder' => 'Prenume')) }}
+                    {{ Form::text('lastname', explode(' ', Input::get('fullname'))[1], array('placeholder' => 'Nume')) }}
                     <input type="text" placeholder="Email" name="email">
-                    <input type="text" placeholder="Telefon" name="telefon">
+                    {{ Form::text('phone', Input::get('phone'), array('placeholder' => 'Telefon')) }}
                     <div class="clearfix"></div>
                     <div class="border-bottom-2px">
                         <p>* Este posibil să folosim numărul dumneavoastră de telefon pentru a vă contacta</p>

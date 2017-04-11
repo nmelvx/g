@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class calendarController extends Controller
 {
@@ -38,5 +40,25 @@ class calendarController extends Controller
             '21:00' => '21:00'
         ];
         return view('management.calendar.index', compact('hours'));
+    }
+
+    public function saveOffer(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'date' => 'required'
+        ]);
+
+        if ($validator->fails())
+        {
+            return Response::json(array(
+                'success' => false,
+                'errors' => $validator->getMessageBag()->toArray()
+            ), 400);
+        }
+        else
+        {
+            return Response::json(array('success' => true), 200);
+        }
+        die;
     }
 }

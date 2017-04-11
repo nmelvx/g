@@ -13,22 +13,23 @@
                 <img src="frontend/assets/images/separator.png" alt="" class="separator-line">
                 <p>Ai grija de gazonul tau folosind sistemul nostru de rezervari online</p>
                 <div class="container-form">
-                    <form action="/cere-oferta" class="form-offer">
+                    <form action="{{ route('offer.steps') }}" method="POST" class="form-offer">
                         <h4>Afla imediat cat costa:</h4>
                         <div class="input-with-text text-left">
                             <span>Zi-ne pe ce strada stai</span>
-                            <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" class="form-input">
+                            <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" name="address" class="form-input">
                         </div>
                         <div class="block-inputs" style="display: none;">
                             <div class="input-with-text w50 pull-left text-left">
                                 <span>Numele tau</span>
-                                <input type="text" placeholder="Neacsu Marius" class="form-input">
+                                <input type="text" placeholder="Neacsu Marius" name="fullname" class="form-input">
                             </div>
                             <div class="input-with-text w50 pull-right text-left">
                                 <span>Numarul de telefon</span>
-                                <input type="text" placeholder="0722 000 123" class="form-input">
+                                <input type="text" placeholder="0722 000 123" name="phone" class="form-input">
                             </div>
                         </div>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button class="submit-btn">Vezi pretul</button>
                     </form>
                 </div>
@@ -153,7 +154,8 @@
 
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&libraries=places') }}
     {{ HTML::script('frontend/assets/components/jquery.fullpage/scrolloverflow.min.js') }}
-    {{ HTML::script('frontend/assets/components/jquery.fullpage/jquery.fullpage.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
     <script type="text/javascript">
 
@@ -185,20 +187,34 @@
             });*/
 
 
+            $('.form-offer').validate({
+                rules: {
+                    address: "required",
+                    fullname: "required",
+                    phone: {
+                        required: true,
+                        number: true,
+                        min: 10
+                    }
+                },
+                messages: {
+                    phone: {
+                        number: "Introduceti un numar de telefon valid."
+                    }
+                }
+            });
+
             $('body').on('click', '.submit-btn', function(e){
                 e.preventDefault();
 
-                $('.block-inputs').show();
+                if($('.form-offer').valid()){
+                    $('.block-inputs').show();
+                }
 
-                var err = 0;
-                $('.form-offer').find('.form-input').each(function(){
-                    if($(this).val() == ''){
-                        err++;
+                if($('.block-inputs').is(':visible')){
+                    if($('.form-offer').valid()){
+                        $('.form-offer').submit();
                     }
-                });
-
-                if($('.block-inputs').is(':visible') && err == 0 ){
-                    location.href = '/cere-oferta';
                 }
             });
 

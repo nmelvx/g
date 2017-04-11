@@ -1,5 +1,9 @@
 @extends('layouts.default')
 
+@section('css')
+    {{ HTML::style('frontend/assets/components/air-datepicker/css/datepicker.min.css') }}
+@endsection
+
 @section('content')
     <div class="container mt210">
         <div class="row">
@@ -30,7 +34,7 @@
                 <div class="div-padded">
                     <div class="row">
                         <div class="col-50 paddr10">
-                            <input type="text" class="input-calendar" name="date">
+                            <input type="text" placeholder="ZZ/LL/AAAA" class="input-calendar" name="date">
                         </div>
                         <div class="col-50 paddl10">
                             <select name="user_id" name="hour">
@@ -44,7 +48,7 @@
                 </div>
                 <h4>2. Suprafața de lucru</h4>
                 <div class="div-padded">
-                    <input type="text" name="area">
+                    <input type="text" placeholder="450 mp" name="area">
                 </div>
                 <div class="div-padded">
 
@@ -63,7 +67,7 @@
                     <label class="checkbox-custom wauto"><input type="checkbox" name="services[]"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
                 </div>
 
-                <a href="javascript:void(0);" data-url="" class="green-button submit-form">Cere pret</a>
+                <a href="javascript:void(0);" data-url="{{ route('save.offer') }}" class="green-button submit-form">Cere pret</a>
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
@@ -73,6 +77,8 @@
 
 @section('javascripts')
 
+    {{ HTML::script('frontend/assets/components/air-datepicker/js/datepicker.min.js') }}
+    {{ HTML::script('frontend/assets/components/air-datepicker/js/i18n/datepicker.ro.js') }}
 
     <script type="text/javascript">
 
@@ -112,6 +118,11 @@
                 return o;
             };
 
+            $('.input-calendar').datepicker({
+                language: 'ro',
+                minDate: new Date()
+            })
+
             //create new task / update existing task
             $('body').on('click', '.submit-form', function (e) {
 
@@ -126,8 +137,6 @@
                 var type = "POST"; //for creating new resource
                 var my_url = $(this).data('url');
 
-                console.log(formData);
-
                 $.ajax({
 
                     type: type,
@@ -135,12 +144,15 @@
                     data: formData,
                     dataType: 'json',
                     success: function (data) {
-                        console.log('Saved!');
+                        alert('Oferta salvata cu succes!');
+                        $('.content-overlay').hide();
+                        $('.popup-ask-offer').hide();
+                        $('html, body').animate({ scrollTop: 0 }, "fast");
                     },
                     error: function (data) {
                         console.log(data.responseJSON)
                         if(data.responseJSON.success == false){
-                            console.log(data.responseJSON.errors);
+                            alert('Toate campurile sunt obligatorii!');
                         }
                     }
                 });
