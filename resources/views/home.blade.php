@@ -29,7 +29,7 @@
                                 <input type="text" placeholder="0722 000 123" name="phone" class="form-input">
                             </div>
                         </div>
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        {{ csrf_field() }}
                         <button class="submit-btn">Vezi pretul</button>
                     </form>
                 </div>
@@ -187,10 +187,30 @@
             });*/
 
 
+            jQuery.validator.addMethod(
+                    "withTwoStrings",
+                    function(value, element) {
+                        howManyWords = value.trim();
+                        howManyWords = howManyWords.replace(/\s{2,}/g, ' '); //remove extra spaces
+                        howManyWords = howManyWords.split(' ');
+
+                        if(howManyWords.length == 2){
+                            return true;
+                        }
+                        else{
+                            return false;
+                        }
+                        e.preventDefault();
+                    },
+                    "Introduceti numele si prenumele."
+            );
+
             $('.form-offer').validate({
                 rules: {
                     address: "required",
-                    fullname: "required",
+                    fullname: {
+                        withTwoStrings: true
+                    },
                     phone: {
                         required: true,
                         number: true,

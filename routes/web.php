@@ -90,7 +90,7 @@ Route::group(['middleware' => 'role:admin|leader'], function()
 });
 
 Route::group(['middleware' => 'web'], function() {
-    Route::post('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);
+    Route::any('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);
     Route::get('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
     Route::post('save-offer', ['as' => 'save.offer', 'uses' => 'calendarController@saveOffer']);
 

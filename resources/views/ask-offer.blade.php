@@ -70,7 +70,12 @@
             };
             map = new google.maps.Map(document.getElementById('google-maps'), mapOptions);
 
-            google.maps.event.addListener(map,'dragend', function() {
+            $.get( "https://maps.googleapis.com/maps/api/geocode/json?address={{ Input::get('address') }}&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0", function( data ) {
+                console.log(data);
+            });
+            console.log(1111);
+
+            google.maps.event.addListener(map, 'dragend', function() {
 
                 var pos = {
                     lat: map.getCenter().lat(),
