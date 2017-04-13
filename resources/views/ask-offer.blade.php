@@ -10,7 +10,7 @@
             <p class="info-steps"><strong>Ne pare rău, dar n-am putut calcula un preț automat :(</strong></p>
             <p class="info-steps"><small>Nu vă faceți griji, completați formularul de mai jos iar noi vă vom<br>contacta în <strong>maxim 20 minute.</strong></small></p>
         </div>
-        <form action="{{ route('calendar.offers') }}" method="post" class="offer-form">
+        <form action="{{ route('calendar.offers') }}" method="POST" class="offer-form">
             <div class="row">
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>1.</span>Ce servicii doriti?</h3>
@@ -29,15 +29,26 @@
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>2.</span>Confirmati adresa</h3>
-                    <p id="geolocation-address"></p>
+                    <p id="geolocation-address">{{ Input::get('address') }}</p>
                     <div id="google-maps" class="no-transition"></div>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>3.</span>Cum te putem contacta?</h3>
+                    <div class="line-input">
                     {{ Form::text('firstname', explode(' ', Input::get('fullname'))[0], array('placeholder' => 'Prenume')) }}
+                    </div>
+                    <div class="line-input">
                     {{ Form::text('lastname', explode(' ', Input::get('fullname'))[1], array('placeholder' => 'Nume')) }}
-                    <input type="text" placeholder="Email" name="email">
+                    </div>
+                    <div class="line-input">
+                    {{ Form::text('email', '', array('placeholder' => 'Email')) }}
+                    </div>
+                    <div class="line-input">
                     {{ Form::text('phone', Input::get('phone'), array('placeholder' => 'Telefon')) }}
+                    </div>
+                    {{ Form::hidden('address', Input::get('address')) }}
+                    {{ Form::hidden('unique_id', Input::get('unique_id')) }}
+                    {{ csrf_field() }}
                     <div class="clearfix"></div>
                     <div class="border-bottom-2px">
                         <p>* Este posibil să folosim numărul dumneavoastră de telefon pentru a vă contacta</p>
@@ -46,7 +57,7 @@
             </div>
             <div class="row mb20">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
-                    <a href="" class="submit-btn custom-center">Cere oferta</a>
+                    <button class="submit-btn custom-center">Cere oferta</button>
                 </div>
             </div>
         </form>
@@ -56,7 +67,9 @@
 
 @section('javascripts')
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0"></script>
+    {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
     <script type="text/javascript">
 
@@ -68,12 +81,11 @@
                 //styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":20}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]
                 styles:[{"featureType":"all","stylers":[{"saturation":0},{"hue":"#e7ecf0"}]},{"featureType":"road","stylers":[{"saturation":-70}]},{"featureType":"transit","stylers":[{"visibility":"off"}]},{"featureType":"poi","stylers":[{"visibility":"off"}]},{"featureType":"water","stylers":[{"visibility":"simplified"},{"saturation":-60}]}]
             };
-            map = new google.maps.Map(document.getElementById('google-maps'), mapOptions);
+            var map = new google.maps.Map(document.getElementById('google-maps'), mapOptions);
 
             $.get( "https://maps.googleapis.com/maps/api/geocode/json?address={{ Input::get('address') }}&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0", function( data ) {
-                console.log(data);
+                map.panTo(new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng));
             });
-            console.log(1111);
 
             google.maps.event.addListener(map, 'dragend', function() {
 
@@ -103,10 +115,34 @@
         google.maps.event.addDomListener(window, 'load', initialize);
 
         $(document).ready(function(){
-            $('.submit-btn').click(function(e){
-                e.preventDefault();
-                window.location = '/calendar'
+
+
+            $('.offer-form').validate({
+                rules: {
+                    address: "required",
+                    firstname: "required",
+                    lastname: "required",
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    phone: {
+                        required: true,
+                        number: true,
+                        min: 10
+                    }
+                },
+                messages: {
+                    phone: {
+                        number: "Introduceti un numar de telefon valid."
+                    }
+                },
+                submitHandler : function(form) {
+                    form.submit();
+                }
             });
+
+
         });
 
     </script>

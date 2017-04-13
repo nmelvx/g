@@ -30,6 +30,7 @@
                             </div>
                         </div>
                         {{ csrf_field() }}
+                        {{ Form::hidden('unique_id', md5(uniqid(rand(), true))) }}
                         <button class="submit-btn">Vezi pretul</button>
                     </form>
                 </div>
@@ -221,6 +222,9 @@
                     phone: {
                         number: "Introduceti un numar de telefon valid."
                     }
+                },
+                submitHandler : function(form) {
+                    form.submit();
                 }
             });
 

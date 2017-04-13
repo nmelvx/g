@@ -1314,7 +1314,7 @@ div.panel {
     color: #9eb2a9;
     font-family: 'Fira Sans', sans-serif;
     width: 100%;
-    margin: 0 0 15px 0;
+    margin: 0;
     float: left;
     clear: both;
 }
@@ -1449,6 +1449,21 @@ form label.error{
     color: #FF4136;
     font-size: 13px;
     font-weight: 100;
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+form.offer-form label.error{
+    margin-top: 10px;
+}
+
+.line-input{
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 @media (max-width: 767px) {

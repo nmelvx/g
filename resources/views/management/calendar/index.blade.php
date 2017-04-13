@@ -79,6 +79,8 @@
 
     {{ HTML::script('frontend/assets/components/air-datepicker/js/datepicker.min.js') }}
     {{ HTML::script('frontend/assets/components/air-datepicker/js/i18n/datepicker.ro.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
     <script type="text/javascript">
 
@@ -163,6 +165,27 @@
                 $('.content-overlay').css({'height':$(document).height()+'px'});
             });
 
+            $('.form-popup').validate({
+                rules: {
+                    address: "required",
+                    fullname: {
+                        withTwoStrings: true
+                    },
+                    phone: {
+                        required: true,
+                        number: true,
+                        min: 10
+                    }
+                },
+                messages: {
+                    phone: {
+                        number: "Introduceti un numar de telefon valid."
+                    }
+                },
+                submitHandler : function(form) {
+                    form.submit();
+                }
+            });
 
         });
     </script>
