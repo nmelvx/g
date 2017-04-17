@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('css')
-    {{ HTML::style('frontend/assets/components/air-datepicker/css/datepicker.min.css') }}
+{{ HTML::style('frontend/assets/components/datepicker/css/datepicker.css?v=1') }}
 @endsection
 
 @section('content')
@@ -37,8 +37,8 @@
                             <input type="text" placeholder="ZZ/LL/AAAA" class="input-calendar" name="date">
                         </div>
                         <div class="col-50 paddl10">
-                            <select name="user_id" name="hour">
-                                <option value="">Alege ora</option>
+                            <select name="time">
+                                <option value="default">Alege ora</option>
                                 @foreach($hours as $k => $hour)
                                     <option value="{{ $k }}">{{ $hour }}</option>
                                 @endforeach
@@ -48,7 +48,7 @@
                 </div>
                 <h4>2. Suprafața de lucru</h4>
                 <div class="div-padded">
-                    <input type="text" placeholder="450 mp" name="area">
+                    <input type="text" placeholder="450 (metrii patrati)" name="area">
                 </div>
                 <div class="div-padded">
 
@@ -56,18 +56,18 @@
                 <h4>3. Ce servicii doriți?</h4>
                 <div class="div-padded">
                     <ul class="chk-list">
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Tuns regulat al gazonului</label></li>
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Tuns gazon o singura data</label></li>
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Scarificare <em>(aerare)</em></label></li>
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Toaletare copaci</label></li>
+                        @foreach($services as $k => $service)
+                        <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, (in_array($service->id, Input::get('services')))? $service->id:false) }}<span></span>{{ $service->title }}</label></li>
+                        @endforeach
                     </ul>
                 </div>
                 <hr class="line2px">
                 <div class="text-center">
-                    <label class="checkbox-custom wauto"><input type="checkbox" name="services[]"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
+                    <label class="checkbox-custom wauto"><input type="checkbox" name="agree"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
                 </div>
-
-                <a href="javascript:void(0);" data-url="{{ route('save.offer') }}" class="green-button submit-form">Cere pret</a>
+                {{ Form::hidden('address', Input::get('address')) }}
+                {{ csrf_field() }}
+                <button class="green-button submit-form">Cere pret</button>
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
@@ -77,67 +77,94 @@
 
 @section('javascripts')
 
-    {{ HTML::script('frontend/assets/components/air-datepicker/js/datepicker.min.js') }}
-    {{ HTML::script('frontend/assets/components/air-datepicker/js/i18n/datepicker.ro.js') }}
-    {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
-    {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
+{{ HTML::script('frontend/assets/components/datepicker/js/bootstrap-datepicker.js') }}
+{{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+{{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            /** popup **/
+        /** popup **/
 
-            $('body').on('click', '.close-popup', function (e) {
-                e.preventDefault();
-                $(this).parent().parent().hide();
-                $(this).parent().hide();
-            });
+        $('body').on('click', '.close-popup', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().hide();
+            $(this).parent().hide();
+        });
 
-            $('body').on('click', '.show-popup', function (e) {
-                e.preventDefault();
-                $('.content-overlay').css({'height':$(document).height()+'px'});
-                var data = $(this).data('popup');
+        $('body').on('click', '.show-popup', function (e) {
+            e.preventDefault();
+            $('.content-overlay').css({'height':$(document).height()+'px'});
+            var data = $(this).data('popup');
 
-                $('.content-overlay').show();
-                $('.popup-' + data).show();
+            $('.content-overlay').show();
+            $('.popup-' + data).show();
 
-            });
+        });
 
-            $.fn.serializeObject = function () {
-                var o = {};
-                var a = this.serializeArray();
-                $.each(a, function () {
-                    if (o[this.name] !== undefined) {
-                        if (!o[this.name].push) {
-                            o[this.name] = [o[this.name]];
-                        }
-                        o[this.name].push(this.value || '');
-                    } else {
-                        o[this.name] = this.value || '';
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
                     }
-                });
-                return o;
-            };
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
 
-            $('.input-calendar').datepicker({
-                language: 'ro',
-                minDate: new Date()
-            })
+        $('.input-calendar').datepicker({
+            'format':'dd/mm/yyyy'
+        }).on('changeDate', function(e){
+            $(this).datepicker('hide');
+        });
 
-            //create new task / update existing task
-            $('body').on('click', '.submit-form', function (e) {
+        //create new task / update existing task
+        //$('body').on('click', '.submit-form', function (e) {
 
-                $.ajaxSetup({
-                    headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
-                });
 
-                e.preventDefault();
+        //});
 
-                var formData = $(this).parent('form').serializeObject();
+        $(window).on('load resize', function ()
+        {
+            $('.content-overlay').css({'height':$(document).height()+'px'});
+        });
 
-                var type = "POST"; //for creating new resource
-                var my_url = $(this).data('url');
+        jQuery.validator.addMethod(
+            "valueNotEquals",
+            function(value, element, arg){
+                return arg != value;
+            },
+            "Selectati ora inceperii lucrarii."
+        );
+
+        $('.form-popup').submit(function(e) {
+            e.preventDefault();
+        }).validate({
+            rules: {
+                date: 'required',
+                time: { valueNotEquals: "default" },
+                area: 'required',
+                agree: 'required'
+            },
+            messages: {
+                phone: {
+                    number: "Introduceti un numar de telefon valid."
+                }
+            },
+            submitHandler : function(form)
+            {
+
+                var formData = $('.form-popup').serializeObject();
+
+                var type = "POST";
+                var my_url = '{{ route('save.offer') }}';
 
                 $.ajax({
 
@@ -146,48 +173,23 @@
                     data: formData,
                     dataType: 'json',
                     success: function (data) {
-                        alert('Oferta salvata cu succes!');
+                        alert('Oferta salvata!');
                         $('.content-overlay').hide();
                         $('.popup-ask-offer').hide();
                         $('html, body').animate({ scrollTop: 0 }, "fast");
                     },
                     error: function (data) {
-                        console.log(data.responseJSON)
                         if(data.responseJSON.success == false){
                             alert('Toate campurile sunt obligatorii!');
                         }
                     }
                 });
-            });
 
-            $(window).on('load resize', function ()
-            {
-                $('.content-overlay').css({'height':$(document).height()+'px'});
-            });
-
-            $('.form-popup').validate({
-                rules: {
-                    address: "required",
-                    fullname: {
-                        withTwoStrings: true
-                    },
-                    phone: {
-                        required: true,
-                        number: true,
-                        min: 10
-                    }
-                },
-                messages: {
-                    phone: {
-                        number: "Introduceti un numar de telefon valid."
-                    }
-                },
-                submitHandler : function(form) {
-                    form.submit();
-                }
-            });
-
+                return false;
+            }
         });
-    </script>
+
+    });
+</script>
 
 @endsection

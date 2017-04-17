@@ -15,10 +15,9 @@
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>1.</span>Ce servicii doriti?</h3>
                     <ul class="chk-list">
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Tuns regulat al gazonului</label></li>
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Tuns gazon o singura data</label></li>
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Scarificare <em>(aerare)</em></label></li>
-                        <li><label class="checkbox-custom"><input type="checkbox" name="services[]"><span></span>Toaletare copaci</label></li>
+                        @foreach($services as $k => $service)
+                        <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, false) }}<span></span>{{ $service->title }}</label></li>
+                        @endforeach
                     </ul>
                     <div class="clearfix"></div>
                     <div class="border-top-2px border-bottom-2px">

@@ -6,16 +6,16 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <link href="{{ asset('frontend/assets/css/reset.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/components/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.css') }}" rel="stylesheet">
 
     @yield('css')
 
-    <link href="{{ asset('frontend/assets/css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/assets/css/styles.css?v=1.1') }}" rel="stylesheet">
 
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi">
 
     <!-- Scripts -->
     <script>

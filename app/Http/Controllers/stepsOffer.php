@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Service;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +34,8 @@ class stepsOffer extends Controller
             $this->user->save();
         }
 
-        return view('ask-offer', compact('post'));
+        $services = Service::all();
+
+        return view('ask-offer', compact('post', 'services'));
     }
 }

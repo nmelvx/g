@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
+use App\Service;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class calendarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $hours = [
             '08:00' => '08:00',
@@ -39,25 +42,48 @@ class calendarController extends Controller
             '20:30' => '20:30',
             '21:00' => '21:00'
         ];
-        return view('management.calendar.index', compact('hours'));
+
+        //dd($request->all());
+
+        $services = Service::all();
+
+        return view('management.calendar.index', compact('hours', 'services'));
     }
 
     public function saveOffer(Request $request){
 
-        $validator = Validator::make($request->all(), [
-            'date' => 'required'
-        ]);
+        if($request->ajax())
+        {
+            $validator = Validator::make($request->all(), [
+                'date' => 'required'
+            ]);
 
-        if ($validator->fails())
-        {
-            return Response::json(array(
-                'success' => false,
-                'errors' => $validator->getMessageBag()->toArray()
-            ), 400);
-        }
-        else
-        {
-            return Response::json(array('success' => true), 200);
+            if ($validator->fails())
+            {
+                return Response::json(array(
+                    'success' => false,
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 400);
+            }
+            else
+            {
+
+                $job = new Job();
+                $job->title   = 'Lucrare';
+                $job->date    = date('Y-m-d', strtotime($request->get('date')));
+                $job->time    = $request->get('time');
+                $job->area    = $request->get('area');
+                $job->sum     = 2000;
+                $job->address = $request->get('address');
+
+                $job->save();
+
+                $job->services()->attach($request->get('services'));
+
+                return Response::json(array(
+                    'success' => true
+                ), 200);
+            }
         }
         die;
     }
