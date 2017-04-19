@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use App\Libraries\Calendar;
 use App\Service;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
@@ -47,7 +48,10 @@ class calendarController extends Controller
 
         $services = Service::all();
 
-        return view('management.calendar.index', compact('hours', 'services'));
+
+        $calendar = new Calendar();
+
+        return view('management.calendar.index', compact('hours', 'services', 'calendar'));
     }
 
     public function saveOffer(Request $request){
@@ -68,12 +72,31 @@ class calendarController extends Controller
             else
             {
 
+                $sum = 0;
+                $totalDuration = 0;
+                $temp = [];
+                $services = $request->get('services');
+
+                foreach($services as $k => $serviceId)
+                {
+                    $serviceDetail = Service::find($serviceId);
+
+                    if(!in_array($serviceDetail->duration, $temp) && ($k+1)%2 != 0)
+                    {
+                        $totalDuration += $serviceDetail->duration * $request->get('area');
+                    }
+
+                    $sum += $serviceDetail->price * $request->get('area');
+
+                }
+
+
                 $job = new Job();
-                $job->title   = 'Lucrare';
-                $job->date    = date('Y-m-d', strtotime($request->get('date')));
-                $job->time    = $request->get('time');
-                $job->area    = $request->get('area');
-                $job->sum     = 2000;
+                $job->date = date('Y-m-d', strtotime($request->get('date')));
+                $job->time = $request->get('time');
+                $job->area = $request->get('area');
+                $job->sum  = $sum;
+                $job->total_duration = $totalDuration;
                 $job->address = $request->get('address');
 
                 $job->save();
@@ -87,4 +110,5 @@ class calendarController extends Controller
         }
         die;
     }
+
 }

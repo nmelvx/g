@@ -20,6 +20,7 @@ class CreateJobsTable extends Migration
             $table->time('time');
             $table->integer('area');
             $table->integer('sum');
+            $table->integer('total_duration');
             $table->string('address');
             $table->string('observations');
             $table->integer('team_id')->index()->nullabe();

@@ -1,7 +1,9 @@
 @extends('layouts.default')
 
 @section('css')
-{{ HTML::style('frontend/assets/components/datepicker/css/datepicker.css?v=1') }}
+{{ HTML::style('frontend/assets/components/jquery-ui-1.12.1/jquery-ui.min.css') }}
+
+{{ HTML::style('frontend/assets/css/calendar.css') }}
 @endsection
 
 @section('content')
@@ -19,12 +21,17 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mtb100">
+                <div class="calendar-cell">
+                {!! $calendar->show() !!}
+                </div>
+                <div class="address-div">
 
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="content-overlay not-fixed" style="display: block;">
+    <div class="content-overlay not-fixed" style="display:@if(isset($_POST) && !empty($_POST)) block @else none @endif">
         <div class="popup-content popup-ask-offer" style="display: block;">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
@@ -34,7 +41,7 @@
                 <div class="div-padded">
                     <div class="row">
                         <div class="col-50 paddr10">
-                            <input type="text" placeholder="ZZ/LL/AAAA" class="input-calendar" name="date">
+                            <input type="text" placeholder="ZZ/LL/AAAA" id="ll-skin-melon" class="input-calendar" name="date">
                         </div>
                         <div class="col-50 paddl10">
                             <select name="time">
@@ -57,7 +64,7 @@
                 <div class="div-padded">
                     <ul class="chk-list">
                         @foreach($services as $k => $service)
-                        <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, (in_array($service->id, Input::get('services')))? $service->id:false) }}<span></span>{{ $service->title }}</label></li>
+                        <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, (in_array($service->id, (!empty(Input::get('services'))?Input::get('services'):[])))? $service->id:false) }}<span></span>{{ $service->title }}</label></li>
                         @endforeach
                     </ul>
                 </div>
@@ -77,7 +84,7 @@
 
 @section('javascripts')
 
-{{ HTML::script('frontend/assets/components/datepicker/js/bootstrap-datepicker.js') }}
+{{ HTML::script('frontend/assets/components/jquery-ui-1.12.1/jquery-ui.min.js') }}
 {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
 {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
@@ -119,8 +126,18 @@
             return o;
         };
 
+        var unavailableDates = ["15/06/2017", "16/06/2017"];
+
+
         $('.input-calendar').datepicker({
-            'format':'dd/mm/yyyy'
+            'dateFormat':'dd/mm/yy',
+            beforeShowDay: function(dt)
+            {
+                $('#ui-datepicker-div').addClass(this.id);
+                $('#ui-datepicker-div').addClass('no-transition');
+                var string = jQuery.datepicker.formatDate('dd/mm/yy', dt);
+                return [dt.getDay() != 0 && dt.getDay() != 6 && unavailableDates.indexOf(string) == -1];
+            }
         }).on('changeDate', function(e){
             $(this).datepicker('hide');
         });
