@@ -1408,6 +1408,10 @@ div.panel {
     font-family: 'playfair_displaybold';
 }
 
+.form-popup .error{
+	margin-bottom: 15px;
+}
+
 .div-padded{
     float: left;
     clear: both;
@@ -1488,6 +1492,12 @@ form.offer-form label.error{
 
 #ui-datepicker-div{
 	width: auto !important;
+}
+
+.box-timepicker{
+	position: relative;
+	float: left;
+	width: 100%;
 }
 
 /** end calendar page **/

@@ -14,4 +14,6 @@ class Job extends Model
     {
         return $this->morphToMany(Service::class, 'serviceable')->withTimestamps();
     }
+
+
 }

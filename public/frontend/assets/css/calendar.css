@@ -165,6 +165,10 @@ div#calendar ul.dates li{
     border-bottom: 1px solid #cfe3f3;
     height: 110px;
 }
+div#calendar ul.dates li.currentDay > span {
+    border: 3px solid #2bb88a;
+}
+
 div#calendar ul.dates li > span{
     position: absolute;
     color: #1a6a44;
@@ -172,8 +176,9 @@ div#calendar ul.dates li > span{
     line-height: 40px;
     font-weight: 300;
     font-family: 'Fira Sans', sans-serif;
-    top: 5px;
-    right: 10px;
+    top: 0px;
+    right: 0px;
+    padding: 5px 8px;
 }
 
 :focus{

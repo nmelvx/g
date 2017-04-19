@@ -131,8 +131,10 @@ class Calendar {
 
         $inactive = ($this->weekday == 0 || $this->weekday == 6)? ' inactive':'';
 
+        $today = ($this->currentDate == date('Y-m-d'))? ' currentDay':'';
+
         return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
-            ($cellContent==null?'mask':'').$inactive.'"><span>'.$cellContent.'</span></li>';
+            ($cellContent==null?'mask':'').$inactive.$today.'"><span>'.$cellContent.'</span></li>';
     }
 
     /**

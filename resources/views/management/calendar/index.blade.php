@@ -2,7 +2,7 @@
 
 @section('css')
 {{ HTML::style('frontend/assets/components/jquery-ui-1.12.1/jquery-ui.min.css') }}
-
+{{ HTML::style('frontend/assets/components/jquery.timepicker/jquery.timepicker.css') }}
 {{ HTML::style('frontend/assets/css/calendar.css') }}
 @endsection
 
@@ -35,7 +35,7 @@
         <div class="popup-content popup-ask-offer" style="display: block;">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
-            <p class="text-center info-text">Mulțumim că ai ales serviciile noastre.</p>
+            <p class="text-center info-text">Programati data si ora serviciilor</p>
             <form action="" method="post" class="form-popup">
                 <h4>1. Data și ora</h4>
                 <div class="div-padded">
@@ -44,12 +44,15 @@
                             <input type="text" placeholder="ZZ/LL/AAAA" id="ll-skin-melon" class="input-calendar" name="date">
                         </div>
                         <div class="col-50 paddl10">
-                            <select name="time">
+                            <div class="box-timepicker">
+                                <input type="text" placeholder="18:00" class="input-timepicker" name="time">
+                            </div>
+                            {{--<select name="time">
                                 <option value="default">Alege ora</option>
                                 @foreach($hours as $k => $hour)
-                                    <option value="{{ $k }}">{{ $hour }}</option>
+                                    <option @if(in_array($hour, $unavailableHours)) disabled @endif value="{{ $k }}">{{ $hour }}</option>
                                 @endforeach
-                            </select>
+                            </select>--}}
                         </div>
                     </div>
                 </div>
@@ -70,7 +73,7 @@
                 </div>
                 <hr class="line2px">
                 <div class="text-center">
-                    <label class="checkbox-custom wauto"><input type="checkbox" name="agree"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
+                    <label class="checkbox-custom wauto agree-input"><input type="checkbox" name="agree"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
                 </div>
                 {{ Form::hidden('address', Input::get('address')) }}
                 {{ csrf_field() }}
@@ -87,6 +90,7 @@
 {{ HTML::script('frontend/assets/components/jquery-ui-1.12.1/jquery-ui.min.js') }}
 {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
 {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
+{{ HTML::script('frontend/assets/components/jquery.timepicker/jquery.timepicker.min.js') }}
 
 <script type="text/javascript">
 
@@ -126,17 +130,39 @@
             return o;
         };
 
-        var unavailableDates = ["15/06/2017", "16/06/2017"];
+        var unavailableDates = [];
 
+
+        $('.input-timepicker').timepicker({
+            'minTime': '08:00',
+            'maxTime': '21:00',
+            'timeFormat': 'H:i',
+            'appendTo' : '.box-timepicker'
+        });
 
         $('.input-calendar').datepicker({
-            'dateFormat':'dd/mm/yy',
+            'dateFormat':'dd-mm-yy',
             beforeShowDay: function(dt)
             {
                 $('#ui-datepicker-div').addClass(this.id);
                 $('#ui-datepicker-div').addClass('no-transition');
-                var string = jQuery.datepicker.formatDate('dd/mm/yy', dt);
-                return [dt.getDay() != 0 && dt.getDay() != 6 && unavailableDates.indexOf(string) == -1];
+                var string = jQuery.datepicker.formatDate('dd-mm-yy', dt);
+                /*return [dt.getDay() != 0 && dt.getDay() != 6 && unavailableDates.indexOf(string) == -1];*/
+                return [unavailableDates.indexOf(string) == -1];
+            },
+            onSelect: function(date, instance) {
+
+                $.ajax
+                ({
+                    type: "POST",
+                    url: "{{ route('get.hours') }}",
+                    data: {'date':date, '_token':$('meta[name="csrf-token"]').attr('content')},
+                    dataType: 'json',
+                    success: function(results)
+                    {
+                        console.log(results);
+                    }
+                });
             }
         }).on('changeDate', function(e){
             $(this).datepicker('hide');
@@ -164,6 +190,7 @@
         $('.form-popup').submit(function(e) {
             e.preventDefault();
         }).validate({
+            ignore: [],
             rules: {
                 date: 'required',
                 time: { valueNotEquals: "default" },
@@ -173,6 +200,12 @@
             messages: {
                 phone: {
                     number: "Introduceti un numar de telefon valid."
+                }
+            },
+            errorPlacement: function(error, element) {
+                if (element.attr("name") == "agree" )
+                {
+                    error.insertAfter(".agree-input");
                 }
             },
             submitHandler : function(form)
@@ -190,7 +223,6 @@
                     data: formData,
                     dataType: 'json',
                     success: function (data) {
-                        alert('Oferta salvata!');
                         $('.content-overlay').hide();
                         $('.popup-ask-offer').hide();
                         $('html, body').animate({ scrollTop: 0 }, "fast");
