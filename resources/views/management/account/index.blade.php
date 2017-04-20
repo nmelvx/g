@@ -9,7 +9,7 @@
                     <p>Urmatoarea programare este pe data de 19 septembrie ora 13:00.</p>
                     <a href="" class="button-custom see-prog-details">Vezi detalii</a>
                     <p>Acceseaza calendarul și cheamă o echipă</p>
-                    <a href="" title="Intră în calendar" class="button-custom check-calendar">Intră în calendar</a>
+                    <a href="{{ route('calendar.offers') }}" title="Intră în calendar" class="button-custom check-calendar">Intră în calendar</a>
                 </div>
             </div>
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
@@ -155,6 +155,8 @@
 
                 geocoder = new google.maps.Geocoder;
                 infoWindow = new google.maps.InfoWindow;
+
+                //var address = '{{ Auth::user()->address }}';
 
                 // Try HTML5 geolocation.
                 if (navigator.geolocation) {

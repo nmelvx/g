@@ -238,7 +238,8 @@
                     success: function (data) {
                         $('.content-overlay').hide();
                         $('.popup-ask-offer').hide();
-                        $('html, body').animate({ scrollTop: 0 }, "fast");
+                        //$('html, body').animate({ scrollTop: 0 }, "fast");
+                        window.location.href = '/calendar';
                     },
                     error: function (data) {
                         if(data.responseJSON.success == false){

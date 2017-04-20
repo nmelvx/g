@@ -84,7 +84,7 @@ class calendarController extends Controller
                 'team' => function($q){
                     return $q->with('leader');
                 }
-            ])->where('user_id', Auth::user()->id)->get();
+            ])->where('user_id', Auth::id())->get();
 
             return Response::json(array(
                 'success' => true,
@@ -150,9 +150,10 @@ class calendarController extends Controller
                 $job->time = $request->get('time');
                 $job->area = $request->get('area');
                 $job->sum  = $sum;
-                $job->team_id = array_rand($teams);
                 $job->total_duration = $totalDuration;
                 $job->address = $request->get('address');
+                $job->team_id = array_rand($teams);
+                $job->user_id = Auth::id();
 
                 $job->save();
 

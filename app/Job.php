@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
 
-    protected $fillable = ['title'];
+    protected $fillable = ['title', 'date', 'time', 'area', 'sum', 'total_duration', 'address', 'observations', 'team_id', 'user_id'];
 
 
     public function services()

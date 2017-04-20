@@ -17,20 +17,22 @@
                         <h4>Afla imediat cat costa:</h4>
                         <div class="input-with-text text-left">
                             <span>Zi-ne pe ce strada stai</span>
-                            <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" name="address" class="form-input">
+                            <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" value="{{ ($user != null)? $user->address:'' }}" name="address" class="form-input">
                         </div>
                         <div class="block-inputs" style="display: none;">
                             <div class="input-with-text w50 pull-left text-left">
                                 <span>Numele tau</span>
-                                <input type="text" placeholder="Neacsu Marius" name="fullname" class="form-input">
+                                <input type="text" placeholder="Neacsu Marius" value="{{ ($user != null)? $user->firstname.' '.$user->lastname:'' }}" name="fullname" class="form-input">
                             </div>
                             <div class="input-with-text w50 pull-right text-left">
                                 <span>Numarul de telefon</span>
-                                <input type="text" placeholder="0722 000 123" name="phone" class="form-input">
+                                <input type="text" placeholder="0722 000 123" value="{{ ($user != null)? $user->phone:'' }}" name="phone" class="form-input">
                             </div>
                         </div>
                         {{ csrf_field() }}
-                        {{ Form::hidden('unique_id', md5(uniqid(rand(), true))) }}
+                        {{ Form::hidden('latitude', ($user != null)? $user->latitude:'') }}
+                        {{ Form::hidden('longitude', ($user != null)? $user->longitude:'') }}
+                        {{ Form::hidden('unique_id', ($user != null)? $user->longitude:md5(uniqid(rand(), true))) }}
                         <button class="submit-btn">Vezi pretul</button>
                     </form>
                 </div>
@@ -262,6 +264,8 @@
 
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
                     var place = autocomplete.getPlace();
+                    $('input[name="latitude"]').val(place.geometry.location.lat());
+                    $('input[name="longitude"]').val(place.geometry.location.lng());
                     if (!place.geometry) {
                         console.log("No details available for input: '" + place.name + "'");
                         return;

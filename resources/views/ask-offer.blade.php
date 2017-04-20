@@ -34,13 +34,13 @@
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>3.</span>Cum te putem contacta?</h3>
                     <div class="line-input">
-                    {{ Form::text('firstname', explode(' ', Input::get('fullname'))[0], array('placeholder' => 'Prenume')) }}
+                    {{ Form::text('firstname', ($user != null)? $user->firstname : explode(' ', Input::get('fullname'))[0], array('placeholder' => 'Prenume')) }}
                     </div>
                     <div class="line-input">
-                    {{ Form::text('lastname', explode(' ', Input::get('fullname'))[1], array('placeholder' => 'Nume')) }}
+                    {{ Form::text('lastname', ($user != null)? $user->lastname : explode(' ', Input::get('fullname'))[1], array('placeholder' => 'Nume')) }}
                     </div>
                     <div class="line-input">
-                    {{ Form::text('email', '', array('placeholder' => 'Email')) }}
+                    {{ Form::text('email', ($user != null)? $user->email:'', array('placeholder' => 'Email')) }}
                     </div>
                     <div class="line-input">
                     {{ Form::text('phone', Input::get('phone'), array('placeholder' => 'Telefon')) }}
@@ -115,8 +115,39 @@
 
         $(document).ready(function(){
 
+            jQuery.validator.addMethod(
+                "validateUserEmail",
+                function(value, element) {
+                    var result = false;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('check.email') }}",
+                        dataType: "json",
+                        data: { 'email': value, '_token': $('meta[name="csrf-token"]').attr('content') },
+                        async: false,
+                        success: function(data)
+                        {
+                            if (data.success == false)
+                            {
+                                result = false;
+                            }
+                            else
+                            {
+                                result = true;
+                            }
+                        }
+                    });
+                    console.log(result);
+                    return result;
+                },
+                "Andresa de email este deja inregistrata."
+            );
+
+
+
 
             $('.offer-form').validate({
+                onkeyup: false,
                 rules: {
                     address: "required",
                     firstname: "required",
@@ -136,11 +167,13 @@
                         number: "Introduceti un numar de telefon valid."
                     }
                 },
+
                 submitHandler : function(form) {
                     form.submit();
                 }
             });
 
+            $('input[name="email"]').rules("add", { "validateUserEmail" : true} );
 
         });
 
