@@ -15,5 +15,8 @@ class Job extends Model
         return $this->morphToMany(Service::class, 'serviceable')->withTimestamps();
     }
 
-
+    public function team()
+    {
+        return $this->hasOne(Teams::class, 'id', 'team_id');
+    }
 }

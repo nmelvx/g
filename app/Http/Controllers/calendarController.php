@@ -8,6 +8,7 @@ use App\Service;
 use App\Teams;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -16,90 +17,21 @@ class calendarController extends Controller
 {
     public function index(Request $request)
     {
-        $hours = [
-            '08:00:00' => '08:00',
-            '08:30:00' => '08:30',
-            '09:00:00' => '09:00',
-            '09:30:00' => '09:30',
-            '10:00:00' => '10:00',
-            '10:30:00' => '10:30',
-            '11:00:00' => '11:00',
-            '11:30:00' => '11:30',
-            '12:00:00' => '12:00',
-            '12:30:00' => '12:30',
-            '13:00:00' => '13:00',
-            '13:30:00' => '13:30',
-            '14:00:00' => '14:00',
-            '14:30:00' => '14:30',
-            '15:00:00' => '15:00',
-            '15:30:00' => '15:30',
-            '16:00:00' => '16:00',
-            '16:30:00' => '16:30',
-            '17:00:00' => '17:00',
-            '17:30:00' => '17:30',
-            '18:00:00' => '18:00',
-            '18:30:00' => '18:30',
-            '19:00:00' => '19:00',
-            '19:30:00' => '19:30',
-            '20:00:00' => '20:00',
-            '20:30:00' => '20:30',
-            '21:00:00' => '21:00'
-        ];
-
-        //dd($request->all());
-
         $services = Service::all();
 
-
-        $teams = DB::table('teams')->pluck('id')->toArray();
-
-        $jobs = Job::with('services')->get();
-
-        $unavailableDates = [];
-        $unavailableHours = [];
-        foreach($jobs as $job)
-        {
-            $unavailableHours[$job->time] = substr($job->time, 0, -3);
-        }
-
-        //$hours = array_diff($hours, $unavailableHours);
+        $jobs = Job::with('services')->with([
+            'team' => function($q){
+                return $q->with('leader');
+            }
+        ])->get();
 
         $calendar = new Calendar();
 
-        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'unavailableHours'));
+        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs'));
     }
 
     public function getHours(Request $request)
     {
-        $hours = [
-            '08:00:00' => '08:00',
-            '08:30:00' => '08:30',
-            '09:00:00' => '09:00',
-            '09:30:00' => '09:30',
-            '10:00:00' => '10:00',
-            '10:30:00' => '10:30',
-            '11:00:00' => '11:00',
-            '11:30:00' => '11:30',
-            '12:00:00' => '12:00',
-            '12:30:00' => '12:30',
-            '13:00:00' => '13:00',
-            '13:30:00' => '13:30',
-            '14:00:00' => '14:00',
-            '14:30:00' => '14:30',
-            '15:00:00' => '15:00',
-            '15:30:00' => '15:30',
-            '16:00:00' => '16:00',
-            '16:30:00' => '16:30',
-            '17:00:00' => '17:00',
-            '17:30:00' => '17:30',
-            '18:00:00' => '18:00',
-            '18:30:00' => '18:30',
-            '19:00:00' => '19:00',
-            '19:30:00' => '19:30',
-            '20:00:00' => '20:00',
-            '20:30:00' => '20:30',
-            '21:00:00' => '21:00'
-        ];
 
         if($request->ajax()) {
             $validator = Validator::make($request->all(), [
@@ -119,21 +51,46 @@ class calendarController extends Controller
 
                 $jobs = Job::with('services')->where('date', $date)->get();
 
-                $unavailableHours = [];
+                $unavailableRanges = [];
+
                 if(sizeof($jobs) > 0 ) {
 
                     foreach ($jobs as $job) {
-                        $unavailableHours[$job->time] = substr($job->time, 0, -3);
-                        $totalDuration = date('H:i:s', strtotime($job->total_duration));
-                        $new_time = date("H:i:s", strtotime('+'.$totalDuration.' hours'));
+
+                        $startTime = substr($job->time, 0, -3);
+                        $endTime = date("H:i", strtotime($startTime.' +'.$job->total_duration.' seconds'));
+
+                        array_push($unavailableRanges, [$startTime, $endTime]);
+
                     }
                 }
 
                 return Response::json(array(
                     'success' => true,
-                    'unavailableHours' => $unavailableHours
+                    'unavailableHours' => $unavailableRanges
                 ), 200);
             }
+        }
+
+        return false;
+    }
+
+    public function getJobs(Request $request)
+    {
+
+        if($request->ajax()) {
+
+            $jobs = Job::with('services')->with([
+                'team' => function($q){
+                    return $q->with('leader');
+                }
+            ])->where('user_id', Auth::user()->id)->get();
+
+            return Response::json(array(
+                'success' => true,
+                'jobs' => $jobs
+            ), 200);
+
         }
 
         return false;
@@ -176,9 +133,7 @@ class calendarController extends Controller
                 }
 
                 /** get available days and hours **/
-                $teams = DB::table('teams')->lists('id')->toArray();
-
-                print_r($teams);die;
+                $teams = DB::table('teams')->pluck('id')->toArray();
 
                 $jobs = Job::with('services')->get();
 
@@ -195,6 +150,7 @@ class calendarController extends Controller
                 $job->time = $request->get('time');
                 $job->area = $request->get('area');
                 $job->sum  = $sum;
+                $job->team_id = array_rand($teams);
                 $job->total_duration = $totalDuration;
                 $job->address = $request->get('address');
 

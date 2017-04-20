@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 mtb100">
                 <div class="calendar-cell">
-                {!! $calendar->show() !!}
+                {!! $calendar->show($jobs) !!}
                 </div>
                 <div class="address-div">
 
@@ -132,14 +132,6 @@
 
         var unavailableDates = [];
 
-
-        $('.input-timepicker').timepicker({
-            'minTime': '08:00',
-            'maxTime': '21:00',
-            'timeFormat': 'H:i',
-            'appendTo' : '.box-timepicker'
-        });
-
         $('.input-calendar').datepicker({
             'dateFormat':'dd-mm-yy',
             beforeShowDay: function(dt)
@@ -160,6 +152,17 @@
                     dataType: 'json',
                     success: function(results)
                     {
+                        //destroy timepicker
+                        $('.input-timepicker').timepicker('remove');
+
+                        //init timepicker
+                        $('.input-timepicker').timepicker({
+                            minTime: '08:00',
+                            maxTime: '21:00',
+                            timeFormat: 'H:i',
+                            appendTo: '.box-timepicker',
+                            disableTimeRanges: results.unavailableHours
+                        });
                         console.log(results);
                     }
                 });
@@ -187,25 +190,35 @@
             "Selectati ora inceperii lucrarii."
         );
 
+        //time: { valueNotEquals: "default" },
+
         $('.form-popup').submit(function(e) {
             e.preventDefault();
         }).validate({
-            ignore: [],
+            ignore: "input[type='text']:hidden",
             rules: {
                 date: 'required',
-                time: { valueNotEquals: "default" },
+                time: 'required',
                 area: 'required',
                 agree: 'required'
             },
             messages: {
                 phone: {
                     number: "Introduceti un numar de telefon valid."
+                },
+                time: {
+                    required: "Alegeti ora pentru inceperea lucrarilor."
+                },
+                date: {
+                    required: "Alegeti data lucrarilor."
                 }
             },
             errorPlacement: function(error, element) {
                 if (element.attr("name") == "agree" )
                 {
                     error.insertAfter(".agree-input");
+                } else {
+                    error.insertAfter(element);
                 }
             },
             submitHandler : function(form)
@@ -235,6 +248,27 @@
                 });
 
                 return false;
+            }
+        });
+
+        $.ajax({
+
+            type: 'GET',
+            url: '{{ route('get.jobs') }}',
+            data: {},
+            dataType: 'json',
+            success: function (result)
+            {
+
+                $("ul.dates li").each(function( index ) {
+                    var element = $(this);
+                    $.each(result.jobs, function( key, value ) {
+                        if('li-'+value.date == element.attr('id'))
+                        {
+                            element.append('<div>'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div>')
+                        }
+                    });
+                });
             }
         });
 

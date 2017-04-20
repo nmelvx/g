@@ -15,15 +15,16 @@ class CreateJobsTable extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('title');
-            $table->date('date');
-            $table->time('time');
-            $table->integer('area');
-            $table->integer('sum');
-            $table->integer('total_duration');
-            $table->string('address');
-            $table->string('observations');
+            $table->string('title')->nullabe();
+            $table->date('date')->nullabe();
+            $table->time('time')->nullabe();
+            $table->integer('area')->nullabe();
+            $table->integer('sum')->nullabe();
+            $table->integer('total_duration')->nullabe();
+            $table->string('address')->nullabe();
+            $table->string('observations')->nullabe();
             $table->integer('team_id')->index()->nullabe();
+            $table->integer('user_id')->index()->nullabe();
             $table->timestamps();
         });
     }

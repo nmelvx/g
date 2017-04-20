@@ -35,7 +35,7 @@ class Calendar {
     /**
      * print out the calendar
      */
-    public function show() {
+    public function show($jobs = []) {
 
         $year  = null;
         $month = null;
@@ -81,7 +81,7 @@ class Calendar {
 
             //Create days in a week
             for($j=1;$j<=7;$j++){
-                $content.=$this->_showDay($i*7+$j);
+                $content.=$this->_showDay($i*7+$j, $jobs);
             }
         }
 
@@ -99,7 +99,7 @@ class Calendar {
     /**
      * create the li element for ul
      */
-    private function _showDay($cellNumber){
+    private function _showDay($cellNumber, $jobs){
 
         if($this->currentDay==0){
 
@@ -132,6 +132,14 @@ class Calendar {
         $inactive = ($this->weekday == 0 || $this->weekday == 6)? ' inactive':'';
 
         $today = ($this->currentDate == date('Y-m-d'))? ' currentDay':'';
+
+/*        foreach($jobs as $job)
+        {
+            $jobLeader = ($this->currentDate == $job->date)? $job->team->leader->firstname.' '.$job->team->leader->lastname:'';
+
+            return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
+                ($cellContent==null?'mask':'').$inactive.$today.'">'.$jobLeader.'<span>'.$cellContent.'</span></li>';
+        }*/
 
         return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
             ($cellContent==null?'mask':'').$inactive.$today.'"><span>'.$cellContent.'</span></li>';
