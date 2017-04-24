@@ -94,6 +94,7 @@ Route::group(['middleware' => 'role:client'], function()
     Route::any('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
     Route::post('get-hours', ['as' => 'get.hours', 'uses' => 'calendarController@getHours']);
     Route::get('get-jobs', ['as' => 'get.jobs', 'uses' => 'calendarController@getJobs']);
+	Route::post('update-user', ['as' => 'update.user', 'uses' => 'calendarController@updateUser']);
 });
 
 Route::group(['middleware' => 'web'], function() {

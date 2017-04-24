@@ -28,7 +28,7 @@
 
 @include('includes.header')
 
-@include('includes.account-header')
+@include('includes.account-header-client')
 
 @yield('content')
 
@@ -47,10 +47,18 @@
             $(window).unbind('scroll');
             if(windowSize > 991)
             {
-                console.log(111)
                 $(window).scroll(function(){
-                    if($('.border-green-bottom').length > 0)
+                    if($('.border-green-bottom').length > 0){
                         $('.border-green-bottom').css('opacity', 1 - $(window).scrollTop() / 200);
+                    }
+
+                    console.log($('.border-green-bottom').css('opacity'));
+
+                    if(parseFloat($('.border-green-bottom').css('opacity')) <= 0) {
+                        $('.border-green-bottom').hide();
+                    } else {
+                        $('.border-green-bottom').show();
+                    }
                 });
             }
         });

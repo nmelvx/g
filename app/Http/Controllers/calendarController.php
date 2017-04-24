@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Job;
 use App\Libraries\Calendar;
 use App\Service;
-use App\Teams;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -15,8 +14,37 @@ use Illuminate\Support\Facades\Validator;
 
 class calendarController extends Controller
 {
+
     public function index(Request $request)
     {
+		/** update the user **/
+        if(!empty($request->all()))
+        {
+            $id = Auth::id();
+
+            $validator = Validator::make($request->all(), [
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'phone' => 'required|digits_between:10,15',
+                'email' => 'required|email|unique:users,email,' . $id
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            } else {
+                $user = User::find(Auth::id());
+
+                $user->firstname = $request->get('firstname');
+                $user->lastname = $request->get('lastname');
+                $user->email = $request->get('email');
+                $user->phone = $request->get('phone');
+
+                $user->save();
+
+            }
+        }
+		
+		
         $services = Service::all();
 
         $jobs = Job::with('services')->with([
@@ -28,6 +56,39 @@ class calendarController extends Controller
         $calendar = new Calendar();
 
         return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs'));
+    }
+
+    public function updateUser(Request $request)
+    {
+        /** update the user **/
+        if(!empty($request->all()))
+        {
+            $id = Auth::id();
+
+            $validator = Validator::make($request->all(), [
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'phone' => 'required|digits_between:10,15',
+                'email' => 'required|email|unique:users,email,' . $id
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            } else {
+                $user = User::find(Auth::id());
+
+                $user->firstname = $request->get('firstname');
+                $user->lastname = $request->get('lastname');
+                $user->email = $request->get('email');
+                $user->phone = $request->get('phone');
+
+                $user->save();
+
+                return redirect(route('calendar.offers'));
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function getHours(Request $request)
@@ -114,6 +175,7 @@ class calendarController extends Controller
             else
             {
 
+                /** calculate duration and price **/
                 $sum = 0;
                 $totalDuration = 0;
                 $temp = [];
@@ -152,7 +214,7 @@ class calendarController extends Controller
                 $job->sum  = $sum;
                 $job->total_duration = $totalDuration;
                 $job->address = $request->get('address');
-                $job->team_id = array_rand($teams);
+                $job->team_id = array_rand($teams, 1);
                 $job->user_id = Auth::id();
 
                 $job->save();

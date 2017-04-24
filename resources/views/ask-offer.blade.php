@@ -35,18 +35,30 @@
                     <h3><span>3.</span>Cum te putem contacta?</h3>
                     <div class="line-input">
                     {{ Form::text('firstname', ($user != null)? $user->firstname : explode(' ', Input::get('fullname'))[0], array('placeholder' => 'Prenume')) }}
+                        @if ($errors->has('firstname'))
+                            <label class="error">{{ $errors->first('firstname') }}</label>
+                        @endif
                     </div>
                     <div class="line-input">
                     {{ Form::text('lastname', ($user != null)? $user->lastname : explode(' ', Input::get('fullname'))[1], array('placeholder' => 'Nume')) }}
+                        @if ($errors->has('lastname'))
+                            <label class="error">{{ $errors->first('lastname') }}</label>
+                        @endif
                     </div>
                     <div class="line-input">
-                    {{ Form::text('email', ($user != null)? $user->email:'', array('placeholder' => 'Email')) }}
+                    {{ Form::text('email', ($user != null)? $user->email : '', array('placeholder' => 'Email')) }}
+                        @if ($errors->has('email'))
+                            <label class="error">{{ $errors->first('email') }}</label>
+                        @endif
                     </div>
                     <div class="line-input">
-                    {{ Form::text('phone', Input::get('phone'), array('placeholder' => 'Telefon')) }}
+                    {{ Form::text('phone', ($user != null)? $user->phone : Input::get('phone'), array('placeholder' => 'Telefon')) }}
+                        @if ($errors->has('phone'))
+                            <label class="error">{{ $errors->first('phone') }}</label>
+                        @endif
                     </div>
-                    {{ Form::hidden('address', Input::get('address')) }}
-                    {{ Form::hidden('unique_id', Input::get('unique_id')) }}
+                    {{ Form::hidden('address', ($user != null)? $user->address : Input::get('address')) }}
+                    {{ Form::hidden('unique_id', ($user != null)? $user->unique_id : Input::get('unique_id')) }}
                     {{ csrf_field() }}
                     <div class="clearfix"></div>
                     <div class="border-bottom-2px">

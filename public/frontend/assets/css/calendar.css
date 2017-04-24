@@ -179,6 +179,7 @@ div#calendar ul.dates li > span{
     top: 0px;
     right: 0px;
     padding: 5px 8px;
+    z-index: 102;
 }
 
 :focus{

@@ -45,7 +45,7 @@
                         </div>
                         <div class="col-50 paddl10">
                             <div class="box-timepicker">
-                                <input type="text" placeholder="18:00" class="input-timepicker" name="time">
+                                <input type="text" placeholder="18:00" class="input-timepicker"  name="time">
                             </div>
                             {{--<select name="time">
                                 <option value="default">Alege ora</option>
@@ -223,17 +223,11 @@
             },
             submitHandler : function(form)
             {
-
-                var formData = $('.form-popup').serializeObject();
-
-                var type = "POST";
-                var my_url = '{{ route('save.offer') }}';
-
                 $.ajax({
 
-                    type: type,
-                    url: my_url,
-                    data: formData,
+                    type: 'POST',
+                    url: '{{ route('save.offer') }}',
+                    data: $('.form-popup').serializeObject(),
                     dataType: 'json',
                     success: function (data) {
                         $('.content-overlay').hide();
@@ -242,9 +236,7 @@
                         window.location.href = '/calendar';
                     },
                     error: function (data) {
-                        if(data.responseJSON.success == false){
-                            alert('Toate campurile sunt obligatorii!');
-                        }
+                        console.log(data);
                     }
                 });
 
@@ -266,7 +258,7 @@
                     $.each(result.jobs, function( key, value ) {
                         if('li-'+value.date == element.attr('id'))
                         {
-                            element.append('<div>'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div>')
+                            element.append('<div class="cell-appointment"><strong>'+value.time.substring(0, value.time.length - 3)+'</strong><div class="small-cell">'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div></div>')
                         }
                     });
                 });
