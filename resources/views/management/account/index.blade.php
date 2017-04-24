@@ -139,7 +139,7 @@
 
 @section('javascripts')
 
-    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0"></script>
 
     <script type="text/javascript">
 
@@ -156,41 +156,54 @@
                 geocoder = new google.maps.Geocoder;
                 infoWindow = new google.maps.InfoWindow;
 
-                //var address = '{{ Auth::user()->address }}';
+                var LAT_VALUE = {{ Auth::user()->latitude }};
+                var LONG_VALUE = {{ Auth::user()->longitude }};
 
-                // Try HTML5 geolocation.
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-
-                        geocoder.geocode({'location': pos}, function (results, status) {
-                            if (status === 'OK') {
-                                if (results[0]) {
-                                    new google.maps.Marker({
-                                        position: pos,
-                                        icon: 'assets/images/pin.png',
-                                        map: map
-                                    });
-                                    $('#geolocation-address').text(results[0].formatted_address);
-                                } else {
-                                    console.log('No results found');
-                                }
-                            } else {
-                                console.log('Geocoder failed due to: ' + status);
-                            }
-                        });
-
-                        map.setCenter(pos);
-
-                    }, function() {
-                        handleLocationError(true, infoWindow, map.getCenter());
+                if(typeof(LAT_VALUE) !== undefined && typeof(LONG_VALUE) !== undefined)
+                {
+                    new google.maps.Marker({
+                        position: new google.maps.LatLng({lat:LAT_VALUE, lng:LONG_VALUE}),
+                        icon: 'frontend/assets/images/pin.png',
+                        map: map
                     });
+
+                    map.setCenter(new google.maps.LatLng({lat:LAT_VALUE, lng:LONG_VALUE}));
                 } else {
-                    // Browser doesn't support Geolocation
-                    handleLocationError(false, infoWindow, map.getCenter());
+
+                    // Try HTML5 geolocation.
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+
+                            geocoder.geocode({'location': pos}, function (results, status) {
+                                if (status === 'OK') {
+                                    if (results[0]) {
+                                        new google.maps.Marker({
+                                            position: pos,
+                                            icon: 'frontend/assets/images/pin.png',
+                                            map: map
+                                        });
+                                        $('#geolocation-address').text(results[0].formatted_address);
+                                    } else {
+                                        console.log('No results found');
+                                    }
+                                } else {
+                                    console.log('Geocoder failed due to: ' + status);
+                                }
+                            });
+
+                            map.setCenter(pos);
+
+                        }, function () {
+                            handleLocationError(true, infoWindow, map.getCenter());
+                        });
+                    } else {
+                        // Browser doesn't support Geolocation
+                        handleLocationError(false, infoWindow, map.getCenter());
+                    }
                 }
             }
 

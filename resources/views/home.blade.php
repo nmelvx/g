@@ -17,16 +17,16 @@
                         <h4>Afla imediat cat costa:</h4>
                         <div class="input-with-text text-left">
                             <span>Zi-ne pe ce strada stai</span>
-                            <input type="text" id="autocomplete" placeholder="Padurenri nr. 10" value="{{ ($user != null)? $user->address:'' }}" name="address" class="form-input">
+                            <input type="text" id="autocomplete" placeholder="Ex: Padurenri nr. 10" value="{{ ($user != null)? $user->address:'' }}" name="address" class="form-input">
                         </div>
                         <div class="block-inputs" style="display: none;">
                             <div class="input-with-text w50 pull-left text-left">
                                 <span>Numele tau</span>
-                                <input type="text" placeholder="Neacsu Marius" value="{{ ($user != null)? $user->firstname.' '.$user->lastname:'' }}" name="fullname" class="form-input">
+                                <input type="text" placeholder="Ex: Dan Mihailescu" value="{{ ($user != null)? $user->firstname.' '.$user->lastname:'' }}" name="fullname" class="form-input">
                             </div>
                             <div class="input-with-text w50 pull-right text-left">
                                 <span>Numarul de telefon</span>
-                                <input type="text" placeholder="0722 000 123" value="{{ ($user != null)? $user->phone:'' }}" name="phone" class="form-input">
+                                <input type="text" placeholder="Ex: 0745123456" value="{{ ($user != null)? $user->phone:'' }}" name="phone" class="form-input">
                             </div>
                         </div>
                         {{ csrf_field() }}
@@ -203,7 +203,6 @@
                         else{
                             return false;
                         }
-                        e.preventDefault();
                     },
                     "Introduceti numele si prenumele."
             );
@@ -235,6 +234,7 @@
 
                 if($('.form-offer').valid()){
                     $('.block-inputs').show();
+                    return false;
                 }
 
                 if($('.block-inputs').is(':visible')){
@@ -242,6 +242,7 @@
                         $('.form-offer').submit();
                     }
                 }
+
             });
 
             var autocomplete;
