@@ -12,7 +12,9 @@ class AccountController extends Controller
 {
     public function index()
     {
-        return view('management.account.index');
+        $class = 'green';
+
+        return view('management.account.index', compact('class'));
     }
 
     public function show()

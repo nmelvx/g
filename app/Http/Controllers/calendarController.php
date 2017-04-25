@@ -54,8 +54,9 @@ class calendarController extends Controller
         ])->get();
 
         $calendar = new Calendar();
+        $class = 'green';
 
-        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs'));
+        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class'));
     }
 
     public function updateUser(Request $request)

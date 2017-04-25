@@ -1,6 +1,6 @@
-    <div class="container-fluid header-menu green navbar-fixed-top">
+    <div class="container-fluid header-menu {!! (isset($class) && !empty($class))?$class:'white' !!} navbar-fixed-top">
         <div class="container">
-            <a href="{{ route('home') }}" title="Logo Gardinero" class="logo-header"><img src="frontend/assets/images/logo-gardinero-white.png" alt="Logo Gardinero"></a>
+            <a href="{{ route('home') }}" title="Logo Gardinero" class="logo-header"><img src="frontend/assets/images/logo-gardinero-{!! (isset($class) && !empty($class))?'white':'green' !!}.png" alt="Logo Gardinero"></a>
             <ul>
                 <li><a href="/servicii" title="Servicii">Servicii</a></li>
                 <li><a href="/preturi" title="Preturi">Preturi</a></li>

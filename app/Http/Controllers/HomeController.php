@@ -28,6 +28,9 @@ class HomeController extends Controller
         if(Auth::check()){
             $user = Auth::user();
         }
-        return view('home', compact('user'));
+
+        $class = '';
+
+        return view('home', compact('user', 'class'));
     }
 }

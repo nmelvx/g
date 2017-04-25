@@ -56,7 +56,9 @@ class PagesController extends Controller
 
         if($page == null) abort(404);
 
-        return view('pages.view', compact('page'));
+        $class = '';
+
+        return view('pages.view', compact('page', 'class'));
     }
 
     /**

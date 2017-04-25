@@ -78,6 +78,9 @@ body{
 .header-menu.green{
 	background-color: #2bb88a;
 }
+.header-menu.white{
+	background-color: #ffffff;
+}
 .header-menu.green ul li a{
 	color: #ffffff;
 }
@@ -828,6 +831,10 @@ div.panel {
 	left: 0px;
 }
 
+.content-overlay.absolute{
+	position: absolute;
+}
+
 .not-fixed{
     position: absolute;
 }
@@ -849,6 +856,34 @@ div.panel {
 	font-weight: 400;
 	margin-bottom: 20px;
 	width: 100%;
+}
+
+.popup-team .form-popup input[type="text"], .popup-team .form-popup textarea{
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	font-size: 22px;
+	line-height: 22px;
+	height: auto;
+	width: 100%;
+}
+
+.popup-team .form-popup textarea{
+	height: 160px;
+	resize: none;
+	margin: 5px 0 0 0;
+}
+
+.popup-team h4{
+	font-size: 23px;
+	font-weight: 600;
+}
+.popup-content.popup-team h3{
+	margin: 0px;
+}
+.popup-team p{
+	font-size: 18px;
+	font-weight: 400;
 }
 
 .popup-content h3{
@@ -887,19 +922,31 @@ div.panel {
 .user-info-logged {
 	float: right;
 	font-size: 18px;
-	color: #ffffff;
+	color: #2bb88a;
 	line-height: 37px;
 	height: 37px;
 	margin-left: 30px;
 }
 
-.user-info-logged a{
+.green .user-info-logged {
 	color: #ffffff;
+}
+
+.green .user-info-logged a{
+	color: #ffffff;
+}
+
+.user-info-logged a{
+	color: #2bb88a;
 	text-decoration: underline;
 }
 .user-info-logged a:hover, .user-info-logged a:focus, .user-info-logged a:active{
-	color: #ffffff;
+	color: #2bb88a;
 	text-decoration: none;
+}
+.green .user-info-logged a:hover, .green .user-info-logged a:focus, .green
+.user-info-logged a:active{
+	color: #ffffff;
 }
 
 .ico{
@@ -1135,6 +1182,12 @@ div.panel {
 	color: #3ec17f;
 	margin-top: 0px;
 }
+.small-section-title{
+	font-size: 50px;
+	font-family: 'playfair_displaybold';
+	color: #3ec17f;
+	margin-top: 0px;
+}
 .section-text{
 	font-size: 25px;
 	font-family: 'Fira Sans', sans-serif;
@@ -1143,6 +1196,26 @@ div.panel {
 	margin-left: 100px;
 	margin-bottom: 30px;
 	margin-top: 30px;
+}
+
+.box-guaranty{
+	float: left;
+	clear: both;
+	padding-left: 130px;
+	background: url("../images/garantia-gardinero.png") top left no-repeat;
+}
+
+.reseted{
+	border: 0px !important;
+	padding: 0px;
+	margin: 0px;
+}
+
+.enter-team{
+	float: left;
+	clear: both;
+	margin: 20px 0px 0px 0px;
+	font-size: 22px;
 }
 
 .review-text, .slide-text{
@@ -1202,7 +1275,7 @@ div.panel {
 .header-background.pages-header{
 	margin-top: 87px;
 	padding: 90px 0;
-	height: auto;
+	min-height: inherit;
 }
 
 .page-title{
@@ -1559,6 +1632,83 @@ form.offer-form label.error{
 
 /** end calendar page **/
 
+.page-info > h3{
+	font-size: 65px;
+	color: #3ec17f;
+	font-family: 'playfair_displaybold';
+}
+.page-info-small > h3{
+	font-size: 45px;
+	color: #3ec17f;
+	font-family: 'playfair_displaybold';
+}
+
+.de-ce-noi h4{
+	font-size: 30px;
+	font-weight: 600;
+}
+.de-ce-noi p{
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.faq-list, .faq-list li{
+	float: left;
+	width: 100%;
+	list-style: none;
+	position: relative;
+}
+.faq-list li{
+	padding: 0 0 20px 20px;
+}
+.faq-list li small{
+	float: left;
+	position: absolute;
+	left: 0px;
+	top: 5px;
+	width: 13px;
+	height: 13px;
+	background: url("../images/arrow-rd.png") top center no-repeat;
+	-webkit-transition: none !important;
+	-moz-transition: none !important;
+	-o-transition: none !important;
+	transition: none !important;
+}
+
+.faq-list li:hover small{
+	background-position: bottom center;
+}
+.faq-list li h4{
+	color: #8a9b93;
+	font-weight: 600;
+	font-size: 22px;
+	font-family: 'Fira Sans', sans-serif;
+	margin: 0 0 10px 0;
+	cursor: pointer;
+}
+.faq-list li:hover h4{
+	color: #3ec17f;
+}
+.faq-list li p{
+	font-family: 'Fira Sans', sans-serif;
+	color: #2e5241;
+	padding: 15px;
+	font-size: 18px;
+	line-height: 22px;
+	background: #d5f6e5;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	font-weight: 400;
+	display: none;
+}
+
+.faq > h3{
+	font-size: 45px;
+	color: #3ec17f;
+	font-family: 'playfair_displaybold';
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;
@@ -1851,8 +2001,8 @@ form.offer-form label.error{
 	}
 	.menu-account li a{
 		float: left;
-		padding: 25px 30px;
-		font-size: 23px;
+		padding: 20px;
+		font-size: 20px;
 		font-family: 'Fira Sans', sans-serif;
 		color: #1a6a44;
 		text-decoration: none;
