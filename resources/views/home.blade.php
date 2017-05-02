@@ -274,16 +274,21 @@
                 }
             });
 
+            var isValid = false;
+
             $('body').on('click', '.submit-btn', function(e){
                 e.preventDefault();
 
-                if($('.form-offer').valid()){
+                if($('.form-offer').valid() && isValid == false){
                     $('.block-inputs').show();
+                    isValid = true;
                     return false;
                 }
 
                 if($('.block-inputs').is(':visible')){
+
                     if($('.form-offer').valid()){
+
                         $('.form-offer').submit();
                     }
                 }
