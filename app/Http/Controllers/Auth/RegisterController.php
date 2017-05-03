@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\SendRegisterMail;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Ultraware\Roles\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -64,12 +67,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'visible_password' => $data['password']
         ]);
+
+        $role = Role::find(5);
+        $user->attachRole($role);
+
+
+        //Mail::to($user->email)->send(new SendRegisterMail($user));
+
+        Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
+            $m->from('noreply@gardinero.ro', 'Echipa Gardinero.ro');
+            $m->to($user->email, $user->firstname.' '.$user->lastname)->subject('Cont nou Gardinero.ro');
+        });
+
+        return $user;
     }
 }

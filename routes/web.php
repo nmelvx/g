@@ -74,12 +74,9 @@ Route::get('/new_user', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin'], function () {
-    //Route::get('/login', ['as' => 'login', 'uses' => 'LoginController@showLoginForm']);
+Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
     Route::get('/dashboard', ['as' => 'dashboard', 'middleware' => 'role:admin', 'uses' => 'Dashboard@show']);
-
 });
-
 
 Route::group(['middleware' => 'role:admin|leader'], function()
 {

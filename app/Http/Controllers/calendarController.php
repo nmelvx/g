@@ -215,7 +215,8 @@ class calendarController extends Controller
                 $job->sum  = $sum;
                 $job->total_duration = $totalDuration;
                 $job->address = $request->get('address');
-                $job->team_id = array_rand($teams, 1);
+                $key = array_rand($teams, 1);
+                $job->team_id = $teams[$key];
                 $job->user_id = Auth::id();
 
                 $job->save();
