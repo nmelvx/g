@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use App\Libraries\Calendar;
+use App\Mail\SendRegisterMail;
 use App\Service;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,6 +44,13 @@ class calendarController extends Controller
 
                 $user->save();
 
+                //Mail::to($user->email)->send(new SendRegisterMail($user));
+                if (App::environment('production')) {
+                    Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
+                        $m->from('suport@gardinero.ro');
+                        $m->to($user->email)->subject('Cont nou Gardinero.ro');
+                    });
+                }
             }
         }
 		
@@ -51,7 +61,9 @@ class calendarController extends Controller
             'team' => function($q){
                 return $q->with('leader');
             }
-        ])->get();
+        ])->where('user_id', Auth::id())->get();
+
+        dd($jobs);
 
         $calendar = new Calendar();
         $class = 'green';
@@ -84,6 +96,8 @@ class calendarController extends Controller
                 $user->phone = $request->get('phone');
 
                 $user->save();
+
+                Mail::to($user->email)->send(new SendRegisterMail($user));
 
                 return redirect(route('calendar.offers'));
             }

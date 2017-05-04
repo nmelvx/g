@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'support@gardinero.ro'),
+        'address' => env('MAIL_FROM_ADDRESS', 'suport@gardinero.ro'),
         'name' => env('MAIL_FROM_NAME', 'Echipa Gardinero'),
     ],
 

@@ -32,6 +32,8 @@ class TeamController extends Controller
             ->with('members')
             ->get();
 
+        //dd($teams);
+
         return view('management.teams_management.index', compact('members', 'leaders', 'teams'));
     }
 

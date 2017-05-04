@@ -54,10 +54,10 @@
             <form action="" method="post" class="form-popup">
                 <input type="text" name="firstname" placeholder="Nume">
                 <input type="text" name="lastname" placeholder="Prenume">
-                <input type="text" name="email" placeholder="Prenume">
-                <input type="text" name="phone" placeholder="Prenume">
+                <input type="text" name="email" placeholder="Email">
+                <input type="text" name="phone" placeholder="Telefon">
                 <input type="password" name="password" placeholder="Parola acces aplicatie">
-                <select name="team">
+                <select name="team_id">
                     <option value="">Alege echipa</option>
                     @foreach($teams as $team)
                         <option value="{{ $team->id }}">{{ $team->name }}</option>

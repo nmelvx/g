@@ -80,12 +80,12 @@ class RegisterController extends Controller
         $user->attachRole($role);
 
 
-        //Mail::to($user->email)->send(new SendRegisterMail($user));
+        Mail::to($user->email)->send(new SendRegisterMail($user));
 
-        Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
-            $m->from('noreply@gardinero.ro', 'Echipa Gardinero.ro');
-            $m->to($user->email, $user->firstname.' '.$user->lastname)->subject('Cont nou Gardinero.ro');
-        });
+/*        Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
+            $m->from('suport@gardinero.ro');
+            $m->to($user->email)->subject('Cont nou Gardinero.ro');
+        });*/
 
         return $user;
     }

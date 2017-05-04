@@ -6,9 +6,11 @@ namespace App\Http\Controllers;
 use App\Repositories\UserRepository;
 use App\TeamMembers;
 use App\Teams;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Ultraware\Roles\Models\Role;
 
 class TeamMembersController extends Controller
 {
@@ -36,7 +38,7 @@ class TeamMembersController extends Controller
             'firstname' => 'required|max:255',
             'lastname' => 'required|max:255',
             'email' => 'required|max:255',
-            'phone' => 'required|numeric|max:20',
+            'phone' => 'required|numeric',
             'password' => 'required|min:6'
         ]);
 
@@ -45,21 +47,35 @@ class TeamMembersController extends Controller
             return Response::json(array(
                 'success' => false,
                 'errors' => $validator->getMessageBag()->toArray()
-            ), 400);
+            ), 200);
         }
         else
         {
-            $this->teamMembersModel->name = $request->input('name');
-            $this->teamMembersModel->user_id = $request->input('user_id');
+            $member = User::create([
+                'firstname' => $request->input('firstname'),
+                'lastname' => $request->input('lastname'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'password' => bcrypt($request->input('password')),
+                'visible_password' => $request->input('password'),
+            ]);
 
-            $member = $this->teamMembersModel->save();
+            $role = Role::find(4);
+            $member->attachRole($role);
 
-            if($member){
+            if($member) {
+
+                $this->teamMembersModel->team_id = $request->input('team_id');
+                $this->teamMembersModel->user_id = $member->id;
+
+                $this->teamMembersModel->save();
+
+                return Response::json(array('success' => true), 200);
 
             }
 
-            return Response::json(array('success' => true), 200);
 
+            return Response::json(array('success' => false), 200);
         }
         die;
     }

@@ -31,12 +31,11 @@ class SendRegisterMail extends Mailable
      */
     public function build()
     {
-        $address = 'support@gardinero.ro';
-        $name = 'Echipa Gardinero.ro';
-        $subject = 'Inregistrare gardinero.ro';
+        $address = 'suport@gardinero.ro';
+        $subject = 'Inregistrare Gardinero.ro';
 
         return $this->view('emails.register')->with(['email' => $this->user->email, 'password' => $this->user->visible_password])
-            ->from($address, $name)
+            ->from($address)
             ->subject($subject);
     }
 }

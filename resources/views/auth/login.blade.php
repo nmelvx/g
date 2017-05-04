@@ -5,7 +5,7 @@
 <div class="container mt100">
     <div class="col-lg-3 text-center">
         <h3 class="title-section">Intra in cont</h3>
-        <img src="assets/images/separator2px.png" alt="" class="separator-2">
+        <img src="frontend/assets/images/separator2px.png" alt="" class="separator-2">
         <div class="clearfix"></div>
     </div>
     <div class="row">
@@ -23,7 +23,7 @@
                 @endif
                 <label class="checkbox-custom"><input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}><span></span> Pastreaza autentificarea</label>
 
-                <div class="col-lg-3 text-center">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center mb50">
                     <button class="creeate-account" style="margin-bottom: 0px;">Intra</button>
                     <a class="btn btn-link" style="color: #2bb88a; font-size: 16px;" href="{{ route('password.request') }}">Ai uitat parola?</a>
                 </div>

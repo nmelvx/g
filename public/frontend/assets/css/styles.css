@@ -1717,6 +1717,10 @@ form.offer-form label.error{
 	font-family: 'playfair_displaybold';
 }
 
+.mb50{
+	margin-bottom: 50px;
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;

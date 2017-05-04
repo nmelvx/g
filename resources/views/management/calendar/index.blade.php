@@ -258,6 +258,7 @@
                     $.each(result.jobs, function( key, value ) {
                         if('li-'+value.date == element.attr('id'))
                         {
+                            element.addClass('reserved');
                             element.append('<div class="cell-appointment"><strong>'+value.time.substring(0, value.time.length - 3)+'</strong><div class="small-cell">'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div></div>')
                         }
                     });
