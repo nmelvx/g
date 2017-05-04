@@ -7,6 +7,7 @@
 @endsection
 
 @section('content')
+
     <div class="container mt210">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
@@ -31,7 +32,7 @@
         </div>
     </div>
 
-    <div class="content-overlay not-fixed" style="display:@if(isset($_POST) && !empty($_POST)) block @else none @endif">
+    <div class="content-overlay not-fixed" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
         <div class="popup-content popup-ask-offer" style="display: block;">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
@@ -76,6 +77,7 @@
                     <label class="checkbox-custom wauto agree-input"><input type="checkbox" name="agree"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
                 </div>
                 {{ Form::hidden('address', Input::get('address')) }}
+                {{ Form::hidden('unique_id', ($user != null)? $user->unique_id : Input::get('unique_id')) }}
                 {{ csrf_field() }}
                 <button class="green-button submit-form">Cere pret</button>
             </form>

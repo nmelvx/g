@@ -10,7 +10,7 @@
             <p class="info-steps"><strong>Ne pare rău, dar n-am putut calcula un preț automat :(</strong></p>
             <p class="info-steps"><small>Nu vă faceți griji, completați formularul de mai jos iar noi vă vom<br>contacta în <strong>maxim 20 minute.</strong></small></p>
         </div>
-        <form action="{{ route('calendar.offers') }}" method="POST" class="offer-form">
+        <form action="{{ route('offer.steps') }}" method="POST" class="offer-form">
             <div class="row">
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>1.</span>Ce servicii doriti?</h3>
@@ -57,6 +57,7 @@
                             <label class="error">{{ $errors->first('phone') }}</label>
                         @endif
                     </div>
+                    {{ Form::hidden('step', true) }}
                     {{ Form::hidden('address', ($user != null)? $user->address : Input::get('address')) }}
                     {{ Form::hidden('unique_id', ($user != null)? $user->unique_id : Input::get('unique_id')) }}
                     {{ csrf_field() }}
@@ -171,7 +172,7 @@
                     phone: {
                         required: true,
                         number: true,
-                        min: 10
+                        minlength: 10
                     }
                 },
                 messages: {

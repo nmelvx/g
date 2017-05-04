@@ -18,43 +18,20 @@ use Illuminate\Support\Facades\Validator;
 class calendarController extends Controller
 {
 
+    public function __construct()
+    {
+/*        if(Auth::guest())
+        {
+            die('dead');
+            $user = User::where('unique_id', $request->get('unique_id'))->first();
+            Auth::login($user, true);
+        }*/
+    }
+
     public function index(Request $request)
     {
-		/** update the user **/
-        if(!empty($request->all()))
-        {
-            $id = Auth::id();
+        $user = null;
 
-            $validator = Validator::make($request->all(), [
-                'firstname' => 'required',
-                'lastname' => 'required',
-                'phone' => 'required|digits_between:10,15',
-                'email' => 'required|email|unique:users,email,' . $id
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            } else {
-                $user = User::find(Auth::id());
-
-                $user->firstname = $request->get('firstname');
-                $user->lastname = $request->get('lastname');
-                $user->email = $request->get('email');
-                $user->phone = $request->get('phone');
-
-                $user->save();
-
-                //Mail::to($user->email)->send(new SendRegisterMail($user));
-                if (App::environment('production')) {
-                    Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
-                        $m->from('suport@gardinero.ro');
-                        $m->to($user->email)->subject('Cont nou Gardinero.ro');
-                    });
-                }
-            }
-        }
-		
-		
         $services = Service::all();
 
         $jobs = Job::with('services')->with([
@@ -63,17 +40,16 @@ class calendarController extends Controller
             }
         ])->where('user_id', Auth::id())->get();
 
-        dd($jobs);
-
         $calendar = new Calendar();
         $class = 'green';
 
-        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class'));
+        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user'));
     }
 
+    /*
     public function updateUser(Request $request)
     {
-        /** update the user **/
+
         if(!empty($request->all()))
         {
             $id = Auth::id();
@@ -105,6 +81,7 @@ class calendarController extends Controller
 
         return redirect()->back();
     }
+    */
 
     public function getHours(Request $request)
     {

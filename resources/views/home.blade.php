@@ -22,7 +22,7 @@
                         <div class="block-inputs" style="display: none;">
                             <div class="input-with-text w50 pull-left text-left">
                                 <span>Numele tau</span>
-                                <input type="text" placeholder="Ex: Dan Mihailescu" value="{{ ($user != null)? $user->firstname.' '.$user->lastname:'' }}" name="fullname" class="form-input">
+                                <input type="text" placeholder="Ex: Mihailescu Dan" value="{{ ($user != null)? $user->firstname.' '.$user->lastname:'' }}" name="fullname" class="form-input">
                             </div>
                             <div class="input-with-text w50 pull-right text-left">
                                 <span>Numarul de telefon</span>
@@ -32,7 +32,7 @@
                         {{ csrf_field() }}
                         {{ Form::hidden('latitude', ($user != null)? $user->latitude:'') }}
                         {{ Form::hidden('longitude', ($user != null)? $user->longitude:'') }}
-                        {{ Form::hidden('unique_id', ($user != null)? $user->longitude:md5(uniqid(rand(), true))) }}
+                        {{ Form::hidden('unique_id', ($user != null)? $user->unique_id:md5(uniqid(rand(), true))) }}
                         <button class="submit-btn">Vezi pretul</button>
                     </form>
                 </div>

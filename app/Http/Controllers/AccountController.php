@@ -42,7 +42,7 @@ class AccountController extends Controller
                 'firstname' => 'required|max:255',
                 'lastname' => 'required|max:255',
                 'phone' => 'required|numeric',
-                'email' => 'required|max:255|unique:users,email,1',
+                'email' => 'required|email|unique:users,email,' . $user->id,
                 'password' => 'confirmed',
             ]);
 
