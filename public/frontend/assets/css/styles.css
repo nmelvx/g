@@ -861,7 +861,7 @@ div.panel {
 	width: 100%;
 }
 
-.popup-team .form-popup input[type="text"], .popup-team .form-popup textarea{
+/*.popup-team .form-popup input[type="text"], .popup-team .form-popup textarea{
 	border: 0px;
 	padding: 0px;
 	margin: 0px;
@@ -869,7 +869,7 @@ div.panel {
 	line-height: 22px;
 	height: auto;
 	width: 100%;
-}
+}*/
 
 .popup-team .form-popup textarea{
 	height: 160px;
@@ -882,8 +882,9 @@ div.panel {
 	font-weight: 600;
 }
 .popup-content.popup-team h3{
-	margin: 0px;
+	/*margin: 0px;*/
 }
+
 .popup-team p{
 	font-size: 18px;
 	font-weight: 400;
