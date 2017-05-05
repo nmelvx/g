@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('visible_password');
             $table->string('unique_id');
+            $table->string('facebook_id');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->text('address');

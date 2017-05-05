@@ -1722,6 +1722,19 @@ form.offer-form label.error{
 	margin-bottom: 50px;
 }
 
+.fb_iframe_widget span{
+	float: left !important;
+}
+
+.fb_iframe_widget {
+	display: inline-block;
+	position: relative;
+	float: left;
+	margin-bottom: 50px;
+	left: 50%;
+	margin-left: -125px;
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;

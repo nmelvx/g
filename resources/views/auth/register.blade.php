@@ -159,7 +159,43 @@
 
         $('<div/>').addClass('centerMarker').appendTo(map.getDiv())
 
+        /** autocomplete **/
+        var autocomplete;
+
+        var bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(44.3342445, 25.9637001),
+                new google.maps.LatLng(44.5414070, 26.2255750)
+        );
+
+        autocomplete = new google.maps.places.Autocomplete(
+                (document.getElementById('geolocation-address-input')),
+                { bounds: bounds, types: ['address'], language: 'ro-RO', strictBounds: true }
+        );
+
+        /** restrict autocomplete to specific country **/
+        autocomplete.setComponentRestrictions({'country': ['ro']});
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var place = autocomplete.getPlace();
+            $('input[name="latitude"]').val(place.geometry.location.lat());
+            $('input[name="longitude"]').val(place.geometry.location.lng());
+
+            map.panTo({
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng()
+            })
+
+            if (!place.geometry) {
+                console.log("No details available for input: '" + place.name + "'");
+                return;
+            }
+        });
+
     }
+
+
+
+
 
     google.maps.event.addDomListener(window, 'load', initialize);
 

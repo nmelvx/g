@@ -95,6 +95,8 @@ Route::group(['middleware' => 'role:client'], function()
 
 
 Route::group(['middleware' => 'web'], function() {
+    Route::get('auth/facebook', 'Auth\RegisterController@redirectToProvider');
+    Route::get('auth/facebook/callback', 'Auth\RegisterController@handleProviderCallback');
     Route::post('update-user', ['as' => 'update.user', 'uses' => 'stepsOffer@updateUser']);
     Route::any('check-email', ['as' => 'check.email', 'uses' => 'stepsOffer@checkEmail']);
     Route::any('cere-oferta', ['as' => 'offer.steps', 'uses' => 'stepsOffer@steps']);

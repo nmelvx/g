@@ -179,6 +179,8 @@ return [
 
         Ultraware\Roles\RolesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -230,6 +232,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
