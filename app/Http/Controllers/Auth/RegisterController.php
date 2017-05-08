@@ -76,7 +76,8 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'visible_password' => $data['password']
+            'visible_password' => $data['password'],
+            'unique_id' => md5(uniqid(rand(), true))
         ]);
 
         $role = Role::find(5);
@@ -111,7 +112,7 @@ class RegisterController extends Controller
     public function handleProviderCallback()
     {
         try {
-            $user = Socialite::driver('facebook')->fields(['first_name', 'last_name'])->user();
+            $user = Socialite::driver('facebook')->fields(['first_name', 'last_name', 'email'])->user();
         } catch (Exception $e) {
             return redirect('auth/facebook');
         }
@@ -120,7 +121,7 @@ class RegisterController extends Controller
 
         Auth::login($authUser, true);
 
-        return redirect()->route('home');
+        return redirect('/contul-meu');
     }
 
     /**
@@ -135,13 +136,20 @@ class RegisterController extends Controller
 
         if ($authUser){
             return $authUser;
-        }
+        } else {
 
-        return User::create([
-            'firstname' => $facebookUser->user['first_name'],
-            'lastname' => $facebookUser->user['last_name'],
-            'email' => $facebookUser->email,
-            'facebook_id' => $facebookUser->id
-        ]);
+            $user = User::create([
+                'firstname' => $facebookUser->user['first_name'],
+                'lastname' => $facebookUser->user['last_name'],
+                'email' => $facebookUser->user['email'],
+                'facebook_id' => $facebookUser->id,
+                'unique_id' => md5(uniqid(rand(), true))
+            ]);
+
+            $role = Role::find(5);
+            $user->attachRole($role);
+
+            return $user;
+        }
     }
 }

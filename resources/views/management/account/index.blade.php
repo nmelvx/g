@@ -156,18 +156,20 @@
                 geocoder = new google.maps.Geocoder;
                 infoWindow = new google.maps.InfoWindow;
 
-                var LAT_VALUE = {{ Auth::user()->latitude }};
-                var LONG_VALUE = {{ Auth::user()->longitude }};
 
-                if(typeof(LAT_VALUE) !== undefined && typeof(LONG_VALUE) !== undefined)
+
+                var LAT_VALUE = '{{ Auth::user()->latitude }}';
+                var LONG_VALUE = '{{ Auth::user()->longitude }}';
+
+                if(LAT_VALUE != '' && LONG_VALUE != '')
                 {
                     new google.maps.Marker({
-                        position: new google.maps.LatLng({lat:LAT_VALUE, lng:LONG_VALUE}),
+                        position: new google.maps.LatLng({lat:parseFloat(LAT_VALUE), lng:parseFloat(LONG_VALUE)}),
                         icon: 'frontend/assets/images/pin.png',
                         map: map
                     });
 
-                    map.setCenter(new google.maps.LatLng({lat:LAT_VALUE, lng:LONG_VALUE}));
+                    map.setCenter(new google.maps.LatLng({lat:parseFloat(LAT_VALUE), lng:parseFloat(LONG_VALUE)}));
                 } else {
 
                     // Try HTML5 geolocation.

@@ -85,7 +85,7 @@ Route::group(['middleware' => 'role:admin|leader'], function()
     Route::post('/save-member', ['as' => 'member.store', 'uses' => 'TeamMembersController@store']);
 });
 
-Route::group(['middleware' => 'role:client'], function()
+Route::group(['middleware' => 'role:client|admin'], function()
 {
     Route::resource('contul-meu', 'AccountController');
     Route::any('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);

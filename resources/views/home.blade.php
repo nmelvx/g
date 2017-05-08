@@ -30,6 +30,7 @@
                             </div>
                         </div>
                         {{ csrf_field() }}
+                        {{ Form::hidden('step1', true) }}
                         {{ Form::hidden('latitude', ($user != null)? $user->latitude:'') }}
                         {{ Form::hidden('longitude', ($user != null)? $user->longitude:'') }}
                         {{ Form::hidden('unique_id', ($user != null)? $user->unique_id:md5(uniqid(rand(), true))) }}

@@ -28,86 +28,110 @@ class stepsOffer extends Controller
         $post = $request->all();
         $user = null;
 
+        $services = Service::all();
 
-        if(!empty($post))
-        {
-            if (!empty($post['unique_id']))
-            {
-                if (Auth::guest())
-                {
-
-                    if(!empty($post['step']) && $post['step'] == 1)
-                    {
-                        $user = User::where('unique_id', $request->get('unique_id'))->first();
-
-                        $validator = Validator::make($request->all(), [
-                            'firstname' => 'required',
-                            'lastname' => 'required',
-                            'phone' => 'required|digits_between:10,15',
-                            'email' => 'required|email|unique:users,email,' . $user->id
-                        ]);
-
-                        if ($validator->fails()) {
-                            return back()->withErrors($validator)->withInput();
-                        } else {
-
-                            $user->firstname = $request->get('firstname');
-                            $user->lastname = $request->get('lastname');
-                            $user->email = $request->get('email');
-                            $user->phone = $request->get('phone');
-
-                            $user->save();
-
-
-                            Auth::login($user, true);
-
-                            if (App::environment('production'))
-                            {
-                                Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
-                                    $m->from('suport@gardinero.ro');
-                                    $m->to($user->email)->subject('Cont nou Gardinero.ro');
-                                });
-                            }
-
-                            return redirect(route('calendar.offers'))->with('modal', true)->withInput();
-                        }
-
-                    }
-                    else {
-
-                        $fullname = explode(' ', $post['fullname']);
-                        $password = str_random(8);
-
-                        $this->user->lastname = $fullname[0];
-                        $this->user->firstname = $fullname[1];
-                        $this->user->password = Hash::make($password);
-                        $this->user->visible_password = $password;
-                        $this->user->unique_id = $post['unique_id'];
-                        $this->user->phone = $post['phone'];
-                        $this->user->address = $post['address'];
-                        $this->user->latitude = $post['latitude'];
-                        $this->user->longitude = $post['longitude'];
-
-                        $this->user->save();
-
-                        //get client role
-                        $role = Role::find(5);
-                        $this->user->attachRole($role);
-
-                    }
-                }
-            }
-
-            $services = Service::all();
-
-            if (Auth::check()) {
-                $user = Auth::user();
-            }
-
-            return view('ask-offer', compact('post', 'services', 'user'));
+        if(Auth::check()){
+            $user = User::find(Auth::id())->first();
         }
 
-        return redirect('/');
+        if(!empty($post['step']) && $post['step'] == 1)
+        {
+
+            $user = (!empty($request->get('unique_id')))? User::where('unique_id', $request->get('unique_id'))->first() : $this->user;
+
+            if(Auth::check()) {
+                $validator = Validator::make($request->all(), [
+                    'firstname' => 'required',
+                    'lastname' => 'required',
+                    'address' => 'required',
+                    'phone' => 'required|digits_between:10,15',
+                    'email' => 'required|email|unique:users,email,' . $user->id
+                ]);
+            } else {
+                $validator = Validator::make($request->all(), [
+                    'firstname' => 'required',
+                    'lastname' => 'required',
+                    'address' => 'required',
+                    'phone' => 'required|digits_between:10,15',
+                    'email' => 'required|email|unique:users'
+                ]);
+            }
+
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            } else {
+
+                $user->firstname = $request->get('firstname');
+                $user->lastname = $request->get('lastname');
+                $user->email = $request->get('email');
+                $user->phone = $request->get('phone');
+
+                if($request->get('step1') == null && Auth::guest())
+                {
+                    $password = str_random(8);
+
+                    $user->password = Hash::make($password);
+                    $user->visible_password = $password;
+                    $user->unique_id = !empty($post['unique_id']) ? $post['unique_id'] : md5(uniqid(rand(), true));
+                    $user->phone = $post['phone'];
+                    $user->address = $post['address'];
+                    $user->latitude = $post['latitude'];
+                    $user->longitude = $post['longitude'];
+                }
+
+                $user->save();
+
+                $role = Role::find(5);
+                $user->attachRole($role);
+
+                if (Auth::guest())
+                {
+                    Auth::login($user, true);
+
+                    if (App::environment('production')) {
+                        Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
+                            $m->from('suport@gardinero.ro');
+                            $m->to($user->email)->subject('Cont nou Gardinero.ro');
+                        });
+                    }
+                }
+
+                return redirect(route('calendar.offers'))->with('modal', true)->withInput();
+            }
+
+        }
+        else
+        {
+
+            if (Auth::guest() && !empty($request->all()))
+            {
+
+                $fullname = explode(' ', $post['fullname']);
+                $password = str_random(8);
+
+                $this->user->lastname = $fullname[0];
+                $this->user->firstname = $fullname[1];
+                $this->user->password = Hash::make($password);
+                $this->user->visible_password = $password;
+                $this->user->unique_id = !empty($post['unique_id'])? $post['unique_id']:md5(uniqid(rand(), true));
+                $this->user->phone = $post['phone'];
+                $this->user->address = $post['address'];
+                $this->user->latitude = $post['latitude'];
+                $this->user->longitude = $post['longitude'];
+
+                $this->user->save();
+
+                //get client role
+                $role = Role::find(5);
+                $this->user->attachRole($role);
+
+            }
+        }
+
+
+        return view('ask-offer', compact('post', 'services', 'user'));
+
+
     }
 
     public function checkEmail(Request $request)

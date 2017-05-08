@@ -28,19 +28,23 @@
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>2.</span>Confirmati adresa</h3>
-                    <p id="geolocation-address">{{ Input::get('address') }}</p>
+                    @if ($errors->has('address'))
+                        <p id="geolocation-address" style="color:#ff0000;">Selectati adresa pe harta!</p>
+                    @else
+                        <p id="geolocation-address">{{ Input::get('address') }}</p>
+                    @endif
                     <div id="google-maps" class="no-transition"></div>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                     <h3><span>3.</span>Cum te putem contacta?</h3>
                     <div class="line-input">
-                    {{ Form::text('firstname', ($user != null)? $user->firstname : explode(' ', Input::get('fullname'))[0], array('placeholder' => 'Prenume')) }}
+                    {{ Form::text('firstname', ($user != null)? $user->firstname : (!empty(Input::get('fullname'))? explode(' ', Input::get('fullname'))[0]:''), array('placeholder' => 'Prenume')) }}
                         @if ($errors->has('firstname'))
                             <label class="error">{{ $errors->first('firstname') }}</label>
                         @endif
                     </div>
                     <div class="line-input">
-                    {{ Form::text('lastname', ($user != null)? $user->lastname : explode(' ', Input::get('fullname'))[1], array('placeholder' => 'Nume')) }}
+                    {{ Form::text('lastname', ($user != null)? $user->lastname : (!empty(Input::get('fullname'))? explode(' ', Input::get('fullname'))[1]:''), array('placeholder' => 'Nume')) }}
                         @if ($errors->has('lastname'))
                             <label class="error">{{ $errors->first('lastname') }}</label>
                         @endif
@@ -58,8 +62,11 @@
                         @endif
                     </div>
                     {{ Form::hidden('step', true) }}
+                    {{ Form::hidden('step1', Input::get('step1')) }}
                     {{ Form::hidden('address', ($user != null)? $user->address : Input::get('address')) }}
                     {{ Form::hidden('unique_id', ($user != null)? $user->unique_id : Input::get('unique_id')) }}
+                    {{ Form::hidden('latitude', ($user != null)? $user->latitude : Input::get('latitude')) }}
+                    {{ Form::hidden('longitude', ($user != null)? $user->longitude : Input::get('longitude')) }}
                     {{ csrf_field() }}
                     <div class="clearfix"></div>
                     <div class="border-bottom-2px">
@@ -95,11 +102,19 @@
             };
             var map = new google.maps.Map(document.getElementById('google-maps'), mapOptions);
 
-            $.get( "https://maps.googleapis.com/maps/api/geocode/json?address={{ Input::get('address') }}&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0", function( data ) {
+            $.get( "https://maps.googleapis.com/maps/api/geocode/json?address={{ ($user != null)? $user->address:Input::get('address') }}&key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0", function( data ) {
+                if(typeof(data.results[0]) == 'undefined'){
+                    $('#geolocation-address').text('Adresa invalida! Selectati adresa pe harta.');
+                    $('#geolocation-address').attr('style','color: #ff0000');
+                    $('input[name="address"]').val('');
+                    return false;
+                }
                 map.panTo(new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng));
             });
 
             google.maps.event.addListener(map, 'dragend', function() {
+
+                $('#geolocation-address').removeAttr('style');
 
                 var pos = {
                     lat: map.getCenter().lat(),
@@ -111,6 +126,9 @@
                     if (status === 'OK') {
                         if (results[0]) {
                             $('#geolocation-address').text(results[0].formatted_address);
+                            $('input[name="address"]').val(results[0].formatted_address);
+                            $('input[name="latitude"]').val(pos.lat);
+                            $('input[name="longitude"]').val(pos.lng);
                         } else {
                             console.log('No results found');
                         }

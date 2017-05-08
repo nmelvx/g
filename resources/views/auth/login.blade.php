@@ -6,7 +6,7 @@
     <div class="col-lg-3 text-center">
         <h3 class="title-section">Intra in cont</h3>
         <div class="separator-line-div"></div>
-        <a href="auth/facebook">Login with facebook</a>
+        <a href="/auth/facebook" class="register-fb">Conecteaza-te cu Facebook</a>
         <div class="separator-line-div"></div>
         <div class="clearfix"></div>
     </div>

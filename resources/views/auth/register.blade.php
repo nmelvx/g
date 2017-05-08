@@ -5,13 +5,10 @@
 <div class="container mt100">
     <div class="col-lg-3 text-center">
         <h3 class="title-section">Creează cont</h3>
+
         <img src="frontend/assets/images/separator2px.png" alt="" class="separator-2">
         <div class="clearfix"></div>
-        <a href="" class="register-fb">Înregistrează-te prin Facebook</a>
-        <div class="clearfix"></div>
-        <img src="frontend/assets/images/separator2px.png" alt="" class="separator-2">
-        <div class="clearfix"></div>
-        <p class="info-register">sau completează câmpurile de mai jos:</p>
+        <p class="info-register">completează câmpurile de mai jos:</p>
     </div>
     <form class="register-form" role="form" method="POST" action="{{ route('register') }}">
         {{ csrf_field() }}

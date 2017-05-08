@@ -447,6 +447,14 @@ body{
 	background: url("../images/separator2px.png") center center no-repeat;
 	margin-bottom: 50px;
 }
+.separator-line-popup{
+	float: left;
+	width: 100%;
+	clear: both;
+	height: 2px;
+	background: url("../images/separator2px.png") center center no-repeat;
+	margin: 20px 0;
+}
 .separator-line-div-small{
 	float: left;
 	width: 100%;
@@ -1584,7 +1592,8 @@ form.offer-form label.error{
 /** calendar page **/
 
 .calendar-cell{
-	width: calc(100% - 375px);
+	/*width: calc(100% - 375px);*/
+	width: 100%;
 	float: left;
 }
 .address-div{
@@ -1637,6 +1646,58 @@ form.offer-form label.error{
 
 .cell-appointment small{
 	font-weight: 400;
+}
+
+.mini-popup{
+	position: absolute;
+	top: 0px;
+	width: 280px;
+	background-color: #ffffff;
+	z-index: 1005;
+	padding: 30px;
+	text-align: center;
+	-webkit-box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.3);
+	box-shadow: 0px 0px 25px 5px rgba(0,0,0,0.3);
+}
+
+.arrow-left{
+	width: 0;
+	height: 0;
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	border-right:20px solid #ffffff;
+	position: absolute;
+	left: -20px;
+	top: 40px;
+}
+
+.mini-popup h3{
+	margin: 0px;
+	font-family: 'playfair_displaybold', sans-serif;
+	font-size: 30px;
+	color: #2bb88a;
+}
+.mini-popup p{
+	margin: 0px;
+	font-family: "Fira Sans", sans-serif;
+	font-size: 18px;
+	margin-bottom: 20px;
+	color: #9eb2a9;
+}
+.mini-popup a{
+	border: 0px;
+	background-color: #3ec17f;
+	color: #ffffff;
+	cursor: pointer;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-family: 'Fira Sans', sans-serif;
+	font-size: 22px;
+	padding: 10px 15px;
+	text-align: center;
+	display: inline-block;
 }
 
 /** end calendar page **/
@@ -1734,6 +1795,8 @@ form.offer-form label.error{
 	left: 50%;
 	margin-left: -125px;
 }
+
+
 
 @media (max-width: 767px) {
 	.header-background{

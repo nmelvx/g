@@ -25,9 +25,9 @@
                 <div class="calendar-cell">
                 {!! $calendar->show($jobs) !!}
                 </div>
-                <div class="address-div">
+                {{--<div class="address-div">
 
-                </div>
+                </div>--}}
             </div>
         </div>
     </div>
@@ -102,6 +102,7 @@
 
         $('body').on('click', '.close-popup', function (e) {
             e.preventDefault();
+            $('label.error').remove();
             $(this).parent().parent().hide();
             $(this).parent().hide();
         });
@@ -133,9 +134,10 @@
         };
 
         var unavailableDates = [];
-
+        var dateToday = new Date();
         $('.input-calendar').datepicker({
             'dateFormat':'dd-mm-yy',
+            minDate: dateToday,
             beforeShowDay: function(dt)
             {
                 $('#ui-datepicker-div').addClass(this.id);
@@ -267,6 +269,64 @@
                 });
             }
         });
+
+        $('body').on('click', 'ul.dates li', function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            $('.mini-popup').remove();
+            var _this = $(this);
+            if(!_this.hasClass('reserved'))
+            {
+                var unformatedDate = _this.attr('id').replace('li-','');
+                var content = $('<div class="mini-popup" data-date="'+unformatedDate+'" style="display: none; left: '+parseFloat(_this.width()+1)+'px"><h3>Fa o rezervare</h3><div class="separator-line-popup"></div><p>Se pot face rezervări înaceastă zi</p><a href="javascript:void(0);">Cheamă echipa</a><span class="arrow-left"></span></div>');
+                _this.append(content);
+                $('.mini-popup').show();
+            }
+        });
+
+        $("body").click(function(){
+            $('.mini-popup').remove();
+        });
+
+        $("body").on('click', '.mini-popup > a', function(e){
+            e.preventDefault();
+            $('.mini-popup').remove();
+
+            $('label.error').remove();
+
+            var date = $(this).parent().data('date').split('-');
+            var generalDate = date[2]+'-'+date[1]+'-'+date[0];
+
+
+            $('.input-calendar').datepicker("setDate", generalDate);
+
+            $.ajax
+            ({
+                type: "POST",
+                url: "{{ route('get.hours') }}",
+                data: {'date':generalDate, '_token':$('meta[name="csrf-token"]').attr('content')},
+                dataType: 'json',
+                success: function(results)
+                {
+                    //destroy timepicker
+                    $('.input-timepicker').val('');
+                    $('.input-timepicker').timepicker('remove');
+
+                    //init timepicker
+                    $('.input-timepicker').timepicker({
+                        minTime: '08:00',
+                        maxTime: '21:00',
+                        timeFormat: 'H:i',
+                        appendTo: '.box-timepicker',
+                        disableTimeRanges: results.unavailableHours
+                    });
+
+                    $('.content-overlay').show();
+                    $('.popup-ask-offer').show();
+                }
+            });
+        });
+
 
     });
 </script>

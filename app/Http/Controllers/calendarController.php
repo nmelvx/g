@@ -18,17 +18,7 @@ use Illuminate\Support\Facades\Validator;
 class calendarController extends Controller
 {
 
-    public function __construct()
-    {
-/*        if(Auth::guest())
-        {
-            die('dead');
-            $user = User::where('unique_id', $request->get('unique_id'))->first();
-            Auth::login($user, true);
-        }*/
-    }
-
-    public function index(Request $request)
+    public function index()
     {
         $user = null;
 
