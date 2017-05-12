@@ -327,6 +327,14 @@
             });
         });
 
+        $('body').on('click', '.reserved', function(e){
+            e.preventDefault();
+
+            var _this = $(this);
+
+            return;
+        });
+
 
     });
 </script>

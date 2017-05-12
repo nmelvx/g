@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Facades\Helper;
 use App\Job;
 use App\Libraries\Calendar;
 use App\Mail\SendRegisterMail;
@@ -156,57 +157,62 @@ class calendarController extends Controller
             }
             else
             {
+                if(Helper::userHasAddress(Auth::user())) {
 
-                /** calculate duration and price **/
-                $sum = 0;
-                $totalDuration = 0;
-                $temp = [];
-                $services = $request->get('services');
+                    /** calculate duration and price **/
+                    $sum = 0;
+                    $totalDuration = 0;
+                    $temp = [];
+                    $services = $request->get('services');
 
-                foreach($services as $k => $serviceId)
-                {
-                    $serviceDetail = Service::find($serviceId);
+                    foreach ($services as $k => $serviceId) {
+                        $serviceDetail = Service::find($serviceId);
 
-                    if(!in_array($serviceDetail->duration, $temp) && ($k+1)%2 != 0)
-                    {
-                        $totalDuration += $serviceDetail->duration * $request->get('area');
+                        if (!in_array($serviceDetail->duration, $temp) && ($k + 1) % 2 != 0) {
+                            $totalDuration += $serviceDetail->duration * $request->get('area');
+                        }
+
+                        $sum += $serviceDetail->price * $request->get('area');
+
                     }
 
-                    $sum += $serviceDetail->price * $request->get('area');
+                    /** get available days and hours **/
+                    $teams = DB::table('teams')->pluck('id')->toArray();
 
+                    $jobs = Job::with('services')->get();
+
+                    $availableTeam = null;
+                    $unavailableHours = [];
+                    foreach ($jobs as $job) {
+                        $unavailableHours[$job->time] = substr($job->time, 0, -3);
+                    }
+
+                    /** save job **/
+                    $job = new Job();
+                    $job->date = date('Y-m-d', strtotime($request->get('date')));
+                    $job->time = $request->get('time');
+                    $job->area = $request->get('area');
+                    $job->sum = $sum;
+                    $job->total_duration = $totalDuration;
+                    $job->address = $request->get('address');
+                    $key = array_rand($teams, 1);
+                    $job->team_id = $teams[$key];
+                    $job->user_id = Auth::id();
+
+                    $job->save();
+
+                    $job->services()->attach($request->get('services'));
+
+                    return Response::json(array(
+                        'success' => true
+                    ), 200);
+                } else {
+
+                    return Response::json(array(
+                        'success' => false,
+                        'message' => 'Va rugam setati adresa in contul dvs.'
+                    ), 200);
                 }
-
-                /** get available days and hours **/
-                $teams = DB::table('teams')->pluck('id')->toArray();
-
-                $jobs = Job::with('services')->get();
-
-                $availableTeam = null;
-                $unavailableHours = [];
-                foreach($jobs as $job)
-                {
-                    $unavailableHours[$job->time] = substr($job->time, 0, -3);
-                }
-
-                /** save job **/
-                $job = new Job();
-                $job->date = date('Y-m-d', strtotime($request->get('date')));
-                $job->time = $request->get('time');
-                $job->area = $request->get('area');
-                $job->sum  = $sum;
-                $job->total_duration = $totalDuration;
-                $job->address = $request->get('address');
-                $key = array_rand($teams, 1);
-                $job->team_id = $teams[$key];
-                $job->user_id = Auth::id();
-
-                $job->save();
-
-                $job->services()->attach($request->get('services'));
-
-                return Response::json(array(
-                    'success' => true
-                ), 200);
             }
         }
         die;

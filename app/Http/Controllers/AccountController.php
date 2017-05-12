@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
@@ -72,5 +73,40 @@ class AccountController extends Controller
     public function destroy()
     {
 
+    }
+
+    public function changeAddress(Request $request)
+    {
+        if($request->ajax()) {
+            $validator = Validator::make($request->all(), [
+                'address' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required'
+            ]);
+
+            if ($validator->fails())
+            {
+                return Response::json(array(
+                    'success' => false,
+                    'errors' => $validator->getMessageBag()->toArray()
+                ), 400);
+            }
+            else
+            {
+                $user = Auth::user();
+
+                $user->address = $request->input('address');
+                $user->latitude = $request->input('latitude');
+                $user->longitude = $request->input('longitude');
+
+                $user->save();
+
+                return Response::json(array(
+                    'success' => true
+                ), 200);
+            }
+        }
+
+        return false;
     }
 }

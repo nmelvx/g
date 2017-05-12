@@ -181,6 +181,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 
         Laravel\Socialite\SocialiteServiceProvider::class,
+        App\Providers\HelperServiceProvider::class,
     ],
 
     /*
@@ -233,6 +234,7 @@ return [
         'HTML' => Collective\Html\HtmlFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Helper'    => App\Helpers\Helper\Helper::class,
     ],
 
 ];
