@@ -10,7 +10,7 @@
             @if(Auth::user())
                 <div class="user-info-logged">Salut, <a href="{{ route('contul-meu.index') }}">{{ Auth::user()->firstname }}</a></div>
             @else
-                <a href="{{ route('login') }}" title="Login" class="login-btn">Login</a>
+                <a href="{{ route('login') }}" title="Login" class="login-btn show-popup" data-popup="login">Login</a>
             @endif
             <a href="tel:0745.123.456" class="base-phone">0745.123.456</a>
         </div>

@@ -138,13 +138,16 @@ class RegisterController extends Controller
             return $authUser;
         } else {
 
-            $user = User::create([
-                'firstname' => $facebookUser->user['first_name'],
-                'lastname' => $facebookUser->user['last_name'],
-                'email' => $facebookUser->user['email'],
-                'facebook_id' => $facebookUser->id,
-                'unique_id' => md5(uniqid(rand(), true))
-            ]);
+            $user = User::updateOrCreate(
+                ['email' => $facebookUser->user['email']],
+                [
+                    'firstname' => $facebookUser->user['first_name'],
+                    'lastname' => $facebookUser->user['last_name'],
+                    'email' => $facebookUser->user['email'],
+                    'facebook_id' => $facebookUser->id,
+                    'unique_id' => md5(uniqid(rand(), true))
+                ]
+            );
 
             $role = Role::find(5);
             $user->attachRole($role);

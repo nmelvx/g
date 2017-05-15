@@ -925,7 +925,21 @@ div.panel {
 	float: left;
 }
 
-.popup-address label.error{
+.popup-login input[type="text"],
+.popup-login input[type="password"],
+.popup-team input[type="text"],
+.popup-team textarea{
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	font-size: 22px;
+	line-height: 30px;
+	height: 30px;
+	width: calc(100% - 40px);
+	float: left;
+}
+
+.popup-address label.error, .popup-login label.error, .popup-team label.error{
 	margin-bottom: 0px;
 }
 
