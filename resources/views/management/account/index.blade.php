@@ -7,8 +7,8 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-calendar">
                     <h3 class="box-title">Calendar<br>Gazon</h3>
-                    <p>Urmatoarea programare este pe data de 19 septembrie ora 13:00.</p>
-                    <a href="" class="button-custom see-prog-details">Vezi detalii</a>
+                    {!! Helper::convertDateAppointment($job) !!}
+                    <a href="{{ route('calendar.offers') }}" class="button-custom see-prog-details">Vezi detalii</a>
                     <p>Acceseaza calendarul și cheamă o echipă</p>
                     <a href="{{ route('calendar.offers') }}" title="Intră în calendar" class="button-custom check-calendar">Intră în calendar</a>
                 </div>

@@ -2,57 +2,60 @@
 
 @section('content')
 
-<div class="container mt100">
-    <div class="col-lg-3 text-center">
-        <h3 class="title-section">Creează cont</h3>
+    <div class="container mt100">
+        <div class="col-lg-3 text-center">
+            <h3 class="title-section">Creează cont</h3>
 
-        <img src="frontend/assets/images/separator2px.png" alt="" class="separator-2">
-        <div class="clearfix"></div>
-        <p class="info-register">completează câmpurile de mai jos:</p>
+            <img src="frontend/assets/images/separator2px.png" alt="" class="separator-2">
+            <div class="clearfix"></div>
+            <p class="info-register">completează câmpurile de mai jos:</p>
+        </div>
+        <form class="register-form" role="form" method="POST" action="{{ route('register') }}">
+            {{ csrf_field() }}
+            <div class="col-50">
+                <h3 class="title-green">1. Datele tale</h3>
+                <input type="text" placeholder="Prenume" value="{{ Input::old('firstname') }}" name="firstname">
+                @if ($errors->has('firstname'))
+                    <label class="error">{{ $errors->first('firstname') }}</label>
+                @endif
+                <input type="text" placeholder="Nume" value="{{ Input::old('lastname') }}" name="lastname">
+                @if ($errors->has('lastname'))
+                    <label class="error">{{ $errors->first('lastname') }}</label>
+                @endif
+                <input type="text" placeholder="Email" value="{{ Input::old('email') }}" name="email">
+                @if ($errors->has('email'))
+                    <label class="error">{{ $errors->first('email') }}</label>
+                @endif
+                <input type="text" placeholder="Telefon" value="{{ Input::old('phone') }}" name="phone">
+                @if ($errors->has('phone'))
+                    <label class="error">{{ $errors->first('phone') }}</label>
+                @endif
+                <input type="password" placeholder="Parola" name="password">
+                @if ($errors->has('password'))
+                    <label class="error">{{ $errors->first('password') }}</label>
+                @endif
+                <input type="password" placeholder="Repeta parola" name="password_confirmation">
+            </div>
+            <div class="col-50 address-box">
+                <h3 class="title-green">2. Adresa ta</h3>
+                <p id="geolocation-address" style="display: block;">Selecteaza pe harta adresa ta:</p>
+                <div id="gmap" class="no-transition"></div>
+                <p>sau introdu manual adresa</p>
+                <input type="text" placeholder="Adresa ta" value="{{ old('address') }}" id="geolocation-address-input" name="address">
+                {{ Form::hidden('latitude', '', ['class' => 'latitude']) }}
+                {{ Form::hidden('longitude', '', ['class' => 'longitude']) }}
+                @if ($errors->has('address'))
+                    <label class="error">{{ $errors->first('address') }}</label>
+                @endif
+            </div>
+            <div class="col-100 text-center">
+                <button class="creeate-account">Creează cont</button>
+            </div>
+        </form>
     </div>
-    <form class="register-form" role="form" method="POST" action="{{ route('register') }}">
-        {{ csrf_field() }}
-        <div class="col-50">
-            <h3 class="title-green">1. Datele tale</h3>
-            <input type="text" placeholder="Prenume" value="{{ Input::old('firstname') }}" name="firstname">
-            @if ($errors->has('firstname'))
-                <label class="error">{{ $errors->first('firstname') }}</label>
-            @endif
-            <input type="text" placeholder="Nume" value="{{ Input::old('lastname') }}" name="lastname">
-            @if ($errors->has('lastname'))
-                <label class="error">{{ $errors->first('lastname') }}</label>
-            @endif
-            <input type="text" placeholder="Email" value="{{ Input::old('email') }}" name="email">
-            @if ($errors->has('email'))
-                <label class="error">{{ $errors->first('email') }}</label>
-            @endif
-            <input type="text" placeholder="Telefon" value="{{ Input::old('phone') }}" name="phone">
-            @if ($errors->has('phone'))
-                <label class="error">{{ $errors->first('phone') }}</label>
-            @endif
-            <input type="password" placeholder="Parola" name="password">
-            @if ($errors->has('password'))
-                <label class="error">{{ $errors->first('password') }}</label>
-            @endif
-            <input type="password" placeholder="Repeta parola" name="password_confirmation">
-        </div>
-        <div class="col-50 address-box">
-            <h3 class="title-green">2. Adresa ta</h3>
-            <p id="geolocation-address" style="display: block;">Selecteaza pe harta adresa ta:</p>
-            <div id="gmap" class="no-transition"></div>
-            <p>sau introdu manual adresa</p>
-            <input type="text" placeholder="Adresa ta" value="{{ old('address') }}" id="geolocation-address-input" name="address">
-            {{ Form::hidden('latitude', '', ['class' => 'latitude']) }}
-            {{ Form::hidden('longitude', '', ['class' => 'longitude']) }}
-            @if ($errors->has('address'))
-                <label class="error">{{ $errors->first('address') }}</label>
-            @endif
-        </div>
-        <div class="col-100 text-center">
-            <button class="creeate-account">Creează cont</button>
-        </div>
-    </form>
-</div>
+    <div class="content-overlay absolute" style="display: none;">
+    @include('includes.popup-login')
+    </div>
 @endsection
 
 @section('javascripts')
@@ -264,6 +267,30 @@
         });
 
         $('input[name="email"]').rules("add", { "validateUserEmail" : true} );
+
+        /** popup **/
+
+        $('body').on('click', '.close-popup', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().hide();
+            $(this).parent().hide();
+        });
+
+        $('body').on('click', '.show-popup', function (e) {
+            e.preventDefault();
+            $('.content-overlay').css({'height':$(document).height()+'px'});
+            var data = $(this).data('popup');
+
+            $('.content-overlay').show();
+            $('.popup-' + data).show();
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+        });
+
+        $(window).on('load resize', function ()
+        {
+            $('.content-overlay').css({'height':$(document).height()+'px'});
+        });
     });
 </script>
 @endsection

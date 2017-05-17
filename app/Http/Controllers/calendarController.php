@@ -105,7 +105,6 @@ class calendarController extends Controller
                         $endTime = date("H:i", strtotime($startTime.' +'.$job->total_duration.' seconds'));
 
                         array_push($unavailableRanges, [$startTime, $endTime]);
-
                     }
                 }
 
@@ -117,6 +116,37 @@ class calendarController extends Controller
         }
 
         return false;
+    }
+
+    public function getDates(Request $request)
+    {
+
+        if($request->ajax()) {
+
+            $jobsDates = Job::where('user_id', Auth::id())->get();
+
+            $unavailableDates = [];
+
+
+            if(sizeof($jobsDates) > 0 ) {
+
+                foreach ($jobsDates as $job)
+                {
+                    array_push($unavailableDates, date('d-m-Y', strtotime($job->date)));
+                }
+            }
+
+            return Response::json(array(
+                'success' => true,
+                'unavailableDates' => $unavailableDates
+            ), 200);
+
+        }
+
+        return Response::json(array(
+            'success' => false,
+            'message' => 'Not an ajax call!'
+        ), 200);
     }
 
     public function getJobs(Request $request)

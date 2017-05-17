@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -15,7 +16,9 @@ class AccountController extends Controller
     {
         $class = 'green';
 
-        return view('management.account.index', compact('class'));
+        $job = Job::where('user_id', Auth::id())->where('date', '>=', date('Y-m-d'))->where('time', '>=', date('H:i:s'))->orderBy('date', 'ASC')->orderBy('time', 'ASC')->first();
+
+        return view('management.account.index', compact('class', 'job'));
     }
 
     public function show()

@@ -6,6 +6,7 @@ use App\Mail\SendRegisterMail;
 use App\User;
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -77,14 +78,23 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'visible_password' => $data['password'],
-            'unique_id' => md5(uniqid(rand(), true))
+            'unique_id' => md5(uniqid(rand(), true)),
+            'address' => $data['address'],
+            'latitude' => $data['latitude'],
+            'longitude' => $data['longitude']
         ]);
 
         $role = Role::find(5);
         $user->attachRole($role);
 
 
-        Mail::to($user->email)->send(new SendRegisterMail($user));
+        if (App::environment('production')) {
+            Mail::to($user->email)->send(new SendRegisterMail($user));
+            /*Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
+                $m->from('suport@gardinero.ro');
+                $m->to($user->email)->subject('Cont nou Gardinero.ro');
+            });*/
+        }
 
 /*        Mail::send('emails.register', ['user' => $user], function ($m) use ($user) {
             $m->from('suport@gardinero.ro');

@@ -42,7 +42,7 @@
                 <div class="div-padded">
                     <div class="row">
                         <div class="col-50 paddr10">
-                            <input type="text" placeholder="ZZ/LL/AAAA" id="ll-skin-melon" class="input-calendar" name="date">
+                            <input type="text" placeholder="ZZ/LL/AAAA" id="ll-skin-melon" class="input-calendar" readonly="readonly" name="date">
                         </div>
                         <div class="col-50 paddl10">
                             <div class="box-timepicker">
@@ -134,17 +134,33 @@
         };
 
         var unavailableDates = [];
+
+        $.ajax
+        ({
+            type: "POST",
+            url: "{{ route('get.dates') }}",
+            data: {'_token':$('meta[name="csrf-token"]').attr('content')},
+            dataType: 'json',
+            async: false,
+            success: function(results)
+            {
+                unavailableDates = results.unavailableDates;
+            }
+        });
+
         var dateToday = new Date();
         $('.input-calendar').datepicker({
             'dateFormat':'dd-mm-yy',
             minDate: dateToday,
             beforeShowDay: function(dt)
             {
+                console.log(unavailableDates);
                 $('#ui-datepicker-div').addClass(this.id);
                 $('#ui-datepicker-div').addClass('no-transition');
                 var string = jQuery.datepicker.formatDate('dd-mm-yy', dt);
                 /*return [dt.getDay() != 0 && dt.getDay() != 6 && unavailableDates.indexOf(string) == -1];*/
-                return [unavailableDates.indexOf(string) == -1];
+                console.log(string);
+                return [ unavailableDates.indexOf(string) == -1 ]
             },
             onSelect: function(date, instance) {
 
@@ -275,7 +291,7 @@
             e.stopImmediatePropagation();
             $('.mini-popup').remove();
             var _this = $(this);
-            if(!_this.hasClass('reserved'))
+            if(!_this.is('.reserved, .pastDate'))
             {
                 var unformatedDate = _this.attr('id').replace('li-','');
                 var content = $('<div class="mini-popup" data-date="'+unformatedDate+'" style="display: none; left: '+parseFloat(_this.width()+1)+'px"><h3>Fa o rezervare</h3><div class="separator-line-popup"></div><p>Se pot face rezervări înaceastă zi</p><a href="javascript:void(0);">Cheamă echipa</a><span class="arrow-left"></span></div>');

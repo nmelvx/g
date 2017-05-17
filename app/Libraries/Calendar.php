@@ -141,8 +141,10 @@ class Calendar {
                 ($cellContent==null?'mask':'').$inactive.$today.'">'.$jobLeader.'<span>'.$cellContent.'</span></li>';
         }*/
 
+        $pastDate = ($this->currentDate < date('Y-m-d'))? ' pastDate':'';
+
         return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
-            ($cellContent==null?'mask':'').$inactive.$today.'"><span>'.$cellContent.'</span></li>';
+            ($cellContent==null?'mask':'').$inactive.$today.$pastDate.'"><span>'.$cellContent.'</span></li>';
     }
 
     /**

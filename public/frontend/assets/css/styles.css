@@ -939,6 +939,29 @@ div.panel {
 	float: left;
 }
 
+.register-link{
+	position: absolute;
+	bottom: -100px;
+	border: 2px solid #889196;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 15px 50px;
+	font-size: 22px;
+	color: #889196;
+	left: 50%;
+	width: 300px;
+	margin-left: -150px;
+	text-align: center;
+}
+.register-link:hover,
+.register-link:active,
+.register-link:focus{
+	color: #ffffff;
+	text-decoration: none;
+	border-color: #ffffff;
+}
+
 .popup-address label.error, .popup-login label.error, .popup-team label.error{
 	margin-bottom: 0px;
 }
