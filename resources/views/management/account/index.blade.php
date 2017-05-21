@@ -7,7 +7,7 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-calendar">
                     <h3 class="box-title">Calendar<br>Gazon</h3>
-                    {!! Helper::convertDateAppointment($job) !!}
+                    {!! Helper::getDateAppointment($job) !!}
                     <a href="{{ route('calendar.offers') }}" class="button-custom see-prog-details">Vezi detalii</a>
                     <p>Acceseaza calendarul și cheamă o echipă</p>
                     <a href="{{ route('calendar.offers') }}" title="Intră în calendar" class="button-custom check-calendar">Intră în calendar</a>
@@ -78,7 +78,7 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-address">
                     <h3 class="box-title">Adresa<br>ta</h3>
-                    <p>Str. Iancu Nicolae, Nr. 53, Pipera, Ilfov</p>
+                    <p>{{ Auth::user()->address }}</p>
                     <div class="google-map-address">
                         <div class="gmap no-transition" id="gmap"></div>
                         <button class="button-custom green show-popup" data-popup="address">Schimba adresa</button>

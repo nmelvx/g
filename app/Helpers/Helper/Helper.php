@@ -13,7 +13,7 @@ class Helper
         return ($user->address != null && $user->latitude != null && $user->longitude != null)? true:false;
     }
 
-    public static function convertDateAppointment($job)
+    public static function getDateAppointment($job)
     {
         if($job == ''){
             return '<p>Nu aveti programari recente efectuate.</p>';

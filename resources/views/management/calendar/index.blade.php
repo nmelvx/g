@@ -14,7 +14,7 @@
                 <h3 class="title-section">Calendar</h3>
                 <div class="separator-line-div"></div>
                 <ul class="breadcrumbs">
-                    <li><a href="" title="Contul tau">Contul tau</a></li>
+                    <li><a href="/contul-meu" title="Contul tau">Contul tau</a></li>
                     <li><span>|</span></li>
                     <li>Calendar</li>
                 </ul>

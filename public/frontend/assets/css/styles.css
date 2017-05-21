@@ -654,6 +654,13 @@ body{
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.mtb50{
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.mt50{
+	margin-top: 50px;
+}
 
 .bg-gray{
 	background-color: #e3e7e5;
@@ -1892,6 +1899,18 @@ form.offer-form label.error{
 	margin-bottom: 20px;
 }
 
+.terms p{
+	font-size: 18px;
+	font-family: "Fira Sans", sans-serif;
+	font-weight: 400;
+	margin: 0 0 20px 0
+}
+.terms h3{
+	font-weight: 600;
+	font-size: 30px;
+	margin: 20px 0 20px 0;
+}
+
 
 @media (max-width: 767px) {
 	.header-background{
@@ -2271,5 +2290,12 @@ form.offer-form label.error{
     .mtb100{
         padding-top: 50px;
         padding-bottom: 50px;
+    }
+    .mtb50{
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .mt50{
+        padding-top: 10px;
     }
 }

@@ -16,12 +16,12 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
                 <h1 class="footer-title">Despre noi</h1>
                 <ul>
-                    <li><a href="">Blog</a></li>
-                    <li><a href="">Compania noastra</a></li>
-                    <li><a href="">Cariere</a></li>
-                    <li><a href="">Presa</a></li>
-                    <li><a href="">Termeni si conditii</a></li>
-                    <li><a href="">Privacy</a></li>
+                    {{--<li><a href="">Blog</a></li>--}}
+                    <li><a href="/compania-noastra">Compania noastra</a></li>
+                    <li><a href="/cariere">Cariere</a></li>
+                    <li><a href="/presa">Presa</a></li>
+                    <li><a href="/termeni-si-conditii">Termeni si conditii</a></li>
+                    <li><a href="/privacy">Privacy</a></li>
                 </ul>
             </div>
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">

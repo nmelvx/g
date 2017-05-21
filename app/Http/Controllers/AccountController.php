@@ -16,7 +16,7 @@ class AccountController extends Controller
     {
         $class = 'green';
 
-        $job = Job::where('user_id', Auth::id())->where('date', '>=', date('Y-m-d'))->where('time', '>=', date('H:i:s'))->orderBy('date', 'ASC')->orderBy('time', 'ASC')->first();
+        $job = Job::where('user_id', Auth::id())->where('date', '>=', date('Y-m-d'))->orWhere('time', '>=', date('H:i:s'))->orderBy('date', 'ASC')->orderBy('time', 'ASC')->first();
 
         return view('management.account.index', compact('class', 'job'));
     }
