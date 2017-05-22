@@ -72,6 +72,9 @@
                             </span>
                         @endif
                         <button class="button-custom yellow">Actualizeaza cont</button>
+                        @if (Session::has('success'))
+                            <label class="success-msg">{{ Session::get('success') }}</label>
+                        @endif
                     {!! Form::close() !!}
                 </div>
             </div>
@@ -128,9 +131,12 @@
                 <div class="boxed my-oppinion">
                     <h3 class="box-title">Părerea ta<br>contează</h3>
                     <p>Zi-ne cum ti se par serviciile noastre si ce putem imbunatati:</p>
-                    <form action="" method="post">
-                        <textarea rows="5" cols="20" class="textarea-custom"></textarea>
+                    {!! Form::open(array('route' => 'send.opinion', 'method' => 'POST')) !!}
+                        <textarea rows="5" cols="20" name="opinion" class="textarea-custom"></textarea>
                         <button class="button-custom orange">Trimite</button>
+                        @if (Session::has('success-opinion'))
+                        <label class="success-msg">{{ Session::get('success-opinion') }}</label>
+                        @endif
                     </form>
                 </div>
             </div>

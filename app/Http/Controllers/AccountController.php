@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
@@ -67,7 +69,38 @@ class AccountController extends Controller
 
                 $user->save();
 
-                return Redirect::to('contul-meu');
+                return Redirect::to('contul-meu')->with('success', 'Date actualizate cu succes.');
+            }
+
+        }
+    }
+
+    public function sendOpinion(Request $request)
+    {
+        $user = Auth::user();
+
+        if($user)
+        {
+            $validator = Validator::make($request->all(), [
+                'opinion' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect('contul-meu')
+                    ->withErrors($validator)
+                    ->withInput();
+            } else {
+
+                $user->opinion = $request->get('opinion');
+
+                if (App::environment('production')) {
+                    Mail::send('emails.opinion', ['user' => $user], function ($m) use ($user) {
+                        $m->from('suport@gardinero.ro');
+                        $m->to($user->email)->subject('Formular: Parerea ta conteaza!');
+                    });
+                }
+
+                return Redirect::to('contul-meu')->with('success-opinion', 'Multumim pentru mesaj.');
             }
 
         }

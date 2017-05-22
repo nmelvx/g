@@ -164,9 +164,33 @@ div#calendar ul.dates li{
     border-right: 1px solid #cfe3f3;
     border-bottom: 1px solid #cfe3f3;
     height: 110px;
+    cursor: pointer;
 }
 div#calendar ul.dates li.currentDay > span {
     border: 3px solid #2bb88a;
+}
+
+div#calendar ul.dates li:hover{
+    border: 3px solid #2bb88a;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+div#calendar ul.dates li.pastDate:hover{
+    border: 3px solid #ee7272;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+    cursor: default;
+}
+div#calendar ul.dates li.currentDay:hover span{
+    border: 0px;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
 }
 
 div#calendar ul.dates li > span{

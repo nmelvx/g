@@ -86,7 +86,7 @@ Route::group(['middleware' => 'role:admin|leader'], function()
 });
 
 /* remove admin role when in production */
-Route::group(['middleware' => 'role:client|admin'], function()
+Route::group(['middleware' => 'role:client|leader|admin'], function()
 {
     Route::resource('contul-meu', 'AccountController');
     Route::any('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
@@ -94,6 +94,7 @@ Route::group(['middleware' => 'role:client|admin'], function()
     Route::post('get-dates', ['as' => 'get.dates', 'uses' => 'calendarController@getDates']);
     Route::get('get-jobs', ['as' => 'get.jobs', 'uses' => 'calendarController@getJobs']);
     Route::post('change-address', ['as' => 'change.address', 'uses' => 'AccountController@changeAddress']);
+    Route::post('send-opinion', ['as' => 'send.opinion', 'uses' => 'AccountController@sendOpinion']);
 });
 
 
