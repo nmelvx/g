@@ -9,7 +9,7 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <form action="{{ route('login') }}" method="post" class="form-popup">
+            <form action="{{ route('login') }}" method="post" class="form-popup" id="login-form">
                 {{ csrf_field() }}
                 <div class="input-with-text text-left">
                     <span>Email</span>

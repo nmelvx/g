@@ -36,3 +36,26 @@
 </div>
 
 @endsection
+
+@section('javascripts')
+    <script type="text/javascript">
+        $('.login-form').validate({
+            rules: {
+                password: "required",
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                password: {
+                    required: "Parola este obligatorie."
+                }
+            },
+
+            submitHandler : function(form) {
+                form.submit();
+            }
+        });
+    </script>
+@endsection

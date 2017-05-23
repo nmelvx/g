@@ -37,6 +37,27 @@
 
 @yield('javascripts')
 
+    <script type="text/javascript">
+        $('#login-form').validate({
+            ignore: "",
+            rules: {
+                password: "required",
+                email: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                password: {
+                    required: "Parola este obligatorie."
+                }
+            },
+
+            submitHandler : function(form) {
+                form.submit();
+            }
+        });
+    </script>
 
 </body>
 </html>
