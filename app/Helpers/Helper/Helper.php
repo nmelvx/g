@@ -5,7 +5,7 @@ namespace App\Helpers\Helper;
 class Helper
 {
 
-    public function userHasAddress($user)
+    public static function userHasAddress($user)
     {
         if(empty($user))
             return false;

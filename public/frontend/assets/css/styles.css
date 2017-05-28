@@ -1926,6 +1926,27 @@ form.offer-form label.error{
 	font-weight: 400;
 }
 
+.no-address{
+	position: fixed;
+	background-color: #FF4136;
+	color: #ffffff;
+	font-size: 16px;
+	font-family: "Fira Sans", sans-serif;
+	font-weight: 300;
+	text-align: center;
+	width: 100%;
+	padding: 10px;
+	top: 87px;
+	z-index: 2000;
+}
+.no-address a{
+	color: #ffffff;
+	font-weight: 700;
+}
+.no-address a:hover, .no-address a:active ,.no-address a:focus{
+	color: #ffffff;
+}
+
 @media (max-width: 767px) {
 	.header-background{
 		background: url('../images/bg-header.jpg') no-repeat top center fixed;

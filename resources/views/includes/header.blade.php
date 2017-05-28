@@ -15,3 +15,9 @@
             <a href="tel:0745.123.456" class="base-phone">0745.123.456</a>
         </div>
     </div>
+
+    @if(Helper::userHasAddress(Auth::user()) == false)
+        <div class="container-fluid no-address">
+            Pentru a putea plasa o comanda completati adresa in contul dumneavoastra. Apasa <a href="{{ route('contul-meu.index') }}">aici</a> pentru a intra in contul tau.
+        </div>
+    @endif

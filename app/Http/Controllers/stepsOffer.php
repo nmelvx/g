@@ -31,7 +31,7 @@ class stepsOffer extends Controller
         $services = Service::all();
 
         if(Auth::check()){
-            $user = User::find(Auth::id())->first();
+            $user = User::find(Auth::id());
         }
 
         if(!empty($post['step']) && $post['step'] == 1)
