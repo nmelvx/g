@@ -14,7 +14,6 @@
 
     @yield('css')
 
-
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no; target-densityDpi=device-dpi">
 
     <!-- Scripts -->
@@ -34,8 +33,10 @@
 
 @include('includes.footer')
 
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="frontend/assets/components/bootstrap/js/bootstrap.min.js"></script>
+{{ HTML::script('https://code.jquery.com/jquery-2.2.4.min.js') }}
+{{ HTML::script('frontend/assets/components/bootstrap/js/bootstrap.min.js') }}
+{{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+{{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
 @yield('javascripts')
 

@@ -204,8 +204,6 @@
 
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&libraries=places') }}
     {{ HTML::script('frontend/assets/components/jquery.fullpage/scrolloverflow.min.js') }}
-    {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
-    {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
     <script type="text/javascript">
 
@@ -326,31 +324,6 @@
                 });
             }
             initialize();
-
-
-            /** popup **/
-
-            $('body').on('click', '.close-popup', function (e) {
-                e.preventDefault();
-                $(this).parent().parent().hide();
-                $(this).parent().hide();
-            });
-
-            $('body').on('click', '.show-popup', function (e) {
-                e.preventDefault();
-                $('.content-overlay').css({'height':$(document).height()+'px'});
-                var data = $(this).data('popup');
-
-                $('.content-overlay').show();
-                $('.popup-' + data).show();
-
-                $('html, body').animate({ scrollTop: 0 }, 'slow');
-            });
-
-            $(window).on('load resize', function ()
-            {
-                $('.content-overlay').css({'height':$(document).height()+'px'});
-            });
 
         });
 

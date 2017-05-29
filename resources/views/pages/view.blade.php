@@ -15,7 +15,9 @@
     </div>
     <div class="container">
         {!! $page->content !!}
-
+        <div class="content-overlay absolute" style="display: none;">
+        @include('includes.popup-login')
+        </div>
     </div>
 
 @endsection

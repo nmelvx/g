@@ -32,8 +32,10 @@
 
 @include('includes.footer')
 
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="frontend/assets/components/bootstrap/js/bootstrap.min.js"></script>
+{{ HTML::script('https://code.jquery.com/jquery-2.2.4.min.js') }}
+{{ HTML::script('frontend/assets/components/bootstrap/js/bootstrap.min.js') }}
+{{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+{{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 
 @yield('javascripts')
 
@@ -56,6 +58,30 @@
             submitHandler : function(form) {
                 form.submit();
             }
+        });
+
+        /** popup **/
+
+        $('body').on('click', '.close-popup', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().hide();
+            $(this).parent().hide();
+        });
+
+        $('body').on('click', '.show-popup', function (e) {
+            e.preventDefault();
+            $('.content-overlay').css({'height':$(document).height()+'px'});
+            var data = $(this).data('popup');
+
+            $('.content-overlay').show();
+            $('.popup-' + data).show();
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+        });
+
+        $(window).on('load resize', function ()
+        {
+            $('.content-overlay').css({'height':$(document).height()+'px'});
         });
     </script>
 

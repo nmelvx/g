@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    @if(Helper::userHasAddress(Auth::user()) == false)
+    @if(Helper::userHasAddress(Auth::user()) == false && Auth::check())
         <div class="container-fluid no-address">
             Pentru a putea plasa o comanda completati adresa in contul dumneavoastra. Apasa <a href="{{ route('contul-meu.index') }}">aici</a> pentru a intra in contul tau.
         </div>
