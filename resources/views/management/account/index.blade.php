@@ -142,7 +142,6 @@
             </div>
         </div>
     </div>
-
     <div class="content-overlay absolute" style="display: none;">
         <div class="popup-content popup-address" style="display: none;">
             <div class="row">
@@ -168,6 +167,7 @@
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
     </div>
+
 @endsection
 
 @section('javascripts')
@@ -202,7 +202,7 @@
             var LONG_VALUE = '{{ Auth::user()->longitude }}';
 
             var currentPosition = (LAT_VALUE != '' && LONG_VALUE != '')? {lat:parseFloat(LAT_VALUE), lng:parseFloat(LONG_VALUE)}:{lat: 44.4268, lng: 26.1025};
-            console.log(LAT_VALUE);
+
 
             function initMap() {
 
@@ -297,6 +297,7 @@
 
         $('body').on('click', '.close-popup', function (e) {
             e.preventDefault();
+            $('label.error').remove();
             $(this).parent().parent().hide();
             $(this).parent().hide();
         });
@@ -305,6 +306,25 @@
         {
             $('.content-overlay').css({'height':$(document).height()+'px'});
         });
+
+
+        var geocodeAddress = function (g, resultsMap) {
+
+            $('label.error').remove();
+            var address = $('input[name="address"]').val();
+            g.geocode({'address': address}, function(results, status)
+            {
+                if (status === 'OK')
+                {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    $('input[name="latitude"]').val(results[0].geometry.location.lat());
+                    $('input[name="longitude"]').val(results[0].geometry.location.lng());
+                } else {
+                    $('<label class="error">Adresa este invalida.</label>').insertAfter('#autocomplete');
+                }
+            });
+        }
+
 
         $('body').on('click', '.show-popup', function (e) {
             e.preventDefault();
@@ -334,6 +354,8 @@
                 });
                 map.setOptions({streetViewControl: false, mapTypeControl: false});
                 var geocoder = new google.maps.Geocoder();
+
+                console.log(geocoder);
 
                 $('body').on('click', '.get-address', function (e) {
                     e.preventDefault();
@@ -399,20 +421,6 @@
             initDefault();
 
 
-            function geocodeAddress(geocoder, resultsMap) {
-                $('label.error').remove();
-                var address = $('input[name="address"]').val();
-                geocoder.geocode({'address': address}, function(results, status) {
-                    if (status === 'OK') {
-                        resultsMap.setCenter(results[0].geometry.location);
-                        $('input[name="latitude"]').val(results[0].geometry.location.lat());
-                        $('input[name="longitude"]').val(results[0].geometry.location.lng());
-                    } else {
-                        $('<label class="error">Adresa este invalida.</label>').insertAfter('#autocomplete');
-                    }
-                });
-            }
-
             $('.form-address').submit(function(e) {
                 e.preventDefault();
             }).validate({
@@ -450,6 +458,7 @@
             });
 
         });
+
 
     </script>
 

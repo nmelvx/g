@@ -2,6 +2,9 @@
 
 namespace App\Libraries;
 
+use App\Helpers\Helper\Helper;
+use Illuminate\Support\Facades\Auth;
+
 class Calendar {
 
     /********************* PROPERTY ********************/
@@ -143,8 +146,10 @@ class Calendar {
 
         $pastDate = ($this->currentDate < date('Y-m-d'))? ' pastDate':'';
 
+        $hasAddress = ($this->currentDate >= date('Y-m-d') && Helper::userHasAddress(Auth::user()))? '':' noAddress';
+
         return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
-            ($cellContent==null?'mask':'').$inactive.$today.$pastDate.'"><span>'.$cellContent.'</span></li>';
+            ($cellContent==null?'mask':'').$inactive.$today.$pastDate.$hasAddress.'"><span>'.$cellContent.'</span></li>';
     }
 
     /**

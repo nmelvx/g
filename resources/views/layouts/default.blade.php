@@ -53,8 +53,6 @@
                         $('.border-green-bottom').css('opacity', 1 - $(window).scrollTop() / 200);
                     }
 
-                    console.log($('.border-green-bottom').css('opacity'));
-
                     if(parseFloat($('.border-green-bottom').css('opacity')) <= 0) {
                         $('.border-green-bottom').hide();
                     } else {
