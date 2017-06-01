@@ -33,7 +33,7 @@
     </div>
 
     <div class="content-overlay not-fixed" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
-        <div class="popup-content popup-ask-offer" style="display: none;">
+        <div class="popup-content popup-ask-offer" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
             <p class="text-center info-text">Programati data si ora serviciilor</p>
