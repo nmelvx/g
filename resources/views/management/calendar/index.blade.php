@@ -32,12 +32,12 @@
         </div>
     </div>
 
-    <div class="content-overlay not-fixed" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
+    <div class="content-overlay not-fixed" style="display:@if(session('modal') == true || ((isset($_GET['success']) && $_GET['success'] == 'true'))) block @else none @endif">
         <div class="popup-content popup-ask-offer" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
             <p class="text-center info-text">Programati data si ora serviciilor</p>
-            <form action="" method="post" class="form-popup">
+            <form action="" method="post" class="form-popup form-offer-calendar">
                 <h4>1. Data și ora</h4>
                 <div class="div-padded">
                     <div class="row">
@@ -107,6 +107,18 @@
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
+
+        <div class="popup-content popup-thanks" style="display: {{ (isset($_GET['success']) && $_GET['success'] == 'true')? 'block':'none' }};">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                    <h3>Multumim,</h3>
+                    <div class="separator-line-popup"></div>
+                    <p>Vei primi in scurt timp un email cu detailii despre comanda.</p>
+                </div>
+            </div>
+            <button class="green-button submit-form close-popup-button">Contiuna</button>
+            <a href="javascript:void(0);" class="close-popup"></a>
+        </div>
     </div>
 
 @endsection
@@ -125,11 +137,12 @@
 
         /** popup **/
 
-        $('body').on('click', '.close-popup', function (e) {
+        $('body').on('click', '.close-popup, .close-popup-button', function (e) {
             e.preventDefault();
             $('label.error').remove();
             $(this).parent().parent().hide();
             $(this).parent().hide();
+            history.pushState("", document.title, window.location.pathname);
         });
 
         $('body').on('click', '.show-popup', function (e) {
@@ -237,7 +250,7 @@
 
         //time: { valueNotEquals: "default" },
 
-        $('.form-popup').submit(function(e) {
+        $('.form-offer-calendar').submit(function(e) {
             e.preventDefault();
         }).validate({
             ignore: "input[type='text']:hidden",
@@ -272,13 +285,13 @@
 
                     type: 'POST',
                     url: '{{ route('save.offer') }}',
-                    data: $('.form-popup').serializeObject(),
+                    data: $('.form-offer-calendar').serializeObject(),
                     dataType: 'json',
                     success: function (data) {
                         $('.content-overlay').hide();
                         $('.popup-ask-offer').hide();
                         //$('html, body').animate({ scrollTop: 0 }, "fast");
-                        window.location.href = '/calendar';
+                        window.location.href = '/calendar?success=true';
                     },
                     error: function (data) {
                         console.log(data);

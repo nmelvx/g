@@ -233,6 +233,8 @@ class calendarController extends Controller
 
                     $job->services()->attach($request->get('services'));
 
+                    //return redirect()->route('calendar.offers')->with('success', true);
+
                     return Response::json(array(
                         'success' => true
                     ), 200);

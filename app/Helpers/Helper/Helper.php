@@ -22,7 +22,7 @@ class Helper
         $months = ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'];
         $month = date('m');
 
-        return '<p>Urmatoarea programare este pe data de '.date('d').' '.strtolower($months[(int)$month-1]).' ora '.date('H:i', strtotime(!empty($job->time)? $job->time:'')).'</p>';
+        return '<p>Urmatoarea programare este pe data de '.date('d', strtotime(!empty($job->date)? $job->date:'')).' '.strtolower($months[(int)$month-1]).' ora '.date('H:i', strtotime(!empty($job->time)? $job->time:'')).'</p>';
     }
 
 }

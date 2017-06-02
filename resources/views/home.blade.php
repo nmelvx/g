@@ -162,7 +162,7 @@
         <div class="clearfix"></div>
     </div>
 
-    <div class="content-overlay absolute" style="display: none;">
+    <div class="content-overlay absolute" style="display: {!! (session('openLogin') == 'yes')? 'block':'none' !!};">
         <div class="popup-content popup-team" style="display: none;">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">

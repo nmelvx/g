@@ -148,6 +148,8 @@ class RegisterController extends Controller
             return $authUser;
         } else {
 
+            $password = str_random(8);
+
             $user = User::updateOrCreate(
                 ['email' => $facebookUser->user['email']],
                 [
@@ -155,9 +157,15 @@ class RegisterController extends Controller
                     'lastname' => $facebookUser->user['last_name'],
                     'email' => $facebookUser->user['email'],
                     'facebook_id' => $facebookUser->id,
+                    'password' => bcrypt($password),
+                    'visible_password' => $password,
                     'unique_id' => md5(uniqid(rand(), true))
                 ]
             );
+
+            if (App::environment('production')) {
+                Mail::to($user->email)->send(new SendRegisterMail($user));
+            }
 
             $role = Role::find(5);
             $user->attachRole($role);

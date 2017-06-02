@@ -1,5 +1,5 @@
 
-        <div class="popup-content popup-login" style="display: none;">
+        <div class="popup-content popup-login" style="display: {!! (session('openLogin') == 'yes')? 'block':'none' !!};">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
                     <h3>Întră în contul tau</h3>
