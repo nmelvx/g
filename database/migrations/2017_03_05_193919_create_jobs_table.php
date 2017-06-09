@@ -25,6 +25,7 @@ class CreateJobsTable extends Migration
             $table->string('observations')->nullabe();
             $table->integer('team_id')->index()->nullabe();
             $table->integer('user_id')->index()->nullabe();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

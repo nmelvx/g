@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="content-overlay not-fixed" style="display:@if(session('modal') == true || ((isset($_GET['success']) && $_GET['success'] == 'true'))) block @else none @endif">
+    <div class="content-overlay not-fixed" style="display:@if(session('modal') == true || ((isset($_GET['success']) && $_GET['success'] == 'true'))) block @else block @endif">
         <div class="popup-content popup-ask-offer" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
@@ -81,6 +81,42 @@
                 {{ csrf_field() }}
                 <button class="green-button submit-form">Cere pret</button>
             </form>
+            <a href="javascript:void(0);" class="close-popup"></a>
+        </div>
+
+        <div class="popup-content popup-service-detail" style="display:block;">
+            <h3>Serviciul din</h3>
+            <div class="separator-line-div-small"></div>
+            <p class="text-center info-text date">Miercuri, 18 octombrie</p>
+
+            <h4>1. Review-ul tau</h4>
+            <div class="div-padded mb50">
+                <div class="ratings">
+                    <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                </div>
+            </div>
+            <h4>2. Detalii serviciu</h4>
+            <div class="div-padded mb50">
+                <p class="area">Suprafață de lucru: <span>120 mp</span></p>
+                <p class="duration">Durată serviciu: <span>aproximativ 35 minute</span></p>
+            </div>
+            <h4>3. Ce servicii doriți?</h4>
+            <div class="div-padded mb50">
+                <ul class="chk-list">
+                    <li><label class="checkbox-custom">{{ Form::checkbox('services[]', 1, false) }}<span></span>Tuns gaozon</label></li>
+                    <li><label class="checkbox-custom">{{ Form::checkbox('services[]', 2, false) }}<span></span>Tundere gard viu</label></li>
+                </ul>
+            </div>
+            <div class="text-center box-price mb50">
+               <p class="price">Cost servicii: 90 lei</p>
+            </div>
+
+
+
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
