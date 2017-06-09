@@ -1960,6 +1960,26 @@ form.offer-form label.error{
 	color: #ffffff;
 }
 
+.bot20{
+	margin-bottom: 20px;
+}
+
+.box-price{
+	clear: both;
+	border-top: 2px solid #e0efe6;
+	border-bottom: 2px solid #e0efe6;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.box-price p.price{
+	font-size: 35px;
+	line-height: 35px;
+	color: #3ec17f;
+	font-family: 'playfair_displaybold', sans-serif;
+	text-align: center;
+	margin: 0px;
+}
+
 @media (max-width: 480px) {
 	.popup-content.popup-thanks p{
 		padding: 0px;
