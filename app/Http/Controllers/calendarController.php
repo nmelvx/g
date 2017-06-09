@@ -167,7 +167,28 @@ class calendarController extends Controller
 
         }
 
-        return false;
+        die;
+    }
+
+    public function getJob(Request $request)
+    {
+
+        if($request->ajax()) {
+
+            $job = Job::with('services')->where('id', $request->get('id'))->with([
+                'team' => function($q){
+                    return $q->with('leader');
+                }
+            ])->where('user_id', Auth::id())->first();
+
+            return Response::json(array(
+                'success' => true,
+                'job' => $job
+            ), 200);
+
+        }
+
+        die;
     }
 
     public function saveOffer(Request $request){
@@ -198,8 +219,13 @@ class calendarController extends Controller
                     foreach ($services as $k => $serviceId) {
                         $serviceDetail = Service::find($serviceId);
 
-                        if (!in_array($serviceDetail->duration, $temp) && ($k + 1) % 2 != 0) {
+                        if (!in_array($serviceDetail->duration, $temp)) {
                             $totalDuration += $serviceDetail->duration * $request->get('area');
+                            array_push($temp, $serviceDetail->duration);
+                        } else {
+                            foreach (array_keys($temp, $serviceDetail->duration, true) as $key) {
+                                unset($temp[$key]);
+                            }
                         }
 
                         $sum += $serviceDetail->price * $request->get('area');

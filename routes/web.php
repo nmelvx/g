@@ -93,6 +93,7 @@ Route::group(['middleware' => 'role:client|leader|admin'], function()
     Route::post('get-hours', ['as' => 'get.hours', 'uses' => 'calendarController@getHours']);
     Route::post('get-dates', ['as' => 'get.dates', 'uses' => 'calendarController@getDates']);
     Route::get('get-jobs', ['as' => 'get.jobs', 'uses' => 'calendarController@getJobs']);
+    Route::get('get-job', ['as' => 'get.job', 'uses' => 'calendarController@getJob']);
     Route::post('change-address', ['as' => 'change.address', 'uses' => 'AccountController@changeAddress']);
     Route::post('send-opinion', ['as' => 'send.opinion', 'uses' => 'AccountController@sendOpinion']);
 });

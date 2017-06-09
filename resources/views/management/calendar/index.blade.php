@@ -84,6 +84,45 @@
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
+        <div class="popup-content popup-offer-detail" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
+            <h3>Cere pret</h3>
+            <div class="separator-line-div-small"></div>
+            <p class="text-center info-text">Programati data si ora serviciilor</p>
+            <form action="" method="post" class="form-popup form-offer-calendar">
+                <h4>1. Data și ora</h4>
+                <div class="div-padded">
+                    <div class="row">
+                        <div class="col-100 paddr10">
+                            <p class="list-info date"></p>
+                            <p class="list-info time"></p>
+                        </div>
+                    </div>
+                </div>
+                <h4>2. Suprafața de lucru</h4>
+                <div class="div-padded">
+                    <p class="list-info area"></p>
+                    <p class="list-info duration"></p>
+                </div>
+                <div class="div-padded">
+
+                </div>
+                <h4>3. Ce servicii doriți?</h4>
+                <div class="div-padded">
+                    <ul class="chk-list">
+                        @foreach($services as $k => $service)
+                            <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, false) }}<span></span>{{ $service->title }}</label></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <hr class="line2px">
+                <div class="text-center">
+                    <label class="checkbox-custom wauto agree-input"><input type="checkbox" name="agree"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
+                </div>
+                <button class="green-button submit-form">Cere pret</button>
+            </form>
+            <a href="javascript:void(0);" class="close-popup"></a>
+        </div>
+
         <div class="popup-content popup-address" style="display: none;">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
@@ -317,11 +356,63 @@
                         if('li-'+value.date == element.attr('id'))
                         {
                             element.addClass('reserved');
-                            element.append('<div class="cell-appointment"><strong>'+value.time.substring(0, value.time.length - 3)+'</strong><div class="small-cell">'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div></div>')
+                            element.append('<div class="cell-appointment" data-jobid='+value.id+'><strong>'+value.time.substring(0, value.time.length - 3)+'</strong><div class="small-cell">'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div></div>')
                         }
                     });
                 });
+
             }
+        });
+
+        var formatDate = function(date) {
+            return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+        }
+        var durationFormat = function(duration) {
+            var sec_num = parseInt(duration, 10);
+            var hours   = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+            //if (hours   < 10) {hours   = "0"+hours;}
+            //if (minutes < 10) {minutes = "0"+minutes;}
+            if (seconds < 10) {seconds = "0"+seconds;}
+            var stringHours = '';
+            if(hours > 0){
+                stringHours += ((hours > 1)? hours+' ore si ':hours+' ora si ');
+            }
+            return 'aproximativ '+stringHours+((minutes > 1)?  minutes+' de minute':minutes+' un minut');
+        }
+
+
+        $('body').on('click', '.reserved .cell-appointment', function(e){
+            e.preventDefault();
+            var _this = $(this);
+
+            $.ajax({
+
+                type: 'GET',
+                url: '{{ route('get.job') }}',
+                dataType: 'json',
+                data: { id:_this.data('jobid') },
+                success: function (result)
+                {
+
+                    $('.list-info.date').text(formatDate(new Date(result.job.date)));
+                    $('.list-info.time').text(result.job.time);
+                    $('.list-info.area').text('Suprafata de lucru: ' + result.job.area + ' mp');
+                    $('.list-info.duration').text('Durata serviciu: ' + durationFormat(result.job.total_duration));
+
+
+                }
+            });
+
+            setTimeout(function () {
+                $('.content-overlay').css({'height':$(document).height()+'px'});
+                $('.content-overlay').show();
+                $('.popup-offer-detail').show();
+            }, 200)
+
+
         });
 
 
@@ -532,14 +623,6 @@
                     $('.popup-ask-offer').show();
                 }
             });
-        });
-
-        $('body').on('click', '.reserved', function(e){
-            e.preventDefault();
-
-            var _this = $(this);
-
-            return;
         });
 
 
