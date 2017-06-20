@@ -115,8 +115,6 @@
                <p class="price">Cost servicii: 90 lei</p>
             </div>
 
-
-
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
