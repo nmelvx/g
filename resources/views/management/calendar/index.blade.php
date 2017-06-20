@@ -142,10 +142,7 @@
                 </div>
                 <h4>3. Ce servicii doriți?</h4>
                 <div class="div-padded">
-                    <ul class="chk-list">
-                        @foreach($services as $k => $service)
-                            <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, false) }}<span></span>{{ $service->title }}</label></li>
-                        @endforeach
+                    <ul class="chk-list list-info servicii">
                     </ul>
                 </div>
                 <hr class="line2px">
@@ -435,6 +432,14 @@
                     $('.list-info.time').text(result.job.time);
                     $('.list-info.area').text('Suprafata de lucru: ' + result.job.area + ' mp');
                     $('.list-info.duration').text('Durata serviciu: ' + durationFormat(result.job.total_duration));
+
+                    var services = '';
+
+                    $.each(result.job['services'], function( index, value ) {
+                        services += '<li><label class="checkbox-custom"><input type="checkbox" disabled checked value="'+value.id+'" name="serivces[]"><span></span>'+value.title+'</label></li>';
+                    });
+
+                    $('.list-info.servicii').html(services);
 
 
                 }
