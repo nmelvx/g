@@ -91,6 +91,7 @@ Route::group(['middleware' => 'role:client|leader|admin'], function()
     Route::resource('contul-meu', 'AccountController');
     Route::any('calendar', ['as' => 'calendar.offers', 'uses' => 'calendarController@index']);
     Route::post('get-hours', ['as' => 'get.hours', 'uses' => 'calendarController@getHours']);
+    Route::post('get-price', ['as' => 'get.price', 'uses' => 'calendarController@getEstimatedPrice']);
     Route::post('get-dates', ['as' => 'get.dates', 'uses' => 'calendarController@getDates']);
     Route::get('get-jobs', ['as' => 'get.jobs', 'uses' => 'calendarController@getJobs']);
     Route::get('get-job', ['as' => 'get.job', 'uses' => 'calendarController@getJob']);

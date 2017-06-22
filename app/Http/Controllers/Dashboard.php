@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Job;
 use Illuminate\Http\Request;
 
 class Dashboard extends Controller
@@ -12,7 +13,9 @@ class Dashboard extends Controller
             'page_title' => 'Dashboard'
         ];
 
-        return View('admin.pages.dashboard', compact('data'));
+        $jobs = Job::all();
+
+        return View('admin.pages.dashboard', compact('data', 'jobs'));
     }
 
 }

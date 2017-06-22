@@ -48,21 +48,12 @@
                             <div class="box-timepicker">
                                 <input type="text" placeholder="18:00" class="input-timepicker"  name="time">
                             </div>
-                            {{--<select name="time">
-                                <option value="default">Alege ora</option>
-                                @foreach($hours as $k => $hour)
-                                    <option @if(in_array($hour, $unavailableHours)) disabled @endif value="{{ $k }}">{{ $hour }}</option>
-                                @endforeach
-                            </select>--}}
                         </div>
                     </div>
                 </div>
                 <h4>2. Suprafața de lucru</h4>
                 <div class="div-padded">
-                    <input type="text" placeholder="450 (metrii patrati)" name="area">
-                </div>
-                <div class="div-padded">
-
+                    <input type="text" placeholder="450 (metrii patrati)" name="area" class="calculate-area">
                 </div>
                 <h4>3. Ce servicii doriți?</h4>
                 <div class="div-padded">
@@ -71,6 +62,14 @@
                         <li><label class="checkbox-custom">{{ Form::checkbox('services[]', $service->id, (in_array($service->id, (!empty(Input::get('services'))?Input::get('services'):[])))? $service->id:false) }}<span></span>{{ $service->title }}</label></li>
                         @endforeach
                     </ul>
+                </div>
+                <h3 class="text-center f35">Cost serviciu: <span class="estimated-price">90</span> lei</h3>
+                <span class="estimated-block error"></span>
+                <div class="div-padded">
+                    <div class="input-with-text text-left">
+                        <span>Vrei sa ne lasi o nota?</span>
+                        <textarea name="observations" placeholder="Aici poti lasa un mesaj echipei"></textarea>
+                    </div>
                 </div>
                 <hr class="line2px">
                 <div class="text-center">
@@ -84,44 +83,43 @@
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
-        <div class="popup-content popup-service-detail" style="display:block;">
+        <div class="popup-content popup-service-detail-finshed" style="display:none;">
             <h3>Serviciul din</h3>
             <div class="separator-line-div-small"></div>
             <p class="text-center info-text date">Miercuri, 18 octombrie</p>
-
-            <h4>1. Review-ul tau</h4>
-            <div class="div-padded mb50">
-                <div class="ratings">
-                    <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
-                    <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-                    <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
-                    <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-                    <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+            <form class="form-popup">
+                <h4>1. Review-ul tau</h4>
+                <div class="div-padded mb50">
+                    <div class="ratings">
+                        <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                    </div>
                 </div>
-            </div>
-            <h4>2. Detalii serviciu</h4>
-            <div class="div-padded mb50">
-                <p class="area">Suprafață de lucru: <span>120 mp</span></p>
-                <p class="duration">Durată serviciu: <span>aproximativ 35 minute</span></p>
-            </div>
-            <h4>3. Ce servicii doriți?</h4>
-            <div class="div-padded mb50">
-                <ul class="chk-list">
-                    <li><label class="checkbox-custom">{{ Form::checkbox('services[]', 1, false) }}<span></span>Tuns gaozon</label></li>
-                    <li><label class="checkbox-custom">{{ Form::checkbox('services[]', 2, false) }}<span></span>Tundere gard viu</label></li>
-                </ul>
-            </div>
-            <div class="text-center box-price mb50">
-               <p class="price">Cost servicii: 90 lei</p>
-            </div>
+                <h4>3. Detalii serviciu</h4>
+                <div class="div-padded">
+                    <p class="list-info area"></p>
+                    <p class="list-info duration"></p>
+                </div>
 
+                <h4>4. Ce servicii doriti?</h4>
+                <div class="div-padded">
+                    <ul class="chk-list list-info servicii">
+                    </ul>
+                </div>
+                <div class="div-padded">
+                    <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
+                </div>
+            </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
-        <div class="popup-content popup-offer-detail" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
-            <h3>Cere pret</h3>
+        <div class="popup-content popup-offer-detail" style="display: none;">
+            <h3>Rezervare</h3>
             <div class="separator-line-div-small"></div>
-            <p class="text-center info-text">Programati data si ora serviciilor</p>
+            <p class="text-center info-text date">Detalii servicii programate</p>
             <form action="" method="post" class="form-popup form-offer-calendar">
                 <h4>1. Data și ora</h4>
                 <div class="div-padded">
@@ -132,24 +130,25 @@
                         </div>
                     </div>
                 </div>
-                <h4>2. Suprafața de lucru</h4>
+                <h4>2. Detalii echipa</h4>
+                <div class="div-padded">
+                    <p class="list-info team-leader"></p>
+                    <p class="list-info contact-phone"></p>
+                </div>
+                <h4>3. Detalii serviciu</h4>
                 <div class="div-padded">
                     <p class="list-info area"></p>
                     <p class="list-info duration"></p>
                 </div>
-                <div class="div-padded">
 
-                </div>
-                <h4>3. Ce servicii doriți?</h4>
+                <h4>4. Ce servicii doriti?</h4>
                 <div class="div-padded">
                     <ul class="chk-list list-info servicii">
                     </ul>
                 </div>
-                <hr class="line2px">
-                <div class="text-center">
-                    <label class="checkbox-custom wauto agree-input"><input type="checkbox" name="agree"><span></span>Sunt de acord cu <a href="">termenii si conditiile</a></label>
+                <div class="div-padded">
+                    <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
                 </div>
-                <button class="green-button submit-form">Cere pret</button>
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
@@ -186,7 +185,7 @@
                     <p>Vei primi in scurt timp un email cu detailii despre comanda.</p>
                 </div>
             </div>
-            <button class="green-button submit-form close-popup-button">Contiuna</button>
+            <button class="green-button submit-form close-popup-button">Continua</button>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
     </div>
@@ -262,12 +261,12 @@
             minDate: dateToday,
             beforeShowDay: function(dt)
             {
-                console.log(unavailableDates);
+
                 $('#ui-datepicker-div').addClass(this.id);
                 $('#ui-datepicker-div').addClass('no-transition');
                 var string = jQuery.datepicker.formatDate('dd-mm-yy', dt);
                 /*return [dt.getDay() != 0 && dt.getDay() != 6 && unavailableDates.indexOf(string) == -1];*/
-                console.log(string);
+
                 return [ unavailableDates.indexOf(string) == -1 ]
             },
             onSelect: function(date, instance) {
@@ -291,7 +290,7 @@
                             appendTo: '.box-timepicker',
                             disableTimeRanges: results.unavailableHours
                         });
-                        console.log(results);
+
                     }
                 });
             }
@@ -428,10 +427,13 @@
                 success: function (result)
                 {
 
-                    $('.list-info.date').text(formatDate(new Date(result.job.date)));
-                    $('.list-info.time').text(result.job.time);
-                    $('.list-info.area').text('Suprafata de lucru: ' + result.job.area + ' mp');
-                    $('.list-info.duration').text('Durata serviciu: ' + durationFormat(result.job.total_duration));
+                    $('.list-info.date').html(formatDate(new Date(result.job.date)));
+                    $('.list-info.time').html(result.job.time);
+                    $('.list-info.team-leader').html('Echipa condusa de: <strong>'+result.job.team.leader.firstname+' '+result.job.team.leader.lastname+'</strong>');
+                    $('.list-info.contact-phone').html('Telefon contact: <strong>'+result.job.team.leader.phone+'</strong>');
+                    $('.list-info.area').html('Suprafata de lucru: <strong>' + result.job.area + ' mp</strong>');
+                    $('.list-info.duration').html('Durata serviciu: <strong>' + durationFormat(result.job.total_duration)+'</strong>');
+                    $('.final.estimated-price').html(result.job.sum);
 
                     var services = '';
 
@@ -451,6 +453,7 @@
                 $('.popup-offer-detail').show();
             }, 200)
 
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
 
         });
 
@@ -485,7 +488,7 @@
 
                     geocoder = new google.maps.Geocoder;
 
-                    console.log(geocoder);
+
 
                     $('body').on('click', '.get-address', function (e) {
                         e.preventDefault();
@@ -526,9 +529,6 @@
                         if(address != '') {
 
                             geocoder.geocode({'address': address}, function (results, status) {
-
-                                console.log(status)
-                                console.log(status)
 
                                 if (status === 'OK') {
                                     resultsMap.setCenter(results[0].geometry.location);
@@ -637,6 +637,7 @@
 
             $('.input-calendar').datepicker("setDate", generalDate);
 
+
             $.ajax
             ({
                 type: "POST",
@@ -648,6 +649,8 @@
                     //destroy timepicker
                     $('.input-timepicker').val('');
                     $('.input-timepicker').timepicker('remove');
+                    $('.estimated-block').text('');
+
 
                     //init timepicker
                     $('.input-timepicker').timepicker({
@@ -658,12 +661,84 @@
                         disableTimeRanges: results.unavailableHours
                     });
 
-                    $('.content-overlay').show();
-                    $('.popup-ask-offer').show();
+                    $.ajax
+                    ({
+                        type: "POST",
+                        url: "{{ route('get.price') }}",
+                        data: $('.form-offer-calendar').serializeObject(),
+                        dataType: 'json',
+                        success: function(results)
+                        {
+                            $('.estimated-price').text(results.sum);
+
+                            if(results.success == false){
+                                $('.estimated-block').text(results.message);
+                            }
+
+                            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+                            $('.content-overlay').show();
+                            $('.popup-ask-offer').show();
+                        }
+                    });
+                }
+            });
+
+        });
+
+        $('body').on('click', '.form-offer-calendar > div > .chk-list > li > label', function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            if($(this).find('input').prop('checked') == true){
+                $(this).find('input').prop('checked', false);
+            } else {
+                $(this).find('input').prop('checked', true);
+            }
+
+            $('.estimated-block').text('');
+
+            $.ajax
+            ({
+                type: "POST",
+                url: "{{ route('get.price') }}",
+                data: $('.form-offer-calendar').serializeObject(),
+                async: false,
+                dataType: 'json',
+                success: function(results)
+                {
+                    $('.estimated-price').text(results.sum);
+
+                    if(results.success == false){
+                        $('.estimated-block').text(results.message);
+                    }
+
                 }
             });
         });
 
+        $('body').on('keyup', '.calculate-area', function(e){
+
+            $('.estimated-block').text('');
+
+            $.ajax
+            ({
+                type: "POST",
+                url: "{{ route('get.price') }}",
+                data: $('.form-offer-calendar').serializeObject(),
+                async: false,
+                dataType: 'json',
+                success: function(results)
+                {
+                    $('.estimated-price').text(results.sum);
+
+                    if(results.success == false){
+                        $('.estimated-block').text(results.message);
+                    }
+
+                }
+            });
+        });
 
     });
 </script>

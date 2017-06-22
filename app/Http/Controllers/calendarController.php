@@ -248,6 +248,7 @@ class calendarController extends Controller
                     $job->date = date('Y-m-d', strtotime($request->get('date')));
                     $job->time = $request->get('time');
                     $job->area = $request->get('area');
+                    $job->observations = $request->get('observations');
                     $job->sum = $sum;
                     $job->total_duration = $totalDuration;
                     $job->address = $request->get('address');
@@ -268,9 +269,56 @@ class calendarController extends Controller
 
                     return Response::json(array(
                         'success' => false,
-                        'message' => 'Va rugam setati adresa in contul dvs.'
+                        'price' => 'Va rugam setati adresa in contul dvs.'
                     ), 200);
                 }
+            }
+        }
+        die;
+    }
+
+
+    public function getEstimatedPrice(Request $request)
+    {
+        if($request->ajax()) {
+            $sum = 0;
+            $totalDuration = 0;
+            $temp = [];
+            $services = $request->get('services');
+
+            if($services && $request->get('area')) {
+
+                foreach ($services as $k => $serviceId) {
+                    $serviceDetail = Service::find($serviceId);
+
+                    if (!in_array($serviceDetail->duration, $temp)) {
+                        $totalDuration += $serviceDetail->duration * $request->get('area');
+                        array_push($temp, $serviceDetail->duration);
+                    } else {
+                        foreach (array_keys($temp, $serviceDetail->duration, true) as $key) {
+                            unset($temp[$key]);
+                        }
+                    }
+
+                    $sum += $serviceDetail->price * $request->get('area');
+
+                }
+
+                return Response::json(array(
+                    'success' => true,
+                    'sum' => $sum,
+                    'message' => ''
+                ), 200);
+
+                die;
+            } else {
+                return Response::json(array(
+                    'success' => false,
+                    'sum' => 0,
+                    'message' => 'Alegeti cel putin un serviciu.'
+                ), 200);
+
+                die;
             }
         }
         die;
