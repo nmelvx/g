@@ -13,7 +13,9 @@ class Dashboard extends Controller
             'page_title' => 'Dashboard'
         ];
 
-        $jobs = Job::all();
+        $jobs = Job::whereHas('user', function ($query) {
+            $query->where('id', '>', 0);
+        })->get();
 
         return View('admin.pages.dashboard', compact('data', 'jobs'));
     }

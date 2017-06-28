@@ -26,12 +26,16 @@
                                 <th>Observations</th>
                             </tr>
                             @foreach($jobs as $k => $job)
-                                {{ dd($job) }}
                             <tr>
+
                                 <td>{{ $job->id }}</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
+                                <td>{{ $job->user->firstname.' '.$job->user->lastname }}</td>
+                                <td>{{ $job->date }}</td>
+                                @if($job->status == 1)
                                 <td><span class="label label-success">Approved</span></td>
+                                @elseif($job->status == 0)
+                                <td><span class="label label-warning">Pending</span></td>
+                                @endif
                                 <td>{{ $job->observations or '-' }}</td>
                             </tr>
                             @endforeach
