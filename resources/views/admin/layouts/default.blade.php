@@ -35,9 +35,6 @@
     </script>
     <!-- Bootstrap 3.3.6 -->
     {{ HTML::script('backend/assets/plugins/bootstrap/js/bootstrap.min.js') }}
-    <!-- Morris.js charts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    {{ HTML::script('backend/assets/plugins/morris/morris.min.js') }}
     <!-- Sparkline -->
     {{ HTML::script('backend/assets/plugins/sparkline/jquery.sparkline.min.js') }}
     <!-- jvectormap -->
@@ -54,14 +51,16 @@
     {{ HTML::script('backend/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}
     <!-- Slimscroll -->
     {{ HTML::script('backend/assets/plugins/slimScroll/jquery.slimscroll.min.js') }}
+    <!-- icheck -->
+    {{ HTML::script('backend/assets/plugins/iCheck/icheck.min.js') }}
     <!-- FastClick -->
     {{ HTML::script('backend/assets/plugins/fastclick/fastclick.js') }}
     <!-- AdminLTE App -->
-    {{ HTML::script('backend/assets/js/app.min.js') }}
+    {{ HTML::script('backend/assets/js/app.js') }}
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{ HTML::script('backend/assets/js/pages/dashboard.js') }}
-    <!-- AdminLTE for demo purposes -->
-    {{ HTML::script('backend/assets/js/demo.js') }}
+
+
 
 </body>
 </html>

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class calendarController extends Controller
 {
@@ -179,11 +180,12 @@ class calendarController extends Controller
                 'team' => function($q){
                     return $q->with('leader');
                 }
-            ])->where('user_id', Auth::id())->first();
+            ])->where('user_id', Auth::id())->with('images')->first();
 
             return Response::json(array(
                 'success' => true,
-                'job' => $job
+                'job' => $job,
+                'view' => View::make('includes.popup-offer-finish', ['job' => $job])->render()
             ), 200);
 
         }

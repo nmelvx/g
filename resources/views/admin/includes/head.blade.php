@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
     <!-- Theme style -->
     {{ HTML::style('backend/assets/css/AdminLTE.css') }}
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     {{ HTML::style('backend/assets/css/skins/_all-skins.min.css') }}
     <!-- iCheck -->
-    {{ HTML::style('backend/assets/plugins/iCheck/flat/blue.css') }}
-    <!-- Morris chart -->
-    {{ HTML::style('backend/assets/plugins/morris/morris.css') }}
+    {{ HTML::style('backend/assets/plugins/iCheck/flat/_all.css') }}
     <!-- jvectormap -->
     {{ HTML::style('backend/assets/plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}
     <!-- Date Picker -->

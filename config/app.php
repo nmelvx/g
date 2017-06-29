@@ -182,6 +182,7 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -235,6 +236,7 @@ return [
         'Input' => Illuminate\Support\Facades\Input::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Helper'    => App\Helpers\Helper\Helper::class,
+        'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

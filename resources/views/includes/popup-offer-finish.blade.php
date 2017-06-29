@@ -1,7 +1,7 @@
 
 <h3>Serviciul din</h3>
 <div class="separator-line-div-small"></div>
-<p class="text-center info-text date">Miercuri, 18 octombrie</p>
+<p class="text-center info-text date">{{ date('M d, Y', strtotime($job->date)) }}</p>
 <form class="form-popup">
     <h4>1. Review-ul tau</h4>
     <div class="div-padded mb50">
@@ -15,19 +15,29 @@
     </div>
     <h4>3. Detalii serviciu</h4>
     <div class="div-padded">
-        <p class="list-info area"></p>
-        <p class="list-info duration"></p>
+        <p class="list-info area">{{ $job->area }}</p>
+        <p class="list-info duration">{{ Helper::durationFormat($job->duration) }}</p>
     </div>
 
     <h4>4. Ce servicii doriti?</h4>
     <div class="div-padded">
         <ul class="chk-list list-info servicii">
+            @foreach($job->services as $service)
+            <li><label class="checkbox-custom"><input type="checkbox" disabled checked value="{{ $service->id }}'" name="serivces[]"><span></span>{{ $service->title }}</label></li>
+            @endforeach
         </ul>
     </div>
     <div class="div-padded">
-        <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
+        <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">{{ $job->sum }}</span> lei</h3>
     </div>
     <div class="list-info images">
+        @foreach($job->images as $k => $image)
+            @if($k+1 == sizeof($job->images))
+            <div class="gallery-image-full"><img src="{!! Helper::getImage('640x320', $image->path, 'images') !!}" class="img-responsive"></div>
+            @else
+            <div class="gallery-image @if($k%3 == 0) last @endif"><img src="{!! Helper::getImage('220x150', $image->path, 'images') !!}" class="img-responsive"></div>
+            @endif
+        @endforeach
     </div>
 </form>
 <a href="javascript:void(0);" class="close-popup"></a>

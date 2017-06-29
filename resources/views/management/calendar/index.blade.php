@@ -84,36 +84,6 @@
         </div>
 
         <div class="popup-content popup-service-detail-finshed" style="display:none;">
-            <h3>Serviciul din</h3>
-            <div class="separator-line-div-small"></div>
-            <p class="text-center info-text date">Miercuri, 18 octombrie</p>
-            <form class="form-popup">
-                <h4>1. Review-ul tau</h4>
-                <div class="div-padded mb50">
-                    <div class="ratings">
-                        <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
-                        <input type="radio" id="star4" name="rating" value="4" /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-                        <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
-                        <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-                        <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
-                    </div>
-                </div>
-                <h4>3. Detalii serviciu</h4>
-                <div class="div-padded">
-                    <p class="list-info area"></p>
-                    <p class="list-info duration"></p>
-                </div>
-
-                <h4>4. Ce servicii doriti?</h4>
-                <div class="div-padded">
-                    <ul class="chk-list list-info servicii">
-                    </ul>
-                </div>
-                <div class="div-padded">
-                    <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
-                </div>
-            </form>
-            <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
         <div class="popup-content popup-offer-detail" style="display: none;">
@@ -385,7 +355,7 @@
                     $.each(result.jobs, function( key, value ) {
                         if('li-'+value.date == element.attr('id'))
                         {
-                            element.addClass('reserved');
+                            element.addClass((value.status == 1)?'finalized':'reserved');
                             element.append('<div class="cell-appointment" data-jobid='+value.id+'><strong>'+value.time.substring(0, value.time.length - 3)+'</strong><div class="small-cell">'+value.team.leader.firstname+' '+value.team.leader.lastname+'<br><small>'+value.team.leader.phone+'</small></div></div>')
                         }
                     });
@@ -451,6 +421,59 @@
                 $('.content-overlay').css({'height':$(document).height()+'px'});
                 $('.content-overlay').show();
                 $('.popup-offer-detail').show();
+            }, 200)
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+        });
+
+
+        $('body').on('click', '.finalized .cell-appointment', function(e){
+            e.preventDefault();
+            var _this = $(this);
+
+            $.ajax({
+
+                type: 'GET',
+                url: '{{ route('get.job') }}',
+                dataType: 'json',
+                data: { id:_this.data('jobid') },
+                success: function (result)
+                {
+                    /*
+                    $('.list-info.date').html(formatDate(new Date(result.job.date)));
+                    $('.list-info.time').html(result.job.time);
+                    $('.list-info.area').html('Suprafata de lucru: <strong>' + result.job.area + ' mp</strong>');
+                    $('.list-info.duration').html('Durata serviciu: <strong>' + durationFormat(result.job.total_duration)+'</strong>');
+                    $('.final.estimated-price').html(result.job.sum);
+
+                    var services, images = '';
+
+                    $.each(result.job['services'], function( index, value ) {
+                        services += '<li><label class="checkbox-custom"><input type="checkbox" disabled checked value="'+value.id+'" name="serivces[]"><span></span>'+value.title+'</label></li>';
+                    });
+                    $('.list-info.servicii').html(services);
+
+                    $.each(result.job['images'], function( index, value ) {
+                        if(index == 3){
+                            images += '<div class="gallery-image"><img src="" class="img-responsive"></div>';
+                        } else {
+                            images += '<div class="gallery-image"><img src="" class="img-responsive"></div>';
+                        }
+                    });
+                    $('.list-info.images').html(images);
+                    */
+
+                    $('.popup-service-detail-finshed').html(result.view);
+
+
+                }
+            });
+
+            setTimeout(function () {
+                $('.content-overlay').css({'height':$(document).height()+'px'});
+                $('.content-overlay').show();
+                $('.popup-service-detail-finshed').show();
             }, 200)
 
             $('html, body').animate({ scrollTop: 0 }, 'slow');
@@ -612,7 +635,7 @@
             } else {
                 $('.mini-popup').remove();
                 var _this = $(this);
-                if (!_this.is('.reserved, .pastDate')) {
+                if (!_this.is('.reserved, .pastDate, .finalized')) {
                     var unformatedDate = _this.attr('id').replace('li-', '');
                     var content = $('<div class="mini-popup" data-date="' + unformatedDate + '" style="display: none; left: ' + parseFloat(_this.width() + 1) + 'px"><h3>Fa o rezervare</h3><div class="separator-line-popup"></div><p>Se pot face rezervări înaceastă zi</p><a href="javascript:void(0);">Cheamă echipa</a><span class="arrow-left"></span></div>');
                     _this.append(content);

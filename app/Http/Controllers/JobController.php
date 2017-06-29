@@ -6,7 +6,7 @@ use App\Job;
 use App\Repositories\ImageRepository;
 use Illuminate\Http\Request;
 
-class Dashboard extends Controller
+class JobController extends Controller
 {
 
     protected $images;
@@ -34,7 +34,7 @@ class Dashboard extends Controller
 
     public function edit($id)
     {
-        $job = Job::where('id', $id)->first();
+        $job = Job::where('id', $id)->with('images')->first();
 
         return View('admin.jobs.edit', compact('job'));
     }
@@ -43,11 +43,17 @@ class Dashboard extends Controller
     {
         $job = Job::where('id', $id)->first();
 
-        $job->title = $request->get('title');
-        $job->date = $request->get('date');
-        $job->status = ($request->get('status') == 1)? 1:0;
+        $job->title = $request->input('title');
+        $job->date = $request->input('date');
+        $job->status = ($request->input('status') == 1)? 1:0;
+
+        $job->save();
 
         if( !empty($request->file('images')) )
             $this->images->save( $request->file('images'), $job );
+
+        return redirect('/admin/job/'.$job->id.'/edit')->with(
+            ['message' => 'Job edited successfully.']
+        );
     }
 }

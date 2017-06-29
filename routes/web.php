@@ -75,7 +75,8 @@ Route::get('/new_user', function () {
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'role:admin'], function () {
-    Route::get('/dashboard', ['as' => 'dashboard', 'middleware' => 'role:admin', 'uses' => 'Dashboard@show']);
+    Route::get('/jobs', ['as' => 'jobs', 'middleware' => 'role:admin', 'uses' => 'JobController@show']);
+    Route::resource('job', 'JobController');
 });
 
 Route::group(['middleware' => 'role:admin|leader'], function()

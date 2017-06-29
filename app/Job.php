@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Admin\General\Models\ImagesModel;
 use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
@@ -23,5 +24,10 @@ class Job extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function images()
+    {
+        return $this->morphMany(ImagesModel::class, 'imageable');
     }
 }

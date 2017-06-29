@@ -17,7 +17,7 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="active treeview">
-                <a href="/admin/dashboard">
+                <a href="/admin/jobs">
                     <i class="fa fa-list"></i> <span>Jobs</span>
                 </a>
             </li>

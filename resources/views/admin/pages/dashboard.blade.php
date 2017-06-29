@@ -24,6 +24,7 @@
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Observations</th>
+                                <th>Actions</th>
                             </tr>
                             @foreach($jobs as $k => $job)
                             <tr>
@@ -37,6 +38,10 @@
                                 <td><span class="label label-warning">Pending</span></td>
                                 @endif
                                 <td>{{ $job->observations or '-' }}</td>
+                                <td class="text-right">
+                                    <a href="/admin/job/{{ $job->id }}/edit" class="label bg-blue">Edit</a>
+                                    <a href="/admin/job/{{ $job->id }}/delete" class="label bg-red">Delete</a>
+                                </td>
                             </tr>
                             @endforeach
                         </table>
