@@ -10,7 +10,7 @@
     <link href="{{ asset('frontend/assets/css/reset.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/components/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('frontend/assets/css/styles.css?v=1.0') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/assets/css/styles.css?v=2.0') }}" rel="stylesheet">
 
     @yield('css')
 
@@ -27,7 +27,11 @@
 
 @include('includes.header')
 
-@include('includes.account-header-client')
+@if(Auth::user()->hasRole(['admin', 'leader']))
+    @include('includes.account-header-jobs')
+@else
+    @include('includes.account-header-client')
+@endif
 
 @yield('content')
 

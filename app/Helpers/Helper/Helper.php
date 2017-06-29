@@ -28,17 +28,26 @@ class Helper
         return '<p>Urmatoarea programare este pe data de '.date('d', strtotime(!empty($job->date)? $job->date:'')).' '.strtolower($months[(int)$month-1]).' ora '.date('H:i', strtotime(!empty($job->time)? $job->time:'')).'</p>';
     }
 
-    public static function durationFormat($duration = 0)
+    public static function formatDate($date)
+    {
+
+        setlocale(LC_TIME, ['ro.utf-8', 'ro_RO.UTF-8', 'ro_RO.utf-8', 'ro', 'ro_RO', 'ro_RO.ISO8859-2']);
+
+        return strftime('%A %d, %B %Y', strtotime($date));
+    }
+
+    public static function durationFormat($duration)
     {
 
         $hours = floor($duration / 3600);
-        $minutes = floor(($duration - ($hours * 3600)) / 60);
+        $minutes = floor(($duration / 60) % 60);
+        $seconds = $duration % 60;
 
         $stringHours = '';
         if($hours > 0){
             $stringHours .= (($hours > 1)? $hours.' ore si ':$hours.' ora si ');
         }
-        return 'aproximativ '.$stringHours.(($minutes > 1)?  $minutes.' de minute':$minutes.' un minut');
+        return 'aproximativ '.$stringHours.(($minutes > 1)?  $minutes.' minute':$minutes.' minut');
 
     }
 

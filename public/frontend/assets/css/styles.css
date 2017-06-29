@@ -1762,6 +1762,10 @@ form.offer-form label.error{
 	line-height: 20px;
 }
 
+.finalized .cell-appointment{
+	background-color: #33dfb9;
+}
+
 .cell-appointment strong{
 	font-size: 16px;
 }
@@ -2308,7 +2312,7 @@ form.offer-form label.error{
 	.menu-account li a{
 		float: left;
 		padding: 20px;
-		font-size: 20px;
+		font-size: 22px;
 		font-family: 'Fira Sans', sans-serif;
 		color: #1a6a44;
 		text-decoration: none;

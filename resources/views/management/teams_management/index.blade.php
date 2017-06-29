@@ -39,7 +39,8 @@
                         </ul>
                     </div>
                     <div class="col-35">
-                        <p>Right</p>
+                        <p>Performanta Echipa</p>
+                        <p>Bani generati luna aceasta</p>
                     </div>
 
                 </div>

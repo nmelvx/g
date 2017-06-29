@@ -1,7 +1,7 @@
 
 <h3>Serviciul din</h3>
 <div class="separator-line-div-small"></div>
-<p class="text-center info-text date">{{ date('M d, Y', strtotime($job->date)) }}</p>
+<p class="text-center info-text date" style="text-transform: capitalize">{{ Helper::formatDate($job->date) }}</p>
 <form class="form-popup">
     <h4>1. Review-ul tau</h4>
     <div class="div-padded mb50">
@@ -15,8 +15,8 @@
     </div>
     <h4>3. Detalii serviciu</h4>
     <div class="div-padded">
-        <p class="list-info area">{{ $job->area }}</p>
-        <p class="list-info duration">{{ Helper::durationFormat($job->duration) }}</p>
+        <p class="list-info area">{{ $job->area }} mp</p>
+        <p class="list-info duration">{{ Helper::durationFormat($job->total_duration) }}</p>
     </div>
 
     <h4>4. Ce servicii doriti?</h4>
