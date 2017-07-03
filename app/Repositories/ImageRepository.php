@@ -9,6 +9,8 @@ class ImageRepository {
 
     public function save($request, $element, $type = 'gallery', $path = 'uploads/images/')
     {
+        ini_set('memory_limit','512M');
+
 
         foreach ($request as $image) {
 

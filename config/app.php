@@ -183,6 +183,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Oureastudios\Laravel\BraintreeServiceProvider::class,
     ],
 
     /*
