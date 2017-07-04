@@ -317,7 +317,7 @@ body{
 	color: #36c0c0;
 }
 
-.form-input-box{
+.form-input-box, .form-input-box-card{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
@@ -328,13 +328,27 @@ body{
 	margin-top: 20px;
 	padding: 1px 7px;
 }
-.form-input-box label{
+
+.form-input-box-card{
+	height: 65px;
+}
+
+.form-input-box label, .hosted-fields--label{
 	color: #ffffff;
 	font-size: 14px;
 	float: left;
 	width: 100%;
 	font-weight: 600;
 	margin: 0px;
+}
+
+.input-with-text .hosted-fields--label{
+	color: #1a6a44;
+	float: left;
+	font-family: "Fira Sans",sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	width: 100%;
 }
 .form-input-box .input-custom{
 	color: #ffffff;
@@ -2442,4 +2456,28 @@ form.offer-form label.error{
 	float: left;
 	margin-bottom: 15px;
 	padding: 10px;
+}
+
+.hosted-field {
+	height: 40px;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0px;
+	display: inline-block;
+	box-shadow: none;
+	border: 0px;
+	line-height: 20px;
+	background: none;
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 600;
+	font-family: 'Fira Sans', sans-serif;
+}
+
+#payCard{
+	display: none;
+}
+
+.show-button{
+	display: block !important;
 }

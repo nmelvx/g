@@ -33,6 +33,10 @@
     </div>
 
     <div class="content-overlay not-fixed" style="display:@if(session('modal') == true || ((isset($_GET['success']) && $_GET['success'] == 'true'))) block @else none @endif">
+
+        <!-- last job id requested -->
+        <input type="hidden" id="jobId" value="{{ $job->id or 0 }}">
+
         <div class="popup-content popup-ask-offer" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
             <h3>Cere pret</h3>
             <div class="separator-line-div-small"></div>
@@ -86,41 +90,25 @@
         <div class="popup-content popup-service-detail-finshed" style="display:none;">
         </div>
 
-        <div class="popup-content popup-offer-detail" style="display: none;">
-            <h3>Rezervare</h3>
+        <div class="popup-content popup-payment" style="display:none;">
+            <h3>Plateste cu cardul</h3>
             <div class="separator-line-div-small"></div>
-            <p class="text-center info-text date">Detalii servicii programate</p>
-            <form action="" method="post" class="form-popup form-offer-calendar">
-                <h4>1. Data și ora</h4>
-                <div class="div-padded">
-                    <div class="row">
-                        <div class="col-100 paddr10">
-                            <p class="list-info date"></p>
-                            <p class="list-info time"></p>
-                        </div>
-                    </div>
+            <p class="text-center info-text">Introduceti datele cardului pentru a efectua plata serviciilor.</p>
+            <form action="" method="post" id="cardForm">
+                <div class="input-with-text text-left">
+                    <label class="hosted-fields--label" for="card-number">Numar card</label>
+                    <div id="card-number" class="hosted-field"></div>
                 </div>
-                <h4>2. Detalii echipa</h4>
-                <div class="div-padded">
-                    <p class="list-info team-leader"></p>
-                    <p class="list-info contact-phone"></p>
+                <div class="input-with-text text-left">
+                    <label class="hosted-fields--label" for="expiration-date">Data expirare</label>
+                    <div id="expiration-date" class="hosted-field"></div>
                 </div>
-                <h4>3. Detalii serviciu</h4>
-                <div class="div-padded">
-                    <p class="list-info area"></p>
-                    <p class="list-info duration"></p>
+                <div class="input-with-text text-left">
+                    <label class="hosted-fields--label" for="cvv">CVC</label>
+                    <div id="cvv" class="hosted-field"></div>
                 </div>
-
-                <h4>4. Ce servicii doriti?</h4>
-                <div class="div-padded">
-                    <ul class="chk-list list-info servicii">
-                    </ul>
-                </div>
-                <div class="div-padded">
-                    <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
-                </div>
+                <button type="submit" class="green-button submit-form" id="payCard">Plateste</button>
             </form>
-            <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
         <div class="popup-content popup-address" style="display: none;">
@@ -165,12 +153,132 @@
 @section('javascripts')
 
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&libraries=places') }}
-{{ HTML::script('frontend/assets/components/jquery-ui-1.12.1/jquery-ui.min.js') }}
-{{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
-{{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
-{{ HTML::script('frontend/assets/components/jquery.timepicker/jquery.timepicker.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery-ui-1.12.1/jquery-ui.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.timepicker/jquery.timepicker.min.js') }}
+    {{ HTML::script('https://js.braintreegateway.com/web/3.19.0/js/client.js') }}
+    {{ HTML::script('https://js.braintreegateway.com/web/3.19.0/js/hosted-fields.js') }}
 
 <script type="text/javascript">
+
+
+    var form = document.querySelector('#cardForm');
+    var submit = document.querySelector('#payCard');
+
+    braintree.client.create({
+        authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+    }, function (err, clientInstance) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+
+        // Create input fields and add text styles
+        braintree.hostedFields.create({
+            client: clientInstance,
+            styles: {
+                'input': {
+                    'font-size': '18px',
+                    'font-family': 'Fira Sans, sans-serif',
+                    'color': '#9eb2a9'
+                },
+                ':focus': {
+                    'color': '#9eb2a9'
+                },
+                '.valid': {
+                    'color': '#9eb2a9'
+                },
+                '.invalid': {
+                    'color': '#FF4136'
+                }
+            },
+            fields: {
+                number: {
+                    selector: '#card-number',
+                    placeholder: '4200 0000 0000 6000'
+                },
+                cvv: {
+                    selector: '#cvv',
+                    placeholder: '123'
+                },
+                expirationDate: {
+                    selector: '#expiration-date',
+                    placeholder: 'MM/YYYY'
+                }
+            }
+        }, function (err, hostedFieldsInstance) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            hostedFieldsInstance.on('validityChange', function (event) {
+                // Check if all fields are valid, then show submit button
+                var formValid = Object.keys(event.fields).every(function (key) {
+                    return event.fields[key].isValid;
+                });
+
+                if (formValid) {
+                    $('#payCard').addClass('show-button');
+                } else {
+                    $('#payCard').removeClass('show-button');
+                }
+            });
+
+
+            hostedFieldsInstance.on('cardTypeChange', function (event) {
+                // Change card bg depending on card type
+                if (event.cards.length === 1) {
+                    $(form).removeClass().addClass(event.cards[0].type);
+
+                    // Change the CVV length for AmericanExpress cards
+                    if (event.cards[0].code.size === 4) {
+                        hostedFieldsInstance.setAttribute({
+                            field: 'cvv',
+                            attribute: 'placeholder',
+                            value: '1234'
+                        });
+                    }
+                } else {
+                    hostedFieldsInstance.setAttribute({
+                        field: 'cvv',
+                        attribute: 'placeholder',
+                        value: '123'
+                    });
+                }
+            });
+
+            submit.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                hostedFieldsInstance.tokenize(function (err, payload) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+
+                    //document.querySelector('#nonce').value = payload.nonce;
+
+                    // This is where you would submit payload.nonce to your server
+                    $.ajax
+                    ({
+                        type: "POST",
+                        url: "{{ route('payment.create') }}",
+                        data: {'_token':$('meta[name="csrf-token"]').attr('content'), 'paymentMethodNonce':payload.nonce, 'job_id':$('#jobId').val()},
+                        dataType: 'json',
+                        success: function(result)
+                        {
+                            console.log(result);
+                        }
+                    });
+
+                    alert('Submit your nonce to your server here!');
+                });
+            }, false);
+        });
+    });
+
 
     $(document).ready(function () {
 
@@ -327,10 +435,11 @@
                     data: $('.form-offer-calendar').serializeObject(),
                     dataType: 'json',
                     success: function (data) {
-                        $('.content-overlay').hide();
+                        //$('.content-overlay').hide();
                         $('.popup-ask-offer').hide();
                         //$('html, body').animate({ scrollTop: 0 }, "fast");
-                        window.location.href = '/calendar?success=true';
+                        //window.location.href = '/calendar?success=true';
+                        
                     },
                     error: function (data) {
                         console.log(data);

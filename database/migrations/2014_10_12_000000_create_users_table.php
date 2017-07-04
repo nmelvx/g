@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('visible_password');
             $table->string('unique_id');
+            $table->integer('braintree_customer_id')->index('braintree_customer_id');
             $table->string('facebook_id');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);

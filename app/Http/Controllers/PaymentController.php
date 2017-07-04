@@ -25,13 +25,13 @@ class PaymentController extends Controller {
     {
         //$input = Input::all();
 
-        $res = Braintree_PaymentMethod::delete('token');
+        //$res = Braintree_PaymentMethod::delete('token');
 
         $input['cardNumber'] = '4111111111111111';
         $input['cardExpiry'] = '08/2020';
         $input['cardCVC'] = '123';
 
-
+        $paymentMethodNonce = $input['paymentMethodNonce'];
         $subscribed= false;
 
         if(isset($input['subscribed']))
@@ -55,7 +55,7 @@ class PaymentController extends Controller {
         //gateway will provide this plan id whenever you create a plan
         $plan_id = 'plan_id_here';
 
-        $transction_id = $this->createTransaction($card_token, $customer_id, $job_id, $plan_id, $subscribed);
+        $transction_id = $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethodNonce, $plan_id, $subscribed);
 
         dd($transction_id);
     }
@@ -112,7 +112,7 @@ class PaymentController extends Controller {
     }
 
 
-    public function createTransaction($creditCardToken, $customerId, $job_id, $planId, $subscribed){
+    public function createTransaction($creditCardToken, $customerId, $job_id, $paymentMethodNonce, $planId, $subscribed){
 
         if($subscribed)
         {
@@ -132,7 +132,8 @@ class PaymentController extends Controller {
 
         $result = Braintree_Transaction::sale([
             'amount' => $job->sum,
-            'orderId' => 4,
+            'orderId' => $job->id,
+            'paymentMethodNonce' => $paymentMethodNonce,
             'customerId' => $customerId,
             'options' => [
                 'submitForSettlement' => true,

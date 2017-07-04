@@ -35,7 +35,9 @@ class calendarController extends Controller
         $calendar = new Calendar();
         $class = 'green';
 
-        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user'));
+        $job = Job::latest()->first();
+
+        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job'));
     }
 
     /*

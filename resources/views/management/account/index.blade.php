@@ -93,25 +93,21 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-financial">
                     <h3 class="box-title">Datele tale<br>financiare</h3>
-                    <form action="" method="post">
-                        <div class="form-input-box">
-                            <label>Numar card</label>
-                            <input type="text" placeholder="4200 0000 0000 6000" name="card" class="input-custom card">
+                    <form action="" method="post" id="cardForm">
+
+                        <div class="form-input-box-card">
+                            <label class="hosted-fields--label" for="card-number">Numar card</label>
+                            <div id="card-number" class="hosted-field"></div>
                         </div>
-                        @if ($errors->has('card'))
-                            <span class="help-block-error">
-                                <strong>{{ $errors->first('card') }}</strong>
-                            </span>
-                        @endif
-                        <div class="form-input-box">
-                            <label>Data expirare</label>
-                            <input type="text" placeholder="08/2017" class="input-custom date-expire">
+                        <div class="form-input-box-card">
+                            <label class="hosted-fields--label" for="expiration-date">Data expirare</label>
+                            <div id="expiration-date" class="hosted-field"></div>
                         </div>
-                        <div class="form-input-box">
-                            <label>CVC</label>
-                            <input type="text" placeholder="123" class="input-custom cvc">
+                        <div class="form-input-box-card">
+                            <label class="hosted-fields--label" for="cvv">CVC</label>
+                            <div id="cvv" class="hosted-field"></div>
                         </div>
-                        <button class="button-custom purple">Salveaza</button>
+                        <button type="submit" class="button-custom purple" id="saveCard">Salveaza</button>
                     </form>
                 </div>
             </div>
@@ -175,8 +171,117 @@
     {{ HTML::script('https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2UR6-n8zAxAAJ66a-YfZUvixbIxo2j0&libraries=places') }}
     {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
     {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
+    {{ HTML::script('https://js.braintreegateway.com/web/3.19.0/js/client.js') }}
+    {{ HTML::script('https://js.braintreegateway.com/web/3.19.0/js/hosted-fields.js') }}
 
     <script type="text/javascript">
+
+
+        var form = document.querySelector('#cardForm');
+        var submit = document.querySelector('#saveCard');
+
+        braintree.client.create({
+            authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+        }, function (err, clientInstance) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            // Create input fields and add text styles
+            braintree.hostedFields.create({
+                client: clientInstance,
+                styles: {
+                    'input': {
+                        'font-size': '18px',
+                        'font-family': 'Fira Sans, sans-serif',
+                        'font-weight': 'lighter',
+                        'color': '#ffffff'
+                    },
+                    ':focus': {
+                        'color': '#ffffff'
+                    },
+                    '.valid': {
+                        'color': '#ffffff'
+                    },
+                    '.invalid': {
+                        'color': '#FF4136'
+                    }
+                },
+                fields: {
+                    number: {
+                        selector: '#card-number',
+                        placeholder: '4200 0000 0000 6000'
+                    },
+                    cvv: {
+                        selector: '#cvv',
+                        placeholder: '123'
+                    },
+                    expirationDate: {
+                        selector: '#expiration-date',
+                        placeholder: 'MM/YYYY'
+                    }
+                }
+            }, function (err, hostedFieldsInstance) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                hostedFieldsInstance.on('validityChange', function (event) {
+                    // Check if all fields are valid, then show submit button
+                    var formValid = Object.keys(event.fields).every(function (key) {
+                        return event.fields[key].isValid;
+                    });
+
+                    if (formValid) {
+                        $('#saveCard').addClass('show-button');
+                    } else {
+                        $('#saveCard').removeClass('show-button');
+                    }
+                });
+
+
+                hostedFieldsInstance.on('cardTypeChange', function (event) {
+                    // Change card bg depending on card type
+                    if (event.cards.length === 1) {
+                        $(form).removeClass().addClass(event.cards[0].type);
+
+                        // Change the CVV length for AmericanExpress cards
+                        if (event.cards[0].code.size === 4) {
+                            hostedFieldsInstance.setAttribute({
+                                field: 'cvv',
+                                attribute: 'placeholder',
+                                value: '1234'
+                            });
+                        }
+                    } else {
+                        hostedFieldsInstance.setAttribute({
+                            field: 'cvv',
+                            attribute: 'placeholder',
+                            value: '123'
+                        });
+                    }
+                });
+
+                submit.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    hostedFieldsInstance.tokenize(function (err, payload) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        //document.querySelector('#nonce').value = payload.nonce;
+
+                        // This is where you would submit payload.nonce to your server
+
+                        alert('Submit your nonce to your server here!xxxx');
+                    });
+                }, false);
+            });
+        });
 
         $(document).ready(function() {
 
