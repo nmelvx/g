@@ -110,6 +110,7 @@
                 <button type="submit" class="green-button submit-form" id="payCard">Plateste</button>
             </form>
             <a href="javascript:void(0);" class="close-popup"></a>
+            <div class="loader"></div>
         </div>
 
         <div class="popup-content popup-address" style="display: none;">
@@ -158,11 +159,38 @@
     {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
     {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
     {{ HTML::script('frontend/assets/components/jquery.timepicker/jquery.timepicker.min.js') }}
+    {{ HTML::script('frontend/assets/components/jquery.payment.min.js') }}
     {{ HTML::script('https://js.braintreegateway.com/web/3.19.0/js/client.js') }}
     {{ HTML::script('https://js.braintreegateway.com/web/3.19.0/js/hosted-fields.js') }}
 
 <script type="text/javascript">
 
+
+    /*jQuery(function($) {
+        $('[data-numeric]').payment('restrictNumeric');
+        $('.cc-number').payment('formatCardNumber');
+        $('.cc-exp').payment('formatCardExpiry');
+        $('.cc-cvc').payment('formatCardCVC');
+
+        $.fn.toggleInputError = function(erred) {
+            this.parent('.form-group').toggleClass('has-error', erred);
+            return this;
+        };
+
+        $('form').submit(function(e) {
+            e.preventDefault();
+
+            var cardType = $.payment.cardType($('.cc-number').val());
+            $('.cc-number').toggleInputError(!$.payment.validateCardNumber($('.cc-number').val()));
+            $('.cc-exp').toggleInputError(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal')));
+            $('.cc-cvc').toggleInputError(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType));
+            $('.cc-brand').text(cardType);
+
+            $('.validation').removeClass('text-danger text-success');
+            $('.validation').addClass($('.has-error').length ? 'text-danger' : 'text-success');
+        });
+
+    });*/
 
     var form = document.querySelector('#cardForm');
     var submit = document.querySelector('#payCard');
@@ -251,6 +279,7 @@
 
                 //$('.content-overlay').hide();
                 //$('.popup-payment').hide();
+                $('.loader').show();
 
                 hostedFieldsInstance.tokenize(function (err, payload) {
                     if (err) {
@@ -272,8 +301,8 @@
                                 'job_id': $('#jobId').val()
                             },
                             dataType: 'json',
+                            async: false,
                             success: function (result) {
-                                alert(result.success)
                                 console.log(result)
                                 if(result.success){
                                     console.log(result);
@@ -292,6 +321,11 @@
 
 
     $(document).ready(function () {
+
+
+        $('.cc-number').payment('formatCardNumber');
+        $('.cc-exp').payment('formatCardExpiry');
+        $('.cc-cvc').payment('formatCardCVC');
 
         /** popup **/
 

@@ -100,6 +100,7 @@ Route::group(['middleware' => 'role:client|leader|admin'], function()
     Route::post('send-opinion', ['as' => 'send.opinion', 'uses' => 'AccountController@sendOpinion']);
 
     Route::post('payment', ['as' => 'payment.create', 'uses' => 'PaymentController@addOrder']);
+
 });
 
 

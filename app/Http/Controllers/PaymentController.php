@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Job;
+use Braintree_ClientToken;
+use Braintree_PaymentMethodNonce;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Braintree_Transaction;
@@ -22,11 +24,19 @@ class PaymentController extends Controller {
 
     }
 
+
+
     public function addOrder()
     {
         $input = Input::all();
 
-        //dd($input);
+        $paymentMethodNonce = $input['paymentMethodNonce'];
+
+        $nonce = Braintree_PaymentMethodNonce::find($paymentMethodNonce);
+
+        dd($nonce);
+
+
 
         //$res = Braintree_PaymentMethod::delete('token');
 
@@ -34,7 +44,8 @@ class PaymentController extends Controller {
         //$input['cardExpiry'] = '08/2020';
         //$input['cardCVC'] = '123';
 
-        $paymentMethodNonce = $input['paymentMethodNonce'];
+
+
         $subscribed= false;
 
         if(isset($input['subscribed']))
@@ -46,10 +57,8 @@ class PaymentController extends Controller {
 
         $customer_id = $this->registerUserOnBrainTree();
         $card_token = null;
-        //$card_token = $this->getCardToken($customer_id, $input['cardNumber'], $input['cardExpiry'], $input['cardCVC']);
+        //$card_token = $this->createCardToken($customer_id, $input['cardNumber'], $input['cardExpiry'], $input['cardCVC']);
 
-        print $customer_id.'<br>';
-        print $card_token;
 
         //die;
 
@@ -72,7 +81,7 @@ class PaymentController extends Controller {
             ), 400);
         }
 
-        dd($transction_id);
+        die;
     }
 
 
@@ -108,7 +117,7 @@ class PaymentController extends Controller {
     }
 
 
-    public function getCardToken($customer_id, $cardNumber, $cardExpiry, $cardCVC)
+    public function createCardToken($customer_id, $cardNumber, $cardExpiry, $cardCVC)
     {
         $card_result = Braintree_CreditCard::create([
             'number' => $cardNumber,
