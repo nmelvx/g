@@ -35,7 +35,7 @@
     <div class="content-overlay not-fixed" style="display:@if(session('modal') == true || ((isset($_GET['success']) && $_GET['success'] == 'true'))) block @else none @endif">
 
         <!-- last job id requested -->
-        <input type="hidden" id="jobId" value="{{ $job->id or 0 }}">
+        <input type="hidden" id="jobId" value="0">
 
         <div class="popup-content popup-ask-offer" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
             <h3>Cere pret</h3>
@@ -109,6 +109,7 @@
                 </div>
                 <button type="submit" class="green-button submit-form" id="payCard">Plateste</button>
             </form>
+            <a href="javascript:void(0);" class="close-popup"></a>
         </div>
 
         <div class="popup-content popup-address" style="display: none;">
@@ -219,11 +220,7 @@
                     return event.fields[key].isValid;
                 });
 
-                if (formValid) {
-                    $('#payCard').addClass('show-button');
-                } else {
-                    $('#payCard').removeClass('show-button');
-                }
+                (formValid)? $('#payCard').addClass('show-button'):$('#payCard').removeClass('show-button');
             });
 
 
@@ -252,28 +249,42 @@
             submit.addEventListener('click', function (event) {
                 event.preventDefault();
 
+                //$('.content-overlay').hide();
+                //$('.popup-payment').hide();
+
                 hostedFieldsInstance.tokenize(function (err, payload) {
                     if (err) {
                         console.error(err);
                         return;
                     }
 
-                    //document.querySelector('#nonce').value = payload.nonce;
+                    console.log(payload)
 
-                    // This is where you would submit payload.nonce to your server
-                    $.ajax
-                    ({
-                        type: "POST",
-                        url: "{{ route('payment.create') }}",
-                        data: {'_token':$('meta[name="csrf-token"]').attr('content'), 'paymentMethodNonce':payload.nonce, 'job_id':$('#jobId').val()},
-                        dataType: 'json',
-                        success: function(result)
-                        {
-                            console.log(result);
-                        }
-                    });
+                    if($('#jobId').val() !== 0)
+                    {
+                        $.ajax
+                        ({
+                            type: "POST",
+                            url: "{{ route('payment.create') }}",
+                            data: {
+                                '_token': $('meta[name="csrf-token"]').attr('content'),
+                                'paymentMethodNonce': payload.nonce,
+                                'job_id': $('#jobId').val()
+                            },
+                            dataType: 'json',
+                            success: function (result) {
+                                alert(result.success)
+                                console.log(result)
+                                if(result.success){
+                                    console.log(result);
+                                    window.location.href = '/calendar?success=true';
+                                } else {
+                                    $('<label class="error">'+result.message+'</label>').insertBefore('#payCard');
+                                }
 
-                    alert('Submit your nonce to your server here!');
+                            }
+                        });
+                    }
                 });
             }, false);
         });
@@ -435,11 +446,12 @@
                     data: $('.form-offer-calendar').serializeObject(),
                     dataType: 'json',
                     success: function (data) {
-                        //$('.content-overlay').hide();
+
+                        $('html, body').animate({ scrollTop: 0 }, "slow");
                         $('.popup-ask-offer').hide();
-                        //$('html, body').animate({ scrollTop: 0 }, "fast");
-                        //window.location.href = '/calendar?success=true';
-                        
+                        $('#jobId').val(data.job_id);
+                        $('.popup-payment').show();
+
                     },
                     error: function (data) {
                         console.log(data);

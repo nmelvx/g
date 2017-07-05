@@ -12,6 +12,7 @@ use Braintree_Subscription;
 use Braintree_CreditCard;
 use Braintree_PaymentMethod;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
 class PaymentController extends Controller {
 
@@ -23,13 +24,15 @@ class PaymentController extends Controller {
 
     public function addOrder()
     {
-        //$input = Input::all();
+        $input = Input::all();
+
+        //dd($input);
 
         //$res = Braintree_PaymentMethod::delete('token');
 
-        $input['cardNumber'] = '4111111111111111';
-        $input['cardExpiry'] = '08/2020';
-        $input['cardCVC'] = '123';
+        //$input['cardNumber'] = '4111111111111111';
+        //$input['cardExpiry'] = '08/2020';
+        //$input['cardCVC'] = '123';
 
         $paymentMethodNonce = $input['paymentMethodNonce'];
         $subscribed= false;
@@ -42,20 +45,32 @@ class PaymentController extends Controller {
         //dd(Auth::user()->paymentMethodToken);
 
         $customer_id = $this->registerUserOnBrainTree();
-        $card_token = $this->getCardToken($customer_id, $input['cardNumber'], $input['cardExpiry'], $input['cardCVC']);
+        $card_token = null;
+        //$card_token = $this->getCardToken($customer_id, $input['cardNumber'], $input['cardExpiry'], $input['cardCVC']);
 
         print $customer_id.'<br>';
         print $card_token;
 
         //die;
 
-        //$job_id = $input['job_id'];
-        $job_id = 4;
+        $job_id = $input['job_id'];
 
         //gateway will provide this plan id whenever you create a plan
         $plan_id = 'plan_id_here';
 
-        $transction_id = $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethodNonce, $plan_id, $subscribed);
+        if($job_id > 0)
+        {
+            $transction_id = $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethodNonce, $plan_id, $subscribed);
+
+            return Response::json(array(
+                'success' => true
+            ), 200);
+        } else {
+            return Response::json(array(
+                'success' => false,
+                'message' => 'Plata nu se poate efectua fara o comanda.'
+            ), 400);
+        }
 
         dd($transction_id);
     }
@@ -114,7 +129,7 @@ class PaymentController extends Controller {
 
     public function createTransaction($creditCardToken, $customerId, $job_id, $paymentMethodNonce, $planId, $subscribed){
 
-        if($subscribed)
+        /*if($subscribed)
         {
             $subscriptionData = array(
                 'paymentMethodToken' => $creditCardToken,
@@ -126,7 +141,7 @@ class PaymentController extends Controller {
         }
         else {
             $this->cancelSubscription();
-        }
+        }*/
 
         $job = Job::find($job_id);
 

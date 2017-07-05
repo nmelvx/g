@@ -35,7 +35,7 @@ class calendarController extends Controller
         $calendar = new Calendar();
         $class = 'green';
 
-        $job = Job::latest()->first();
+        $job = Job::latest()->where('user_id', Auth::id())->first();
 
         return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job'));
     }
@@ -264,17 +264,19 @@ class calendarController extends Controller
 
                     $job->services()->attach($request->get('services'));
 
+
                     //return redirect()->route('calendar.offers')->with('success', true);
 
                     return Response::json(array(
-                        'success' => true
+                        'success' => true,
+                        'job_id' => $job->id
                     ), 200);
                 } else {
 
                     return Response::json(array(
                         'success' => false,
                         'price' => 'Va rugam setati adresa in contul dvs.'
-                    ), 200);
+                    ), 400);
                 }
             }
         }
