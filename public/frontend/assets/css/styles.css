@@ -1213,7 +1213,7 @@ div.panel {
 	float: left;
 	width: 100%;
 }
-.input-with-text input{
+.input-with-text input[type="text"], .input-with-text input[type="password"]{
 	border: 0px;
 	color: #9eb2a9;
 	font-family: 'Fira Sans', sans-serif;
@@ -2491,4 +2491,20 @@ form.offer-form label.error{
 	top: 0px;
 	left: 0px;
 	background: rgba(255, 255, 255, 0.8) url("../images/loading.gif") center center no-repeat;
+}
+
+.padded-payment{
+	float: left;
+	width: 90%;
+	padding-left: 10px;
+}
+
+.no-bold{
+	font-weight: normal;
+}
+
+.w100{
+	width: 100%;
+	float: left;
+	clear: both;
 }

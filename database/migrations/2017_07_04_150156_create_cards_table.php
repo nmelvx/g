@@ -16,8 +16,16 @@ class CreateCardsTable extends Migration
         Schema::create('cards', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->index('user_id');
-            $table->integer('last_digits')->index('last_digits');
-            $table->string('expiration_date');
+            $table->integer('last4')->nullable();
+            $table->string('cardType')->nullable();
+            $table->string('cardholderName')->nullable();
+            $table->string('expirationMonth')->nullable();
+            $table->string('expirationYear')->nullable();
+            $table->string('maskedNumber')->nullable();
+            $table->string('uniqueNumberIdentifier')->nullable();
+            $table->string('token')->nullable();
+            $table->tinyInteger('success')->default(0);
+            $table->tinyInteger('defaultPaymentMethod')->default(0);
             $table->timestamps();
         });
     }

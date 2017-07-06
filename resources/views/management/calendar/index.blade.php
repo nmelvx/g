@@ -35,7 +35,7 @@
     <div class="content-overlay not-fixed" style="display:@if(session('modal') == true || ((isset($_GET['success']) && $_GET['success'] == 'true'))) block @else none @endif">
 
         <!-- last job id requested -->
-        <input type="hidden" id="jobId" value="0">
+        <input type="hidden" id="jobId" value="{{ $job->id }}">
 
         <div class="popup-content popup-ask-offer" style="display:@if(session('modal') && session('modal') == true) block @else none @endif">
             <h3>Cere pret</h3>
@@ -90,9 +90,63 @@
         <div class="popup-content popup-service-detail-finshed" style="display:none;">
         </div>
 
+        <div class="popup-content popup-offer-detail" style="display: none;">
+            <h3>Rezervare</h3>
+            <div class="separator-line-div-small"></div>
+            <p class="text-center info-text date">Detalii servicii programate</p>
+            <form action="" method="post" class="form-popup form-offer-calendar">
+                <h4>1. Data și ora</h4>
+                <div class="div-padded">
+                    <div class="row">
+                        <div class="col-100 paddr10">
+                            <p class="list-info date"></p>
+                            <p class="list-info time"></p>
+                        </div>
+                    </div>
+                </div>
+                <h4>2. Detalii echipa</h4>
+                <div class="div-padded">
+                    <p class="list-info team-leader"></p>
+                    <p class="list-info contact-phone"></p>
+                </div>
+                <h4>3. Detalii serviciu</h4>
+                <div class="div-padded">
+                    <p class="list-info area"></p>
+                    <p class="list-info duration"></p>
+                </div>
+
+                <h4>4. Ce servicii doriti?</h4>
+                <div class="div-padded">
+                    <ul class="chk-list list-info servicii">
+                    </ul>
+                </div>
+                <div class="div-padded">
+                    <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
+                </div>
+            </form>
+
+            <a href="javascript:void(0);" class="green-button submit-form" id="payOffer" style="display: none;">Plateste</a>
+            <a href="javascript:void(0);" class="close-popup"></a>
+        </div>
+
         <div class="popup-content popup-payment" style="display:none;">
             <h3>Plateste cu cardul</h3>
             <div class="separator-line-div-small"></div>
+            @if(!empty($paymentMethod))
+            <form action="" method="post" id="methodForm">
+                <div class="input-with-text text-left">
+                    <label class="no-bold w100">
+                        <input type="radio" name="paymentMethodToken" checked value="{{ $paymentMethod->token }}" class="pull-left">
+                        <div class="padded-payment">
+                            <label class="hosted-fields--label" for="card-number">{{ $paymentMethod->cardType }}</label>
+                            <div class="payment-method-card">{{ chunk_split($paymentMethod->maskedNumber, 4, ' ') }}</div>
+                            <div class="payment-method-date">{{ $paymentMethod->expirationMonth }}/{{ $paymentMethod->expirationYear }}</div>
+                        </div>
+                    </label>
+                </div>
+                <button type="submit" class="green-button submit-form" id="payMethod">Plateste</button>
+            </form>
+            @else
             <p class="text-center info-text">Introduceti datele cardului pentru a efectua plata serviciilor.</p>
             <form action="" method="post" id="cardForm">
                 <div class="input-with-text text-left">
@@ -109,6 +163,7 @@
                 </div>
                 <button type="submit" class="green-button submit-form" id="payCard">Plateste</button>
             </form>
+            @endif
             <a href="javascript:void(0);" class="close-popup"></a>
             <div class="loader"></div>
         </div>
@@ -194,6 +249,7 @@
 
     var form = document.querySelector('#cardForm');
     var submit = document.querySelector('#payCard');
+    var submitPayment = document.querySelector('#payMethod');
 
     braintree.client.create({
         authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
@@ -319,6 +375,43 @@
         });
     });
 
+    $('body').on('click', '#payOffer', function(){
+        $(this).parent().hide();
+        $('.popup-payment').show();
+        $('html, body').animate({ scrollTop: 0 }, "slow");
+    });
+
+    submitPayment.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        $('.loader').show();
+
+        if($('#jobId').val() !== 0)
+        {
+            $.ajax
+            ({
+                type: "POST",
+                url: "{{ route('payment.create') }}",
+                data: {
+                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                    'paymentMethodNonce': null,
+                    'job_id': $('#jobId').val()
+                },
+                dataType: 'json',
+                async: false,
+                success: function (result) {
+                    console.log(result)
+                    if(result.success){
+                        console.log(result);
+                        window.location.href = '/calendar?success=true';
+                    } else {
+                        $('<label class="error">'+result.message+'</label>').insertBefore('#payCard');
+                    }
+
+                }
+            });
+        }
+    }, false);
 
     $(document).ready(function () {
 
@@ -543,6 +636,8 @@
             e.preventDefault();
             var _this = $(this);
 
+            $('#jobId').val(_this.data('jobid'));
+
             $.ajax({
 
                 type: 'GET',
@@ -568,7 +663,9 @@
 
                     $('.list-info.servicii').html(services);
 
-
+                    if(result.job.payed == 0){
+                        $('#payOffer').show();
+                    }
                 }
             });
 

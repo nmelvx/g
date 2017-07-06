@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cards;
 use App\Helpers\Facades\Helper;
 use App\Job;
 use App\Libraries\Calendar;
@@ -37,7 +38,9 @@ class calendarController extends Controller
 
         $job = Job::latest()->where('user_id', Auth::id())->first();
 
-        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job'));
+        $paymentMethod = Cards::where('user_id', Auth::id())->where('defaultPaymentMethod', 1)->first();
+
+        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job', 'paymentMethod'));
     }
 
     /*

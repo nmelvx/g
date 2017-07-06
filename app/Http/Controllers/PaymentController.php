@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cards;
 use App\Job;
 use Braintree_ClientToken;
 use Braintree_PaymentMethodNonce;
@@ -24,43 +25,89 @@ class PaymentController extends Controller {
 
     }
 
+    public function deleteCard($id)
+    {
+        $token = Cards::where('user_id', Auth::user()->id)->where('token', $id)->first();
+        $result = Braintree_PaymentMethod::delete($token);
+
+        if($result->success){
+            return Response::json(array(
+                'success' => true
+            ), 200);
+        }
+    }
 
 
     public function addOrder()
     {
         $input = Input::all();
 
-        $paymentMethodNonce = $input['paymentMethodNonce'];
+        $customer_id = $this->registerUserOnBrainTree();
+        $paymentMethodNonce = !empty($input['paymentMethodNonce'])? $input['paymentMethodNonce']:null;
+        $paymentMethod = null;
+        $result = null;
 
-        $nonce = Braintree_PaymentMethodNonce::find($paymentMethodNonce);
+        if(!isset($input['save_payment']))
+        {
 
-        dd($nonce);
+            if($paymentMethodNonce != null)
+            {
+                $result = Braintree_PaymentMethod::create([
+                    'customerId' => $customer_id,
+                    'paymentMethodNonce' => $paymentMethodNonce,
+                    'options' => [
+                        'failOnDuplicatePaymentMethod' => true
+                    ]
+                ]);
+
+            }
 
 
+            if (isset($result->success) && $result->success) {
 
-        //$res = Braintree_PaymentMethod::delete('token');
+                $paymentMethod = Cards::updateOrCreate(
+                    [
+                        'user_id' => Auth::user()->id,
+                        'uniqueNumberIdentifier' => $result->paymentMethod->_attributes['uniqueNumberIdentifier']
+                    ],
+                    [
+                        'user_id' => Auth::user()->id,
+                        'last4' => $result->paymentMethod->_attributes['last4'],
+                        'cardType' => $result->paymentMethod->_attributes['cardType'],
+                        'cardholderName' => $result->paymentMethod->_attributes['cardholderName'],
+                        'expirationMonth' => $result->paymentMethod->_attributes['expirationMonth'],
+                        'expirationYear' => $result->paymentMethod->_attributes['expirationYear'],
+                        'maskedNumber' => $result->paymentMethod->maskedNumber,
+                        'token' => $result->paymentMethod->_attributes['token'],
+                        'success' => $result->success,
+                        'defaultPaymentMethod' => 1
+                    ]
+                );
 
-        //$input['cardNumber'] = '4111111111111111';
-        //$input['cardExpiry'] = '08/2020';
-        //$input['cardCVC'] = '123';
+            } else {
+                /*if(!empty($result->errors->deepAll())){
 
+                    $status = $result->errors->deepAll();
+
+                    if($status[0]->code == 81724)
+                    {
+                        $paymentMethod = Cards::where('user_id', Auth::user()->id)->where('defaultPaymentMethod', 1)->first();
+                    }
+                }*/
+                $paymentMethod = Cards::where('user_id', Auth::user()->id)->where('defaultPaymentMethod', 1)->first();
+            }
+        }
 
 
         $subscribed= false;
-
         if(isset($input['subscribed']))
         {
             $subscribed = true;
         }
 
-        //dd(Auth::user()->paymentMethodToken);
-
-        $customer_id = $this->registerUserOnBrainTree();
         $card_token = null;
         //$card_token = $this->createCardToken($customer_id, $input['cardNumber'], $input['cardExpiry'], $input['cardCVC']);
 
-
-        //die;
 
         $job_id = $input['job_id'];
 
@@ -69,7 +116,7 @@ class PaymentController extends Controller {
 
         if($job_id > 0)
         {
-            $transction_id = $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethodNonce, $plan_id, $subscribed);
+            $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethod->toArray(), $plan_id, $subscribed);
 
             return Response::json(array(
                 'success' => true
@@ -136,7 +183,7 @@ class PaymentController extends Controller {
     }
 
 
-    public function createTransaction($creditCardToken, $customerId, $job_id, $paymentMethodNonce, $planId, $subscribed){
+    public function createTransaction($creditCardToken, $customerId, $job_id, $paymentMethod, $planId, $subscribed){
 
         /*if($subscribed)
         {
@@ -153,26 +200,30 @@ class PaymentController extends Controller {
         }*/
 
         $job = Job::find($job_id);
+        //'paymentMethodNonce' => $paymentMethodNonce,
+
 
         $result = Braintree_Transaction::sale([
             'amount' => $job->sum,
             'orderId' => $job->id,
-            'paymentMethodNonce' => $paymentMethodNonce,
             'customerId' => $customerId,
+            'paymentMethodToken' => $paymentMethod['token'],
             'options' => [
-                'submitForSettlement' => true,
-                'storeInVaultOnSuccess' => true
+                'submitForSettlement' => true
             ],
             'billing' => [
                 'firstName' => Auth::user()->firstname,
                 'lastName' => Auth::user()->lastname,
                 'streetAddress' => Auth::user()->address,
                 'locality' => 'Bucuresti',
-            ],
+            ]
         ]);
 
         if ($result->success) {
-            return $result->transaction->id;
+
+            $job->payed = 1;
+            $job->save();
+
         } else {
             $errorFound = '';
             foreach ($result->errors->deepAll() as $error1) {
