@@ -2479,7 +2479,7 @@ form.offer-form label.error{
 }
 
 .show-button{
-	display: block !important;
+	display: inline-block !important;
 }
 
 .loader{

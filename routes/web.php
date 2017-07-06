@@ -99,7 +99,8 @@ Route::group(['middleware' => 'role:client|leader|admin'], function()
     Route::post('change-address', ['as' => 'change.address', 'uses' => 'AccountController@changeAddress']);
     Route::post('send-opinion', ['as' => 'send.opinion', 'uses' => 'AccountController@sendOpinion']);
 
-    Route::post('payment', ['as' => 'payment.create', 'uses' => 'PaymentController@addOrder']);
+    Route::post('payment-create', ['as' => 'payment.create', 'uses' => 'PaymentController@addOrder']);
+    Route::post('payment-delete', ['as' => 'payment.delete', 'uses' => 'PaymentController@deleteCard']);
 
 });
 

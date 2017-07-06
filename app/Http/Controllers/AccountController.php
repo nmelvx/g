@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Cards;
 use App\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -20,7 +21,9 @@ class AccountController extends Controller
 
         $job = Job::where('user_id', Auth::id())->where('date', '>=', date('Y-m-d'))->orWhere('time', '>=', date('H:i:s'))->where('user_id', Auth::id())->orderBy('date', 'ASC')->orderBy('time', 'ASC')->first();
 
-        return view('management.account.index', compact('class', 'job'));
+        $cards = Cards::where('user_id', Auth::user()->id)->orderby('defaultPaymentMethod', 'DESC')->get();
+
+        return view('management.account.index', compact('class', 'job', 'cards'));
     }
 
     public function show()

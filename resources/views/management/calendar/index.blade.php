@@ -251,129 +251,132 @@
     var submit = document.querySelector('#payCard');
     var submitPayment = document.querySelector('#payMethod');
 
-    braintree.client.create({
-        authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
-    }, function (err, clientInstance) {
-        if (err) {
-            console.error(err);
-            return;
-        }
+    jQuery.fn.exists = function(){ return this.length > 0; }
 
-        // Create input fields and add text styles
-        braintree.hostedFields.create({
-            client: clientInstance,
-            styles: {
-                'input': {
-                    'font-size': '18px',
-                    'font-family': 'Fira Sans, sans-serif',
-                    'color': '#9eb2a9'
-                },
-                ':focus': {
-                    'color': '#9eb2a9'
-                },
-                '.valid': {
-                    'color': '#9eb2a9'
-                },
-                '.invalid': {
-                    'color': '#FF4136'
-                }
-            },
-            fields: {
-                number: {
-                    selector: '#card-number',
-                    placeholder: '4200 0000 0000 6000'
-                },
-                cvv: {
-                    selector: '#cvv',
-                    placeholder: '123'
-                },
-                expirationDate: {
-                    selector: '#expiration-date',
-                    placeholder: 'MM/YYYY'
-                }
-            }
-        }, function (err, hostedFieldsInstance) {
+    if($('#payMethod').exists()) {
+        braintree.client.create({
+            authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+        }, function (err, clientInstance) {
             if (err) {
                 console.error(err);
                 return;
             }
 
-            hostedFieldsInstance.on('validityChange', function (event) {
-                // Check if all fields are valid, then show submit button
-                var formValid = Object.keys(event.fields).every(function (key) {
-                    return event.fields[key].isValid;
+            // Create input fields and add text styles
+            braintree.hostedFields.create({
+                client: clientInstance,
+                styles: {
+                    'input': {
+                        'font-size': '18px',
+                        'font-family': 'Fira Sans, sans-serif',
+                        'color': '#9eb2a9'
+                    },
+                    ':focus': {
+                        'color': '#9eb2a9'
+                    },
+                    '.valid': {
+                        'color': '#9eb2a9'
+                    },
+                    '.invalid': {
+                        'color': '#FF4136'
+                    }
+                },
+                fields: {
+                    number: {
+                        selector: '#card-number',
+                        placeholder: '4200 0000 0000 6000'
+                    },
+                    cvv: {
+                        selector: '#cvv',
+                        placeholder: '123'
+                    },
+                    expirationDate: {
+                        selector: '#expiration-date',
+                        placeholder: 'MM/YYYY'
+                    }
+                }
+            }, function (err, hostedFieldsInstance) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                hostedFieldsInstance.on('validityChange', function (event) {
+                    // Check if all fields are valid, then show submit button
+                    var formValid = Object.keys(event.fields).every(function (key) {
+                        return event.fields[key].isValid;
+                    });
+
+                    (formValid) ? $('#payCard').addClass('show-button') : $('#payCard').removeClass('show-button');
                 });
 
-                (formValid)? $('#payCard').addClass('show-button'):$('#payCard').removeClass('show-button');
-            });
 
+                hostedFieldsInstance.on('cardTypeChange', function (event) {
+                    // Change card bg depending on card type
+                    if (event.cards.length === 1) {
+                        $(form).removeClass().addClass(event.cards[0].type);
 
-            hostedFieldsInstance.on('cardTypeChange', function (event) {
-                // Change card bg depending on card type
-                if (event.cards.length === 1) {
-                    $(form).removeClass().addClass(event.cards[0].type);
-
-                    // Change the CVV length for AmericanExpress cards
-                    if (event.cards[0].code.size === 4) {
+                        // Change the CVV length for AmericanExpress cards
+                        if (event.cards[0].code.size === 4) {
+                            hostedFieldsInstance.setAttribute({
+                                field: 'cvv',
+                                attribute: 'placeholder',
+                                value: '1234'
+                            });
+                        }
+                    } else {
                         hostedFieldsInstance.setAttribute({
                             field: 'cvv',
                             attribute: 'placeholder',
-                            value: '1234'
-                        });
-                    }
-                } else {
-                    hostedFieldsInstance.setAttribute({
-                        field: 'cvv',
-                        attribute: 'placeholder',
-                        value: '123'
-                    });
-                }
-            });
-
-            submit.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                //$('.content-overlay').hide();
-                //$('.popup-payment').hide();
-                $('.loader').show();
-
-                hostedFieldsInstance.tokenize(function (err, payload) {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-
-                    console.log(payload)
-
-                    if($('#jobId').val() !== 0)
-                    {
-                        $.ajax
-                        ({
-                            type: "POST",
-                            url: "{{ route('payment.create') }}",
-                            data: {
-                                '_token': $('meta[name="csrf-token"]').attr('content'),
-                                'paymentMethodNonce': payload.nonce,
-                                'job_id': $('#jobId').val()
-                            },
-                            dataType: 'json',
-                            async: false,
-                            success: function (result) {
-                                console.log(result)
-                                if(result.success){
-                                    console.log(result);
-                                    window.location.href = '/calendar?success=true';
-                                } else {
-                                    $('<label class="error">'+result.message+'</label>').insertBefore('#payCard');
-                                }
-
-                            }
+                            value: '123'
                         });
                     }
                 });
-            }, false);
+
+                submit.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    //$('.content-overlay').hide();
+                    //$('.popup-payment').hide();
+                    $('.loader').show();
+
+                    hostedFieldsInstance.tokenize(function (err, payload) {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
+
+                        console.log(payload)
+
+                        if ($('#jobId').val() !== 0) {
+                            $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ route('payment.create') }}",
+                                data: {
+                                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                                    'paymentMethodNonce': payload.nonce,
+                                    'job_id': $('#jobId').val()
+                                },
+                                dataType: 'json',
+                                async: false,
+                                success: function (result) {
+                                    console.log(result)
+                                    if (result.success) {
+                                        console.log(result);
+                                        window.location.href = '/calendar?success=true';
+                                    } else {
+                                        $('<label class="error">' + result.message + '</label>').insertBefore('#payCard');
+                                    }
+
+                                }
+                            });
+                        }
+                    });
+                }, false);
+            });
         });
-    });
+    }
 
     $('body').on('click', '#payOffer', function(){
         $(this).parent().hide();
@@ -381,37 +384,38 @@
         $('html, body').animate({ scrollTop: 0 }, "slow");
     });
 
-    submitPayment.addEventListener('click', function (event) {
-        event.preventDefault();
+    if(submitPayment != null) {
+        submitPayment.addEventListener('click', function (event) {
+            event.preventDefault();
 
-        $('.loader').show();
+            $('.loader').show();
 
-        if($('#jobId').val() !== 0)
-        {
-            $.ajax
-            ({
-                type: "POST",
-                url: "{{ route('payment.create') }}",
-                data: {
-                    '_token': $('meta[name="csrf-token"]').attr('content'),
-                    'paymentMethodNonce': null,
-                    'job_id': $('#jobId').val()
-                },
-                dataType: 'json',
-                async: false,
-                success: function (result) {
-                    console.log(result)
-                    if(result.success){
-                        console.log(result);
-                        window.location.href = '/calendar?success=true';
-                    } else {
-                        $('<label class="error">'+result.message+'</label>').insertBefore('#payCard');
+            if ($('#jobId').val() !== 0) {
+                $.ajax
+                ({
+                    type: "POST",
+                    url: "{{ route('payment.create') }}",
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        'paymentMethodNonce': null,
+                        'job_id': $('#jobId').val()
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function (result) {
+                        console.log(result)
+                        if (result.success) {
+                            console.log(result);
+                            window.location.href = '/calendar?success=true';
+                        } else {
+                            $('<label class="error">' + result.message + '</label>').insertBefore('#payCard');
+                        }
+
                     }
-
-                }
-            });
-        }
-    }, false);
+                });
+            }
+        }, false);
+    }
 
     $(document).ready(function () {
 

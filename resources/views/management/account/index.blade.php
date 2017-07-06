@@ -93,6 +93,24 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-financial">
                     <h3 class="box-title">Datele tale<br>financiare</h3>
+                    @if(!$cards->isEmpty())
+                    <form action="" method="post" id="paymentsForm">
+                        @foreach($cards as $card)
+                        <div class="form-input-box" id="box{{ $card->id }}">
+                            <label class="no-bold w100">
+                                {{ Form::radio('paymentMethodToken', $card->token, ($card->defaultPaymentMethod == 1)? 1:0, ['class' => 'pull-left', 'style' => 'margin-top: 23px;', 'data-pid' => $card->id]) }}
+                                <div class="padded-payment">
+                                    <span class="hosted-fields--label" for="card-number">{{ $card->cardType }}</span>
+                                    <div class="payment-method-card">{{ chunk_split($card->maskedNumber, 4, ' ') }}</div>
+                                    <div class="payment-method-date">{{ $card->expirationMonth }}/{{ $card->expirationYear }}</div>
+                                </div>
+                            </label>
+                        </div>
+                        @endforeach
+                        {{ Form::hidden('paymentId', ($card->defaultPaymentMethod == 1)? $card->id:'') }}
+                        <button type="submit" class="button-custom purple" id="deleteCard">Sterge card</button>
+                    </form>
+                    @else
                     <form action="" method="post" id="cardForm">
 
                         <div class="form-input-box-card">
@@ -107,8 +125,9 @@
                             <label class="hosted-fields--label" for="cvv">CVC</label>
                             <div id="cvv" class="hosted-field"></div>
                         </div>
-                        <button type="submit" class="button-custom purple" id="saveCard">Salveaza</button>
+                        <button type="submit" class="button-custom purple" id="saveCard" style="display: none;">Salveaza</button>
                     </form>
+                    @endif
                 </div>
             </div>
 
@@ -179,109 +198,166 @@
 
         var form = document.querySelector('#cardForm');
         var submit = document.querySelector('#saveCard');
+        var deletePayment = document.querySelector('#paymentsForm');
 
-        braintree.client.create({
-            authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
-        }, function (err, clientInstance) {
-            if (err) {
-                console.error(err);
-                return;
-            }
+        jQuery.fn.exists = function(){ return this.length > 0; }
 
-            // Create input fields and add text styles
-            braintree.hostedFields.create({
-                client: clientInstance,
-                styles: {
-                    'input': {
-                        'font-size': '18px',
-                        'font-family': 'Fira Sans, sans-serif',
-                        'font-weight': 'lighter',
-                        'color': '#ffffff'
-                    },
-                    ':focus': {
-                        'color': '#ffffff'
-                    },
-                    '.valid': {
-                        'color': '#ffffff'
-                    },
-                    '.invalid': {
-                        'color': '#FF4136'
-                    }
-                },
-                fields: {
-                    number: {
-                        selector: '#card-number',
-                        placeholder: '4200 0000 0000 6000'
-                    },
-                    cvv: {
-                        selector: '#cvv',
-                        placeholder: '123'
-                    },
-                    expirationDate: {
-                        selector: '#expiration-date',
-                        placeholder: 'MM/YYYY'
-                    }
-                }
-            }, function (err, hostedFieldsInstance) {
+        if($('#saveCard').exists())
+        {
+            braintree.client.create({
+                authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+            }, function (err, clientInstance) {
                 if (err) {
                     console.error(err);
                     return;
                 }
 
-                hostedFieldsInstance.on('validityChange', function (event) {
-                    // Check if all fields are valid, then show submit button
-                    var formValid = Object.keys(event.fields).every(function (key) {
-                        return event.fields[key].isValid;
+                // Create input fields and add text styles
+                braintree.hostedFields.create({
+                    client: clientInstance,
+                    styles: {
+                        'input': {
+                            'font-size': '18px',
+                            'font-family': 'Fira Sans, sans-serif',
+                            'font-weight': 'lighter',
+                            'color': '#ffffff'
+                        },
+                        ':focus': {
+                            'color': '#ffffff'
+                        },
+                        '.valid': {
+                            'color': '#ffffff'
+                        },
+                        '.invalid': {
+                            'color': '#FF4136'
+                        }
+                    },
+                    fields: {
+                        number: {
+                            selector: '#card-number',
+                            placeholder: '4200 0000 0000 6000'
+                        },
+                        cvv: {
+                            selector: '#cvv',
+                            placeholder: '123'
+                        },
+                        expirationDate: {
+                            selector: '#expiration-date',
+                            placeholder: 'MM/YYYY'
+                        }
+                    }
+                }, function (err, hostedFieldsInstance) {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+
+                    hostedFieldsInstance.on('validityChange', function (event) {
+                        // Check if all fields are valid, then show submit button
+                        var formValid = Object.keys(event.fields).every(function (key) {
+                            return event.fields[key].isValid;
+                        });
+
+                        if (formValid) {
+                            $('#saveCard').addClass('show-button');
+                        } else {
+                            $('#saveCard').removeClass('show-button');
+                        }
                     });
 
-                    if (formValid) {
-                        $('#saveCard').addClass('show-button');
-                    } else {
-                        $('#saveCard').removeClass('show-button');
-                    }
-                });
 
+                    hostedFieldsInstance.on('cardTypeChange', function (event) {
+                        // Change card bg depending on card type
+                        if (event.cards.length === 1) {
+                            $(form).removeClass().addClass(event.cards[0].type);
 
-                hostedFieldsInstance.on('cardTypeChange', function (event) {
-                    // Change card bg depending on card type
-                    if (event.cards.length === 1) {
-                        $(form).removeClass().addClass(event.cards[0].type);
-
-                        // Change the CVV length for AmericanExpress cards
-                        if (event.cards[0].code.size === 4) {
+                            // Change the CVV length for AmericanExpress cards
+                            if (event.cards[0].code.size === 4) {
+                                hostedFieldsInstance.setAttribute({
+                                    field: 'cvv',
+                                    attribute: 'placeholder',
+                                    value: '1234'
+                                });
+                            }
+                        } else {
                             hostedFieldsInstance.setAttribute({
                                 field: 'cvv',
                                 attribute: 'placeholder',
-                                value: '1234'
+                                value: '123'
                             });
                         }
-                    } else {
-                        hostedFieldsInstance.setAttribute({
-                            field: 'cvv',
-                            attribute: 'placeholder',
-                            value: '123'
+                    });
+
+                    submit.addEventListener('click', function (event) {
+                        event.preventDefault();
+
+                        hostedFieldsInstance.tokenize(function (err, payload) {
+                            if (err) {
+                                console.error(err);
+                                return;
+                            }
+
+                            $.ajax
+                            ({
+                                type: "POST",
+                                url: "{{ route('payment.create') }}",
+                                data: {
+                                    '_token': $('meta[name="csrf-token"]').attr('content'),
+                                    'paymentMethodNonce': payload.nonce,
+                                    'createPayment': true
+                                },
+                                dataType: 'json',
+                                success: function (result) {
+                                    console.log(result)
+                                    if (result.success) {
+                                        window.location.href = '/contul-meu';
+                                    }
+
+                                }
+                            });
+
                         });
+                    }, false);
+
+                });
+            });
+        }
+
+        if($('#paymentsForm').exists())
+        {
+            $('body').on('change', 'input[name="paymentMethodToken"]', function(){
+                $('input[name="paymentId"]').val($(this).data('pid'));
+            });
+
+
+            deletePayment.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                $.ajax
+                ({
+                    type: "POST",
+                    url: "{{ route('payment.delete') }}",
+                    data: {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                        'paymentMethodToken': $('input[name="paymentMethodToken"]:checked').val(),
+                        'paymentId': $('input[name="paymentId"]').val()
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function (result)
+                    {
+                        if (result.success) {
+                            $('#box'+result.pid).remove();
+                            $('input:radio[name="paymentMethodToken"]:first').prop('checked', true);
+                            if(result.form == 1){
+                                window.location.reload();
+                            }
+                        }
                     }
                 });
 
-                submit.addEventListener('click', function (event) {
-                    event.preventDefault();
-
-                    hostedFieldsInstance.tokenize(function (err, payload) {
-                        if (err) {
-                            console.error(err);
-                            return;
-                        }
-
-                        //document.querySelector('#nonce').value = payload.nonce;
-
-                        // This is where you would submit payload.nonce to your server
-
-                        alert('Submit your nonce to your server here!xxxx');
-                    });
-                }, false);
-            });
-        });
+            }, false);
+        }
 
         $(document).ready(function() {
 

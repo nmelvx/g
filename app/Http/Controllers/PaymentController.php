@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cards;
 use App\Job;
 use Braintree_ClientToken;
+use Braintree_Exception_NotFound;
 use Braintree_PaymentMethodNonce;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -15,6 +16,7 @@ use Braintree_Subscription;
 use Braintree_CreditCard;
 use Braintree_PaymentMethod;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class PaymentController extends Controller {
@@ -25,18 +27,28 @@ class PaymentController extends Controller {
 
     }
 
-    public function deleteCard($id)
+    public function deleteCard(Request $request)
     {
-        $token = Cards::where('user_id', Auth::user()->id)->where('token', $id)->first();
-        $result = Braintree_PaymentMethod::delete($token);
+        try {
+            $result = Braintree_PaymentMethod::delete($request->input('paymentMethodToken'));
+            if($result->success)
+            {
+                Cards::where('id', $request->input('paymentId'))->delete();
+                $availableCards = Cards::where('user_id', Auth::user()->id)->get();
 
-        if($result->success){
+                return Response::json(array(
+                    'success' => true,
+                    'box' => 'box'.$request->input('paymentId'),
+                    'form' => ($availableCards->isEmpty())?1:0
+                ), 200);
+            }
+        } catch (Braintree_Exception_NotFound $e) {
             return Response::json(array(
-                'success' => true
-            ), 200);
+                'success' => false,
+                'message' => 'Eroare stergere card.'
+            ), 400);
         }
     }
-
 
     public function addOrder()
     {
@@ -47,55 +59,59 @@ class PaymentController extends Controller {
         $paymentMethod = null;
         $result = null;
 
-        if(!isset($input['save_payment']))
+
+        if($paymentMethodNonce != null)
         {
+            $result = Braintree_PaymentMethod::create([
+                'customerId' => $customer_id,
+                'paymentMethodNonce' => $paymentMethodNonce,
+                'options' => [
+                    'failOnDuplicatePaymentMethod' => true
+                ]
+            ]);
 
-            if($paymentMethodNonce != null)
-            {
-                $result = Braintree_PaymentMethod::create([
-                    'customerId' => $customer_id,
-                    'paymentMethodNonce' => $paymentMethodNonce,
-                    'options' => [
-                        'failOnDuplicatePaymentMethod' => true
-                    ]
-                ]);
-
-            }
+        }
 
 
-            if (isset($result->success) && $result->success) {
+        if (isset($result->success) && $result->success) {
 
-                $paymentMethod = Cards::updateOrCreate(
-                    [
-                        'user_id' => Auth::user()->id,
-                        'uniqueNumberIdentifier' => $result->paymentMethod->_attributes['uniqueNumberIdentifier']
-                    ],
-                    [
-                        'user_id' => Auth::user()->id,
-                        'last4' => $result->paymentMethod->_attributes['last4'],
-                        'cardType' => $result->paymentMethod->_attributes['cardType'],
-                        'cardholderName' => $result->paymentMethod->_attributes['cardholderName'],
-                        'expirationMonth' => $result->paymentMethod->_attributes['expirationMonth'],
-                        'expirationYear' => $result->paymentMethod->_attributes['expirationYear'],
-                        'maskedNumber' => $result->paymentMethod->maskedNumber,
-                        'token' => $result->paymentMethod->_attributes['token'],
-                        'success' => $result->success,
-                        'defaultPaymentMethod' => 1
-                    ]
-                );
+            $paymentMethod = Cards::updateOrCreate(
+                [
+                    'user_id' => Auth::user()->id,
+                    'uniqueNumberIdentifier' => $result->paymentMethod->_attributes['uniqueNumberIdentifier']
+                ],
+                [
+                    'user_id' => Auth::user()->id,
+                    'last4' => $result->paymentMethod->_attributes['last4'],
+                    'cardType' => $result->paymentMethod->_attributes['cardType'],
+                    'cardholderName' => $result->paymentMethod->_attributes['cardholderName'],
+                    'expirationMonth' => $result->paymentMethod->_attributes['expirationMonth'],
+                    'expirationYear' => $result->paymentMethod->_attributes['expirationYear'],
+                    'maskedNumber' => $result->paymentMethod->maskedNumber,
+                    'token' => $result->paymentMethod->_attributes['token'],
+                    'success' => $result->success,
+                    'defaultPaymentMethod' => 1
+                ]
+            );
 
-            } else {
-                /*if(!empty($result->errors->deepAll())){
+        } else {
+            /*if(!empty($result->errors->deepAll())){
 
-                    $status = $result->errors->deepAll();
+                $status = $result->errors->deepAll();
 
-                    if($status[0]->code == 81724)
-                    {
-                        $paymentMethod = Cards::where('user_id', Auth::user()->id)->where('defaultPaymentMethod', 1)->first();
-                    }
-                }*/
-                $paymentMethod = Cards::where('user_id', Auth::user()->id)->where('defaultPaymentMethod', 1)->first();
-            }
+                if($status[0]->code == 81724)
+                {
+                    $paymentMethod = Cards::where('user_id', Auth::user()->id)->where('defaultPaymentMethod', 1)->first();
+                }
+            }*/
+            $paymentMethod = Cards::where('user_id', Auth::user()->id)->where('defaultPaymentMethod', 1)->first();
+        }
+
+        if(isset($input['createPayment']))
+        {
+            return Response::json(array(
+                'success' => true,
+            ), 200);
         }
 
 
@@ -109,7 +125,9 @@ class PaymentController extends Controller {
         //$card_token = $this->createCardToken($customer_id, $input['cardNumber'], $input['cardExpiry'], $input['cardCVC']);
 
 
-        $job_id = $input['job_id'];
+
+        $job_id = !empty($input['job_id'])? $input['job_id']:0;
+
 
         //gateway will provide this plan id whenever you create a plan
         $plan_id = 'plan_id_here';
