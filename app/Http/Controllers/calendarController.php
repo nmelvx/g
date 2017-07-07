@@ -36,7 +36,7 @@ class calendarController extends Controller
         $calendar = new Calendar();
         $class = 'green';
 
-        $job = Job::latest()->where('user_id', Auth::id())->first();
+        $job = Job::where('user_id', Auth::id())->first();
 
         $paymentMethod = Cards::where('user_id', Auth::id())->where('defaultPaymentMethod', 1)->first();
 

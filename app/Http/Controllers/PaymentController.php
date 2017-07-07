@@ -59,6 +59,8 @@ class PaymentController extends Controller {
         $paymentMethod = null;
         $result = null;
 
+        $user = Auth::user();
+        //dd($user);
 
         if($paymentMethodNonce != null)
         {
@@ -72,6 +74,8 @@ class PaymentController extends Controller {
 
         }
 
+
+        //dd($result);
 
         if (isset($result->success) && $result->success) {
 
@@ -134,7 +138,7 @@ class PaymentController extends Controller {
 
         if($job_id > 0)
         {
-            $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethod->toArray(), $plan_id, $subscribed);
+            $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethod, $plan_id, $subscribed);
 
             return Response::json(array(
                 'success' => true
