@@ -205,7 +205,8 @@
         if($('#saveCard').exists())
         {
             braintree.client.create({
-                authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+                //authorization: 'production_gx8vk64v_jm6y5bfbcmjp4dhm'
+                authorization: '{{ $clientToken }}'
             }, function (err, clientInstance) {
                 if (err) {
                     console.error(err);
@@ -347,9 +348,9 @@
                     success: function (result)
                     {
                         if (result.success) {
-                            $('#box'+result.pid).remove();
+                            $('#box'+result.extra.pid).remove();
                             $('input:radio[name="paymentMethodToken"]:first').prop('checked', true);
-                            if(result.form == 1){
+                            if(result.extra.form == 1){
                                 window.location.reload();
                             }
                         }

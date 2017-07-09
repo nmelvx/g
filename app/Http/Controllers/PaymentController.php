@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Cards;
 use App\Job;
 use Braintree_ClientToken;
+use Braintree_Error_Validation;
 use Braintree_Exception_NotFound;
 use Braintree_PaymentMethodNonce;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Braintree_Transaction;
@@ -22,9 +24,14 @@ use Illuminate\Support\Facades\Response;
 class PaymentController extends Controller {
 
     protected $user;
+    protected $message;
+    protected $code;
+    protected $status;
+    protected $extra;
 
     public function __construct() {
-
+        $this->status = false;
+        $this->code = 400;
     }
 
     public function deleteCard(Request $request)
@@ -36,18 +43,25 @@ class PaymentController extends Controller {
                 Cards::where('id', $request->input('paymentId'))->delete();
                 $availableCards = Cards::where('user_id', Auth::user()->id)->get();
 
-                return Response::json(array(
-                    'success' => true,
-                    'box' => 'box'.$request->input('paymentId'),
+                $this->extra = [
+                    'pid' => $request->input('paymentId'),
                     'form' => ($availableCards->isEmpty())?1:0
-                ), 200);
+                ];
+                $this->status = true;
+                $this->code = 200;
+
             }
         } catch (Braintree_Exception_NotFound $e) {
-            return Response::json(array(
-                'success' => false,
-                'message' => 'Eroare stergere card.'
-            ), 400);
+            $this->message = 'Eroare stergere card.';
         }
+
+
+
+        return Response::json(array(
+            'success' => $this->status,
+            'extra' => $this->extra,
+            'message' => $this->message
+        ), $this->code);
     }
 
     public function addOrder()
@@ -73,9 +87,6 @@ class PaymentController extends Controller {
             ]);
 
         }
-
-
-        //dd($result);
 
         if (isset($result->success) && $result->success) {
 
@@ -113,9 +124,14 @@ class PaymentController extends Controller {
 
         if(isset($input['createPayment']))
         {
+            $this->status = true;
+            $this->code = 200;
+            $this->message = 'Metoda de plata salvata cu succes.';
+
             return Response::json(array(
-                'success' => true,
-            ), 200);
+                'success' => $this->status,
+                'success' => $this->message,
+            ), $this->code);
         }
 
 
@@ -136,21 +152,35 @@ class PaymentController extends Controller {
         //gateway will provide this plan id whenever you create a plan
         $plan_id = 'plan_id_here';
 
+
         if($job_id > 0)
         {
-            $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethod, $plan_id, $subscribed);
 
-            return Response::json(array(
-                'success' => true
-            ), 200);
+            $result = $this->createTransaction($card_token, $customer_id, $job_id, $paymentMethod, $plan_id, $subscribed);
+
+            if(isset($result->success) && $result->success)
+            {
+                $this->status = true;
+                $this->code = 200;
+                $this->message = 'Plata a fost trimisa catre procesare.';
+            } else {
+
+                foreach ($result as $error) {
+                    if($error->code == 91511){
+                        $this->message = 'Metoda de plata inexistenta.';
+                    }
+                }
+
+            }
+
         } else {
-            return Response::json(array(
-                'success' => false,
-                'message' => 'Plata nu se poate efectua fara o comanda.'
-            ), 400);
+            $this->message = 'Plata nu se poate efectua fara o comanda.';
         }
 
-        die;
+        return Response::json(array(
+            'success' => $this->status,
+            'message' => $this->message
+        ), $this->code);
     }
 
 
@@ -229,7 +259,7 @@ class PaymentController extends Controller {
             'amount' => $job->sum,
             'orderId' => $job->id,
             'customerId' => $customerId,
-            'paymentMethodToken' => $paymentMethod['token'],
+            'paymentMethodToken' => !empty($paymentMethod->token)?$paymentMethod->token:null,
             'options' => [
                 'submitForSettlement' => true
             ],
@@ -246,12 +276,16 @@ class PaymentController extends Controller {
             $job->payed = 1;
             $job->save();
 
+
         } else {
             $errorFound = '';
-            foreach ($result->errors->deepAll() as $error1) {
-                $errorFound .= $error1->message . "<br />";
+            foreach ($result->errors->deepAll() as $error) {
+                $errorFound .= $error->message . "<br />";
             }
+            $result = $result->errors->deepAll();
         }
+
+        return $result;
     }
 
 

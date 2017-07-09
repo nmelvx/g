@@ -9,6 +9,7 @@ use App\Libraries\Calendar;
 use App\Mail\SendRegisterMail;
 use App\Service;
 use App\User;
+use Braintree_ClientToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,9 @@ class calendarController extends Controller
 
         $paymentMethod = Cards::where('user_id', Auth::id())->where('defaultPaymentMethod', 1)->first();
 
-        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job', 'paymentMethod'));
+        $clientToken = Braintree_ClientToken::generate();
+
+        return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job', 'paymentMethod', 'clientToken'));
     }
 
     /*

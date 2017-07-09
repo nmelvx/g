@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Cards;
 use App\Job;
+use Braintree_ClientToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,9 @@ class AccountController extends Controller
 
         $cards = Cards::where('user_id', Auth::user()->id)->orderby('defaultPaymentMethod', 'DESC')->get();
 
-        return view('management.account.index', compact('class', 'job', 'cards'));
+        $clientToken = Braintree_ClientToken::generate();
+
+        return view('management.account.index', compact('class', 'job', 'cards', 'clientToken'));
     }
 
     public function show()

@@ -147,8 +147,8 @@
                 <button type="submit" class="green-button submit-form" id="payMethod">Plateste</button>
             </form>
             @else
-            <p class="text-center info-text">Introduceti datele cardului pentru a efectua plata serviciilor.</p>
             <form action="" method="post" id="cardForm">
+                <p class="text-center info-text">Introduceti datele cardului pentru a efectua plata serviciilor.</p>
                 <div class="input-with-text text-left">
                     <label class="hosted-fields--label" for="card-number">Numar card</label>
                     <div id="card-number" class="hosted-field"></div>
@@ -203,6 +203,18 @@
             <button class="green-button submit-form close-popup-button">Continua</button>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
+
+        <div class="popup-content popup-message" style="display: none;">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-center">
+                    <h3>Eroare</h3>
+                    <div class="separator-line-popup"></div>
+                    <p>Eroare mesaj</p>
+                </div>
+            </div>
+            <button class="green-button submit-form close-popup-button">Inchide</button>
+            <a href="javascript:void(0);" class="close-popup"></a>
+        </div>
     </div>
 
 @endsection
@@ -228,7 +240,8 @@
 
 
         braintree.client.create({
-            authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+            //authorization: 'sandbox_xn2nh32z_rqwxyg33g8bcmvkv'
+            authorization: '{{ $clientToken }}'
         }, function (err, clientInstance) {
             if (err) {
                 console.error(err);
@@ -334,7 +347,7 @@
                             dataType: 'json',
                             async: false,
                             success: function (result) {
-                                console.log(result)
+
                                 if (result.success) {
                                     console.log(result);
                                     window.location.href = '/calendar?success=true';
