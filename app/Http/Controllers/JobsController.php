@@ -18,8 +18,6 @@ class JobsController extends Controller
 
         $jobs = Job::where('date', date('Y-m-d'))->where('time', date('H:i:s'))->get();
 
-        dd($jobs);
-
         return view('management.jobs.index', compact('type'));
     }
 

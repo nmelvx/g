@@ -11,6 +11,7 @@
     <link href="{{ asset('frontend/assets/components/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/css/sweetalert.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/assets/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/css/styles.css?v=2.0') }}" rel="stylesheet">
 
     @yield('css')
@@ -43,6 +44,7 @@
 {{ HTML::script('frontend/assets/components/jquery.validate/jquery.validate.min.js') }}
 {{ HTML::script('frontend/assets/components/jquery.validate/localization/messages_ro.js') }}
 {{ HTML::script('frontend/assets/components/sweetalert/sweetalert.min.js') }}
+{{ HTML::script('frontend/assets/components/datatables/jquery.dataTables.min.js') }}
 
 @yield('javascripts')
 

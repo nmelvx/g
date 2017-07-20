@@ -84,6 +84,7 @@ Route::group(['middleware' => 'role:admin|leader'], function()
     Route::resource('lucrari-disponibile', 'JobsController');
     Route::resource('management-echipe', 'TeamController');
     Route::post('/save-member', ['as' => 'member.store', 'uses' => 'TeamMembersController@store']);
+    Route::resource('clienti', 'ClientsController');
 });
 
 /* remove admin role when in production */

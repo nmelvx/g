@@ -36,6 +36,7 @@ class SendRegisterMail extends Mailable
 
         return $this->view('emails.register')->with(['email' => $this->user->email, 'password' => $this->user->visible_password])
             ->from($address)
+            ->to($this->user->email)
             ->subject($subject);
     }
 }

@@ -2508,3 +2508,88 @@ form.offer-form label.error{
 	float: left;
 	clear: both;
 }
+
+#clients_table{
+	width: 100%;
+}
+
+#clients_table tr th, #clients_table tr td{
+	font-size: 14px;
+	color: #377d66;
+	font-family: 'Fira Sans', sans-serif;
+	font-weight: 400;
+}
+#clients_table tr th{
+	font-weight: 700;
+}
+
+#clients_table_length label, #clients_table_info{
+	font-size: 14px;
+	color: #377d66;
+	font-weight: 700;
+	border: 1px solid #afb9b4;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 10px 15px;
+	background-color: #ffffff;
+}
+
+#clients_table_info{
+	margin-top: 30px;
+}
+
+#clients_table_paginate{
+	font-size: 14px;
+	color: #377d66;
+	font-weight: 400;
+	margin-top: 30px;
+	border: 1px solid #afb9b4;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 10px 15px;
+	background-color: #ffffff;
+}
+
+#clients_table_length select{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 0 10px;
+	display: inline-block;
+}
+
+#clients_table_filter, #clients_table_length{
+	margin-bottom: 30px;
+}
+
+#clients_table_filter{
+	width: 50%;
+}
+
+#clients_table_filter label{
+	font-size: 18px;
+	color: #377d66;
+	font-weight: 400;
+	width: 100%;
+}
+
+#clients_table_filter label input{
+	font-size: 18px;
+	color: #9eb2a9;
+	font-weight: 400;
+	border: 1px solid #afb9b4;
+	padding: 10px;
+	display: inline-block;
+	width: 80%;
+	background: #ffffff url("../images/magnifier.jpg") right center no-repeat;
+}
+
+table.dataTable, table.dataTable tr th, table.dataTable tr td{
+	border: 1px solid #e3e7e5;
+	padding: 15px;
+	border-collapse: collapse;
+}
+table.dataTable tr th{
+	background-color: #ffffff;
+}

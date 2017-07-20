@@ -144,6 +144,8 @@ class RegisterController extends Controller
     {
         $authUser = User::where('facebook_id', $facebookUser->id)->first();
 
+        dd($authUser);
+
         if ($authUser){
             return $authUser;
         } else {
