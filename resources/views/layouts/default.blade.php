@@ -12,7 +12,7 @@
     <link href="{{ asset('frontend/assets/components/jquery.fullpage/jquery.fullpage.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/css/sweetalert.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('frontend/assets/css/styles.css?v=2.0') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/assets/css/styles.css?v=3.0') }}" rel="stylesheet">
 
     @yield('css')
 

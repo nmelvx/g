@@ -2524,15 +2524,18 @@ form.offer-form label.error{
 }
 
 #clients_table_length label, #clients_table_info{
-	font-size: 14px;
+	font-size: 18px;
 	color: #377d66;
-	font-weight: 700;
+	font-weight: 400;
 	border: 1px solid #afb9b4;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	padding: 10px 15px;
 	background-color: #ffffff;
+}
+#clients_table_info{
+	font-size: 18px;
 }
 
 #clients_table_info{
@@ -2540,9 +2543,6 @@ form.offer-form label.error{
 }
 
 #clients_table_paginate{
-	font-size: 14px;
-	color: #377d66;
-	font-weight: 400;
 	margin-top: 30px;
 	border: 1px solid #afb9b4;
 	-webkit-border-radius: 5px;
@@ -2550,6 +2550,18 @@ form.offer-form label.error{
 	border-radius: 5px;
 	padding: 10px 15px;
 	background-color: #ffffff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+	font-size: 18px;
+	color: #377d66;
+	font-weight: 400;
+	float: left;
+	text-decoration: none;
+}
+
+#clients_table_paginate span{
+	float: left;
 }
 
 #clients_table_length select{
