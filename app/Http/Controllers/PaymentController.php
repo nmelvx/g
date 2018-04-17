@@ -130,7 +130,7 @@ class PaymentController extends Controller {
 
             return Response::json(array(
                 'success' => $this->status,
-                'success' => $this->message,
+                'message' => $this->message,
             ), $this->code);
         }
 

@@ -93,6 +93,7 @@
             <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 table-cell">
                 <div class="boxed my-financial">
                     <h3 class="box-title">Datele tale<br>financiare</h3>
+                    {{--
                     @if(!$cards->isEmpty())
                     <form action="" method="post" id="paymentsForm">
                         @foreach($cards as $card)
@@ -128,6 +129,7 @@
                         <button type="submit" class="button-custom purple" id="saveCard" style="display: none;">Salveaza</button>
                     </form>
                     @endif
+                    --}}
                 </div>
             </div>
 
@@ -195,7 +197,7 @@
 
     <script type="text/javascript">
 
-
+        {{--
         var form = document.querySelector('#cardForm');
         var submit = document.querySelector('#saveCard');
         var deletePayment = document.querySelector('#paymentsForm');
@@ -359,6 +361,7 @@
 
             }, false);
         }
+        --}}
 
         $(document).ready(function() {
 

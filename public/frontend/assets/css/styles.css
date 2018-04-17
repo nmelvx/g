@@ -1087,15 +1087,18 @@ div.panel {
 	transition: none;
 	margin-right: 10px;
 	width: 25px;
+	float: left;
 }
 .ico-work{
 	height: 19px;
 	background: url("../images/ico-work.png") center top no-repeat;
+	margin-top: 3px;
 }
 .ico-clients{
 	width: 42px;
 	height: 18px;
 	background: url("../images/ico-clients.png") center top no-repeat;
+	margin-top: 2px;
 }
 .ico-payments{
 	height: 23px;
@@ -1110,6 +1113,7 @@ div.panel {
 	width: 13px;
 	height: 19px;
 	background: url("../images/ico-cal.png") center top no-repeat;
+	margin-top: 3px;
 }
 .ico-ist{
 	width: 12px;
@@ -1125,13 +1129,16 @@ div.panel {
 	width: 11px;
 	height: 19px;
 	background: url("../images/ico-acc.png") center top no-repeat;
+	margin-top: 3px;
 }
 .ico-sup{
 	width: 13px;
 	height: 19px;
 	background: url("../images/ico-sup.png") center top no-repeat;
 }
-
+.menu-account li{
+	list-style: none;
+}
 .menu-account li a:hover .ico, .menu-account li a:active .ico, .menu-account li a:focus .ico, .menu-account li a.selected .ico{
 	background-position: center bottom;
 }
@@ -2336,6 +2343,7 @@ form.offer-form label.error{
 		-webkit-border-top-right-radius: 10px;
 		-moz-border-radius-topright: 10px;
 		border-top-right-radius: 10px;
+		height: 62px;
 	}
 	.popup-content{
 		width: 60%;

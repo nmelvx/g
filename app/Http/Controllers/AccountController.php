@@ -24,9 +24,11 @@ class AccountController extends Controller
 
         $cards = Cards::where('user_id', Auth::user()->id)->orderby('defaultPaymentMethod', 'DESC')->get();
 
-        $clientToken = Braintree_ClientToken::generate();
+        //$clientToken = Braintree_ClientToken::generate();
+        //return view('management.account.index', compact('class', 'job', 'cards', 'clientToken'));
 
-        return view('management.account.index', compact('class', 'job', 'cards', 'clientToken'));
+        return view('management.account.index', compact('class', 'job', 'cards'));
+
     }
 
     public function show()

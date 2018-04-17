@@ -94,7 +94,7 @@
             <h3>Rezervare</h3>
             <div class="separator-line-div-small"></div>
             <p class="text-center info-text date">Detalii servicii programate</p>
-            <form action="" method="post" class="form-popup form-offer-calendar">
+            <form action="" method="post" class="form-popup form-offer-calendar payment-form">
                 <h4>1. Data și ora</h4>
                 <div class="div-padded">
                     <div class="row">
@@ -121,14 +121,21 @@
                     </ul>
                 </div>
                 <div class="div-padded">
-                    <h3 class="text-center f35" style="margin-top: 40px;">Cost serviciu: <span class="final estimated-price">0</span> lei</h3>
+                    <h3 class="text-center f35" style="margin-top: 40px;">Cost servicii: <span class="final estimated-price">0</span> lei</h3>
                 </div>
             </form>
 
             <a href="javascript:void(0);" class="green-button submit-form" id="payOffer" style="display: none;">Plateste</a>
             <a href="javascript:void(0);" class="close-popup"></a>
         </div>
-
+        <div class="popup-content popup-payment" style="display:none;">
+            <h3>Plateste cu cardul</h3>
+            <form action="" method="post" id="methodForm">
+            </form>
+            <a href="javascript:void(0);" class="green-button submit-form" style="display: none;">Plateste</a>
+            <a href="javascript:void(0);" class="close-popup"></a>
+        </div>
+        {{--
         <div class="popup-content popup-payment" style="display:none;">
             <h3>Plateste cu cardul</h3>
             <div class="separator-line-div-small"></div>
@@ -167,6 +174,7 @@
             <a href="javascript:void(0);" class="close-popup"></a>
             <div class="loader"></div>
         </div>
+        --}}
 
         <div class="popup-content popup-address" style="display: none;">
             <div class="row">
@@ -232,6 +240,7 @@
 
 <script type="text/javascript">
 
+    {{--
     var form = document.querySelector('#cardForm');
     var submit = document.querySelector('#payCard');
     var submitPayment = document.querySelector('#payMethod');
@@ -362,14 +371,50 @@
             }, false);
         });
     });
-
-
+    --}}
+    {{--
     $('body').on('click', '#payOffer', function(){
         $(this).parent().hide();
         $('.popup-payment').show();
         $('html, body').animate({ scrollTop: 0 }, "slow");
     });
+    --}}
+    $('body').on('click', '#payOffer', function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
 
+        var _this = $(this)
+
+        $.ajax
+        ({
+            type: "POST",
+            url: "{{ route('payment.form') }}",
+            data: {
+                '_token': $('meta[name="csrf-token"]').attr('content'),
+                'JOB_ID': $('#jobId').val()
+            },
+            dataType: 'json',
+            async: false,
+            success: function (result) {
+                if (result.success) {
+                    _this.parent().hide();
+                    $('#methodForm').attr('action', result.url);
+                    $('#methodForm').html(result.html);
+                    $('#methodForm').append('{{ csrf_field() }}');
+                    //$('#methodForm').append('<input type="hidden" name="LU_ENABLE_TOKEN" value="1">');
+                    //$('#methodForm').append('<input type="hidden" name="LU_TOKEN_TYPE" value="PAY_BY_CLICK">');
+                    $('#methodForm').append('<button type="submit" class="green-button submit-form" id="payuPay">Plateste cu PayU</button>');
+                    $('.popup-payment').show();
+                    $('html, body').animate({ scrollTop: 0 }, "slow");
+                } else {
+                    $('<label class="error">' + result.message + '</label>').insertBefore('#payCard');
+                }
+
+            }
+        });
+    });
+
+    {{--
     if(submitPayment != null) {
         submitPayment.addEventListener('click', function (event) {
             event.preventDefault();
@@ -402,13 +447,13 @@
             }
         }, false);
     }
-
+    --}}
     $(document).ready(function () {
 
 
-        $('.cc-number').payment('formatCardNumber');
-        $('.cc-exp').payment('formatCardExpiry');
-        $('.cc-cvc').payment('formatCardCVC');
+        //$('.cc-number').payment('formatCardNumber');
+        //$('.cc-exp').payment('formatCardExpiry');
+        //$('.cc-cvc').payment('formatCardCVC');
 
         /** popup **/
 
@@ -567,7 +612,35 @@
                         $('html, body').animate({ scrollTop: 0 }, "slow");
                         $('.popup-ask-offer').hide();
                         $('#jobId').val(data.job_id);
-                        $('.popup-payment').show();
+
+
+                        $.ajax
+                        ({
+                            type: "POST",
+                            url: "{{ route('payment.form') }}",
+                            data: {
+                                '_token': $('meta[name="csrf-token"]').attr('content'),
+                                'JOB_ID': $('#jobId').val()
+                            },
+                            dataType: 'json',
+                            async: false,
+                            success: function (result) {
+                                if (result.success) {
+
+                                    $('#methodForm').attr('action', result.url);
+                                    $('#methodForm').html(result.html);
+                                    $('#methodForm').append('{{ csrf_field() }}');
+                                    //$('#methodForm').append('<input type="hidden" name="LU_ENABLE_TOKEN" value="1">');
+                                    //$('#methodForm').append('<input type="hidden" name="LU_TOKEN_TYPE" value="PAY_BY_CLICK">');
+                                    $('#methodForm').append('<button type="submit" class="green-button submit-form" id="payuPay">Plateste cu PayU</button>');
+                                    $('.popup-payment').show();
+                                    $('html, body').animate({ scrollTop: 0 }, "slow");
+                                } else {
+                                    $('<label class="error">' + result.message + '</label>').insertBefore('#payCard');
+                                }
+
+                            }
+                        });
 
                     },
                     error: function (data) {
@@ -644,11 +717,12 @@
                     $('.list-info.area').html('Suprafata de lucru: <strong>' + result.job.area + ' mp</strong>');
                     $('.list-info.duration').html('Durata serviciu: <strong>' + durationFormat(result.job.total_duration)+'</strong>');
                     $('.final.estimated-price').html(result.job.sum);
+                    $('.final-price').val(result.job.sum);
 
                     var services = '';
 
                     $.each(result.job['services'], function( index, value ) {
-                        services += '<li><label class="checkbox-custom"><input type="checkbox" disabled checked value="'+value.id+'" name="serivces[]"><span></span>'+value.title+'</label></li>';
+                        services += '<li><label class="checkbox-custom"><input type="checkbox" disabled checked value="'+value.id+'" name="services[]"><span></span>'+value.title+'</label></li>';
                     });
 
                     $('.list-info.servicii').html(services);
@@ -682,33 +756,7 @@
                 data: { id:_this.data('jobid') },
                 success: function (result)
                 {
-                    /*
-                    $('.list-info.date').html(formatDate(new Date(result.job.date)));
-                    $('.list-info.time').html(result.job.time);
-                    $('.list-info.area').html('Suprafata de lucru: <strong>' + result.job.area + ' mp</strong>');
-                    $('.list-info.duration').html('Durata serviciu: <strong>' + durationFormat(result.job.total_duration)+'</strong>');
-                    $('.final.estimated-price').html(result.job.sum);
-
-                    var services, images = '';
-
-                    $.each(result.job['services'], function( index, value ) {
-                        services += '<li><label class="checkbox-custom"><input type="checkbox" disabled checked value="'+value.id+'" name="serivces[]"><span></span>'+value.title+'</label></li>';
-                    });
-                    $('.list-info.servicii').html(services);
-
-                    $.each(result.job['images'], function( index, value ) {
-                        if(index == 3){
-                            images += '<div class="gallery-image"><img src="" class="img-responsive"></div>';
-                        } else {
-                            images += '<div class="gallery-image"><img src="" class="img-responsive"></div>';
-                        }
-                    });
-                    $('.list-info.images').html(images);
-                    */
-
                     $('.popup-service-detail-finshed').html(result.view);
-
-
                 }
             });
 

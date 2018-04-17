@@ -103,6 +103,10 @@ Route::group(['middleware' => 'role:client|leader|admin'], function()
     Route::post('payment-create', ['as' => 'payment.create', 'uses' => 'PaymentController@addOrder']);
     Route::post('payment-delete', ['as' => 'payment.delete', 'uses' => 'PaymentController@deleteCard']);
 
+    Route::post('payment-payu-form', ['as' => 'payment.form', 'uses' => 'PaymentPayuController@createForm']);
+    Route::post('payment-payu-order', ['as' => 'payment.order', 'uses' => 'PaymentPayuController@addOrder']);
+    Route::get('payu-ipn', ['as' => 'payment.ipn', 'uses' => 'IpnController@ipnResponse']);
+
 });
 
 

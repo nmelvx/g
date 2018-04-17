@@ -6,6 +6,7 @@ use App\Cards;
 use App\Helpers\Facades\Helper;
 use App\Job;
 use App\Libraries\Calendar;
+use App\Libraries\LiveUpdate;
 use App\Mail\SendRegisterMail;
 use App\Service;
 use App\User;
@@ -13,11 +14,13 @@ use Braintree_ClientToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+
 
 class calendarController extends Controller
 {
@@ -35,13 +38,15 @@ class calendarController extends Controller
         ])->where('user_id', Auth::id())->get();
 
         $calendar = new Calendar();
+
         $class = 'green';
 
         $job = Job::where('user_id', Auth::id())->first();
 
         $paymentMethod = Cards::where('user_id', Auth::id())->where('defaultPaymentMethod', 1)->first();
 
-        $clientToken = Braintree_ClientToken::generate();
+        $clientToken = '';
+        //$clientToken = Braintree_ClientToken::generate();
 
         return view('management.calendar.index', compact('hours', 'services', 'calendar', 'jobs', 'class', 'user', 'job', 'paymentMethod', 'clientToken'));
     }
