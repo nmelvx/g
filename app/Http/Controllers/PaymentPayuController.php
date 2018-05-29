@@ -2,27 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Cards;
 use App\Job;
 use App\Libraries\LiveUpdate;
 use App\Service;
-use App\Services;
-use Braintree_ClientToken;
-use Braintree_Error_Validation;
-use Braintree_Exception_NotFound;
-use Braintree_PaymentMethodNonce;
-use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
-use Braintree_Transaction;
-use Braintree_Customer;
-use Braintree_WebhookNotification;
-use Braintree_Subscription;
-use Braintree_CreditCard;
-use Braintree_PaymentMethod;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
 class PaymentPayuController extends Controller {
@@ -45,10 +29,7 @@ class PaymentPayuController extends Controller {
     public function createForm()
     {
         $request = Input::all();
-
         $products = [];
-
-        $temp = [];
 
         $job = Job::find($request['JOB_ID']);
         $services = $job->services()->pluck('services.id');
@@ -67,7 +48,8 @@ class PaymentPayuController extends Controller {
             ]);
         }
 
-        $this->lu->setTestMode(true);
+        $this->lu->setBackRefURL(Config::get('payu.BACK_REF'));
+        $this->lu->setTestMode(Config::get('payu.TEST_MODE'));
         $this->lu->setSecretKey(Config::get('payu.SECRET_KEY'))
             ->setMerchant(Config::get('payu.MERCHANT_CODE'))
             ->setOrderRef($request['JOB_ID'])

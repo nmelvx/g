@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use InvalidArgumentException;
+
 /**
  * Class LiveUpdate
  *
@@ -68,6 +70,11 @@ class LiveUpdate
      * @var string Merchant's order reference number (identifier)
      */
     private $orderRef;
+
+    /**
+     * @var string This is the URL address where to redirect when payment is done
+     */
+    private $backRef;
 
     /**
      * @var string The date when order was placed
@@ -239,6 +246,34 @@ class LiveUpdate
         }
 
         $this->liveUpdateURL = $liveUpdateURL;
+
+        return $this;
+    }
+
+    public function getBackRefURL()
+    {
+        return $this->backRef;
+    }
+
+    /**
+     * Sets the PayU's Back Ref URL
+     *
+     * @param string $backref PayU's Back Ref URL
+     *
+     * @return LiveUpdate
+     * @throws InvalidArgumentException if the provided Back Ref URL is invalid
+     */
+    public function setBackRefURL($bacRef)
+    {
+        if (!is_string($bacRef)) {
+            throw new InvalidArgumentException('Back Ref URL must be a string');
+        }
+
+        if (empty($bacRef)) {
+            throw new InvalidArgumentException('Back Ref URL has an invalid or no value');
+        }
+
+        $this->backRef = $bacRef;
 
         return $this;
     }
@@ -793,6 +828,11 @@ class LiveUpdate
         // Test mode?
         if ($this->testMode) {
             $htmlCode .= "<input name=\"TESTORDER\" type=\"hidden\" value=\"TRUE\">\n";
+        }
+
+        // BACK REF
+        if (!empty($this->backRef)) {
+            $htmlCode .= $this->createHiddenField('BACK_REF', $this->backRef);
         }
 
         //add billing information if it is available

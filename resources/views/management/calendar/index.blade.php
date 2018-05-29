@@ -691,7 +691,7 @@
             if(hours > 0){
                 stringHours += ((hours > 1)? hours+' ore si ':hours+' ora si ');
             }
-            return 'aproximativ '+stringHours+((minutes > 1)?  minutes+' de minute':minutes+' un minut');
+            return 'aproximativ '+stringHours+((minutes > 1)?  minutes+' minute':minutes+' un minut');
         }
 
 
